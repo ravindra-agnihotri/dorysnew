@@ -305,7 +305,7 @@ app.get('/about', (req,res) => res.sendFile(path.join(__dirname,'About.dc.html')
 app.get('/admin', (req,res) => res.sendFile(path.join(__dirname,'Admin Panel.dc.html')));
 
 //app.listen(PORT, () => console.log(`✦ Dory's Bakes running → http://localhost:${PORT}`));
-const PORT = process.env.PORT || 3000;
+//const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
