@@ -544,9 +544,42 @@ class Component extends DCLogic {
     const ylI=this.inp('text',hp.yearsLabel||'Years Baking','e.g. Years Baking');
     const g2y=this.el('div','display:grid;grid-template-columns:120px 1fr;gap:16px;');
     g2y.appendChild(this.fieldW('Badge Number',yrI));g2y.appendChild(this.fieldW('Badge Label',ylI));
+
+    // About photo upload
+    let aboutPhotoData = hp.aboutPhoto || '';
+    const apPreviewWrap = this.el('div','position:relative;width:140px;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(155deg,#E8C99A,#C4883A 52%,#7A4F2C);border:1px solid rgba(196,136,58,0.2);');
+    const apPreviewImg = document.createElement('img');
+    apPreviewImg.style.cssText='width:100%;height:100%;object-fit:cover;display:'+(aboutPhotoData?'block':'none')+';';
+    if(aboutPhotoData) apPreviewImg.src=aboutPhotoData;
+    apPreviewWrap.appendChild(apPreviewImg);
+    const apPlaceholder = this.el('div','position:absolute;inset:0;display:'+(aboutPhotoData?'none':'flex')+';align-items:center;justify-content:center;','');
+    apPlaceholder.innerHTML='<p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;padding:8px;font-style:italic;">No photo</p>';
+    apPreviewWrap.appendChild(apPlaceholder);
+    const apInput = document.createElement('input');
+    apInput.type='file'; apInput.accept='image/*'; apInput.style.cssText='display:none;';
+    apInput.onchange=(e)=>{
+      const file=e.target.files[0]; if(!file) return;
+      const reader=new FileReader();
+      reader.onload=(ev)=>{
+        aboutPhotoData=ev.target.result;
+        apPreviewImg.src=aboutPhotoData; apPreviewImg.style.display='block';
+        apPlaceholder.style.display='none';
+      };
+      reader.readAsDataURL(file);
+    };
+    const apRow=this.el('div','display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;');
+    apRow.appendChild(apPreviewWrap);
+    const apBtns=this.el('div','display:flex;flex-direction:column;gap:10px;justify-content:center;');
+    const apUpBtn=this.btn('Upload Photo','btn-gh',()=>apInput.click());
+    const apClrBtn=this.btn('Remove Photo','btn-d',()=>{aboutPhotoData='';apPreviewImg.style.display='none';apPreviewImg.src='';apPlaceholder.style.display='flex';});
+    apBtns.appendChild(apUpBtn);apBtns.appendChild(apClrBtn);apBtns.appendChild(apInput);
+    apRow.appendChild(apBtns);
+
     aCard.appendChild(this.fieldW('Tag Label',atI));aCard.appendChild(this.fieldW('Heading',ahI));
     aCard.appendChild(this.fieldW('Paragraph 1',a1I));aCard.appendChild(this.fieldW('Paragraph 2',a2I));
-    aCard.appendChild(g2y);wrap.appendChild(aCard);
+    aCard.appendChild(g2y);
+    aCard.appendChild(this.fieldW('About Section Photo',apRow));
+    wrap.appendChild(aCard);
 
     // Section headings
     const shCard=this.card('padding:28px;');shCard.appendChild(this.secLabel('Section Labels & Headings'));
@@ -606,6 +639,7 @@ class Component extends DCLogic {
         tagline:tgI.value,sub:sbI.value,
         aboutTagLabel:atI.value,aboutHeading:ahI.value,
         about1:a1I.value,about2:a2I.value,years:yrI.value,yearsLabel:ylI.value,
+        aboutPhoto:aboutPhotoData,
         ...shVals,
         footerTagline:ftI.value,footerCopyright:fcI.value,contactAddress:caI.value,
         ribbonBg:rbI.value,ribbonTextColor:rtI.value,ribbonAccentColor:raI.value,marqueeItems:mqI.value,

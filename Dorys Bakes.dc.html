@@ -59,7 +59,18 @@
       #igGrid{grid-template-columns:repeat(2,1fr)!important;}
       .gal-grid{grid-template-columns:1fr 1fr!important;}
       #hero{padding-top:90px!important;}
-      .btn-gold,.btn-outline{padding:13px 28px!important;font-size:11px!important;}
+      .btn-gold,.btn-outline{padding:13px 28px!important;font-size:12px!important;}
+      body{font-size:16px!important;}
+      p{font-size:15px!important;line-height:1.8!important;}
+      .sl{font-size:13px!important;letter-spacing:0.22em!important;}
+      .sh{font-size:clamp(32px,9vw,52px)!important;}
+      .sh-l{font-size:clamp(32px,9vw,52px)!important;}
+      #about p,#menu p,#faq p,#reviews p,#order p{font-size:15px!important;}
+      #faqList button span{font-size:18px!important;}
+      #faqList p{font-size:15px!important;}
+      #contact p,#contact a{font-size:14px!important;}
+      label{font-size:12px!important;}
+      input,textarea,select{font-size:15px!important;}
     }
   </style>
 </helmet>
@@ -81,7 +92,7 @@
     <a href="#contact" class="nav-link">Contact</a>
     <a href="#order" id="navOrderBtn" style="background:var(--dark,#2A1A0E);color:var(--bg,#FDF6EC);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 22px;transition:background 0.3s;">Order Custom</a>
   </div>
-  <button id="hbg" onclick="toggleMob()" style="display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;" aria-label="Menu">
+  <button id="hbg" style="display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;" aria-label="Menu">
     <span style="display:block;width:24px;height:1.5px;background:var(--dark,#2A1A0E);"></span>
     <span style="display:block;width:24px;height:1.5px;background:var(--dark,#2A1A0E);"></span>
     <span style="display:block;width:24px;height:1.5px;background:var(--dark,#2A1A0E);"></span>
@@ -89,17 +100,17 @@
 </nav>
 
 <div id="mobMenu" style="display:none;position:fixed;inset:0;background:var(--bg,#FDF6EC);z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;overflow-y:auto;">
-  <button onclick="toggleMob()" style="position:absolute;top:22px;right:26px;background:none;border:none;font-size:36px;cursor:pointer;color:var(--dark,#2A1A0E);line-height:1;">×</button>
+  <button id="mobClose" style="position:absolute;top:22px;right:26px;background:none;border:none;font-size:36px;cursor:pointer;color:var(--dark,#2A1A0E);line-height:1;">×</button>
   <span id="mobBrand" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:600;color:var(--accent,#C4883A);margin-bottom:8px;">Dory's Bakes</span>
-  <a href="#about" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Our Story</a>
-  <a href="#menu" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Menu</a>
-  <a href="Flavours.dc.html" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Flavours</a>
-  <a href="#gallery" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Gallery</a>
-  <a href="#ingredients" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Ingredients</a>
-  <a href="#videos" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Studio</a>
-  <a href="#reviews" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Reviews</a>
-  <a href="#faq" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">FAQ</a>
-  <a href="#order" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--accent,#C4883A);">Order Custom</a>
+  <a href="#about" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Our Story</a>
+  <a href="#menu" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Menu</a>
+  <a href="Flavours.dc.html" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Flavours</a>
+  <a href="#gallery" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Gallery</a>
+  <a href="#ingredients" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Ingredients</a>
+  <a href="#videos" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Studio</a>
+  <a href="#reviews" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Reviews</a>
+  <a href="#faq" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">FAQ</a>
+  <a href="#order" class="mob-link" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--accent,#C4883A);">Order Custom</a>
 </div>
 
 <section id="hero" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 32px 100px;position:relative;overflow:hidden;background:var(--bg,#FDF6EC);">
@@ -142,7 +153,7 @@
       </div>
     </div>
     <div style="position:relative;">
-      <div style="aspect-ratio:3/4;background:linear-gradient(155deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <div id="aboutPhotoWrap" style="aspect-ratio:3/4;background:linear-gradient(155deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
         <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(255,255,255,0.5);text-align:center;padding:24px;">Your bakery photo here<br><span style="font-size:13px;opacity:0.6;">Upload via Admin Panel</span></p>
       </div>
       <div class="about-badge" style="position:absolute;bottom:-28px;right:-28px;width:148px;height:148px;background:var(--bg,#FDF6EC);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(42,26,14,0.1);border:1px solid rgba(196,136,58,0.15);">
@@ -271,7 +282,14 @@ class Component extends DCLogic {
     const earlyHp = this._getHpSync();
     this.applyTheme(earlyHp);
     await this.loadAll();
-    window.toggleMob = this.toggleMob.bind(this);
+    // Hamburger — use event listeners, not inline onclick
+    const hbg = document.getElementById('hbg');
+    const mobClose = document.getElementById('mobClose');
+    if (hbg) hbg.addEventListener('click', () => this.toggleMob());
+    if (mobClose) mobClose.addEventListener('click', () => this.toggleMob());
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => this.toggleMob());
+    });
     document.getElementById('orderForm').onsubmit = this.handleOrder.bind(this);
   }
 
@@ -377,6 +395,16 @@ class Component extends DCLogic {
     s('aboutTagLabel', hp.aboutTagLabel); s('aboutP1', hp.about1); s('aboutP2', hp.about2);
     s('yearsNum', hp.years); s('yearsLabel', hp.yearsLabel);
     if (hp.aboutHeading) h('aboutHeading', (hp.aboutHeading||'').replace(/\n/g,'<br>'));
+    // About photo
+    const apWrap = document.getElementById('aboutPhotoWrap');
+    if (apWrap && hp.aboutPhoto) {
+      apWrap.innerHTML = '';
+      apWrap.style.background = 'none';
+      const img = document.createElement('img');
+      img.src = hp.aboutPhoto;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+      apWrap.appendChild(img);
+    }
     s('menuTagLabel', hp.menuTagLabel); s('menuHeading', hp.menuHeading);
     s('galleryTagLabel', hp.galleryTagLabel); s('galleryHeading', hp.galleryHeading); s('galleryDesc', hp.galleryDesc);
     s('ingTagLabel', hp.ingTagLabel); s('ingHeading', hp.ingHeading);
