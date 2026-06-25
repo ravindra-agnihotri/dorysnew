@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:#FDF6EC;color:#2A1A0E;font-family:'Jost',sans-serif;overflow-x:hidden;}
+    a{text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDF6EC}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:3px}
+    .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
+    .btn-gold{display:inline-block;background:#C4883A;color:#FDF6EC;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 44px;transition:background 0.3s;}
+    .btn-gold:hover{background:#2A1A0E;}
+    @media(max-width:900px){
+      .two-col-about{grid-template-columns:1fr!important;}
+      .three-col-about{grid-template-columns:1fr!important;}
+      .four-col-about{grid-template-columns:1fr 1fr!important;}
+      .sp{padding-left:28px!important;padding-right:28px!important;}
+      .sec{padding-top:72px!important;padding-bottom:72px!important;}
+      .hero-inner{padding-top:130px!important;padding-bottom:80px!important;}
+    }
+    @media(max-width:540px){
+      .four-col-about{grid-template-columns:1fr!important;}
+    }
+  </style>
+</helmet>
+
+<!-- TOP NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:rgba(42,26,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(196,136,58,0.1);" class="sp">
+  <a href="Dorys Bakes.dc.html" style="display:flex;flex-direction:column;gap:2px;">
+    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:#FDF6EC;letter-spacing:0.01em;line-height:1;">Dory's Bakes</span>
+    <span style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;">Artisan Patisserie</span>
+  </a>
+  <a href="Dorys Bakes.dc.html" style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(253,246,236,0.5);display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.5)'">
+    <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M15 5H1M6 1L2 5l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    Back to Website
+  </a>
+</nav>
+
+<!-- HERO -->
+<section style="min-height:100vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 120px;position:relative;overflow:hidden;" class="hero-inner">
+  <div style="position:absolute;inset:0;pointer-events:none;">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(900px,140vw);height:min(900px,140vw);border-radius:50%;border:1px solid rgba(196,136,58,0.04);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(560px,88vw);height:min(560px,88vw);border-radius:50%;border:1px solid rgba(196,136,58,0.07);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(280px,50vw);height:min(280px,50vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.08),transparent 70%);"></div>
+  </div>
+  <div style="animation:fadeIn 1s both;display:flex;align-items:center;gap:16px;margin-bottom:28px;position:relative;">
+    <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
+    <span style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;">Est. 2019 · Artisan Patisserie</span>
+    <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
+  </div>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(64px,12vw,160px);font-weight:300;font-style:italic;line-height:0.88;color:#FDF6EC;letter-spacing:-0.02em;animation:fadeUp 0.9s 0.15s both;position:relative;">Our<br><em style="color:#C4883A;">Story</em></h1>
+  <div style="width:64px;height:1px;background:rgba(196,136,58,0.35);margin:36px auto;animation:fadeIn 1s 0.35s both;"></div>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2vw,22px);font-weight:300;font-style:italic;color:rgba(253,246,236,0.5);max-width:480px;line-height:1.8;animation:fadeUp 0.9s 0.35s both;position:relative;">A love affair with flour, butter, and the simple art of making someone's day a little sweeter.</p>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,#FDF6EC);pointer-events:none;"></div>
+</section>
+
+<!-- OPENING QUOTE -->
+<section style="padding:100px 60px;background:#FDF6EC;" class="sp sec">
+  <div style="max-width:820px;margin:0 auto;text-align:center;">
+    <span style="font-size:48px;color:rgba(196,136,58,0.25);line-height:1;display:block;margin-bottom:12px;font-family:'Cormorant Garamond',serif;">"</span>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3.5vw,36px);font-weight:300;font-style:italic;color:#2A1A0E;line-height:1.55;margin-bottom:32px;">I didn't set out to open a bakery. I set out to make people feel something — that warm, unhurried joy that only a truly great cake can give you.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;">
+      <div style="width:32px;height:1px;background:rgba(196,136,58,0.4);"></div>
+      <span style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#C4883A;">Dory, Founder</span>
+      <div style="width:32px;height:1px;background:rgba(196,136,58,0.4);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER STORY -->
+<section style="padding:100px 60px;background:#F5EDE0;" class="sp sec">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="two-col-about">
+    <div>
+      <p class="sl">The Founder</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.5vw,56px);font-weight:300;font-style:italic;color:#2A1A0E;line-height:1.15;margin-bottom:32px;">Baked with<br>love since day one.</h2>
+      <p id="aboutP1Story" style="font-size:15px;font-weight:300;line-height:1.95;color:#5A3E28;margin-bottom:20px;"></p>
+      <p id="aboutP2Story" style="font-size:15px;font-weight:300;line-height:1.95;color:#5A3E28;margin-bottom:44px;"></p>
+      <div style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+        <div>
+          <p id="yearsNumAbout" style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#C4883A;line-height:1;">5+</p>
+          <p style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#8B5E3C;margin-top:5px;">Years Baking</p>
+        </div>
+        <div style="width:1px;height:52px;background:rgba(196,136,58,0.22);"></div>
+        <div>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#C4883A;line-height:1;">100s</p>
+          <p style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#8B5E3C;margin-top:5px;">Cakes Created</p>
+        </div>
+        <div style="width:1px;height:52px;background:rgba(196,136,58,0.22);"></div>
+        <div>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#C4883A;line-height:1;">∞</p>
+          <p style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#8B5E3C;margin-top:5px;">Smiles Shared</p>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div style="aspect-ratio:3/4;background:linear-gradient(155deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(255,255,255,0.45);text-align:center;padding:32px;line-height:1.8;">Founder portrait<br><span style="font-size:12px;opacity:0.6;">Upload via Admin Panel</span></p>
+      </div>
+      <div style="position:absolute;bottom:-24px;left:-24px;width:180px;padding:24px;background:#FDF6EC;border:1px solid rgba(196,136,58,0.14);box-shadow:0 8px 32px rgba(42,26,14,0.08);">
+        <p style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#C4883A;margin-bottom:8px;">Signature Creation</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#2A1A0E;line-height:1.3;">Duchess Rose Layer Cake</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY / VALUES -->
+<section style="padding:100px 60px;background:#2A1A0E;position:relative;overflow:hidden;" class="sp sec">
+  <div style="position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.06),transparent 65%);pointer-events:none;"></div>
+  <div style="max-width:1240px;margin:0 auto;position:relative;">
+    <div style="text-align:center;margin-bottom:64px;">
+      <p class="sl">What We Stand For</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;font-style:italic;color:#FDF6EC;">Our Philosophy</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="three-col-about">
+      <div style="padding:44px 36px;border:1px solid rgba(253,246,236,0.05);transition:background 0.3s;" onmouseover="this.style.background='rgba(196,136,58,0.05)'" onmouseout="this.style.background=''">
+        <div style="width:32px;height:1px;background:#C4883A;margin-bottom:28px;"></div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:16px;">Quality First</h3>
+        <p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.48);line-height:1.85;">We never compromise on ingredients. Every element is sourced for flavour and integrity, from stone-ground flour to single-origin chocolate.</p>
+      </div>
+      <div style="padding:44px 36px;border:1px solid rgba(253,246,236,0.05);transition:background 0.3s;" onmouseover="this.style.background='rgba(196,136,58,0.05)'" onmouseout="this.style.background=''">
+        <div style="width:32px;height:1px;background:#C4883A;margin-bottom:28px;"></div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:16px;">Made to Order</h3>
+        <p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.48);line-height:1.85;">Nothing sits on a shelf. Every cake is baked fresh for your specific occasion — your date, your flavour, your story.</p>
+      </div>
+      <div style="padding:44px 36px;border:1px solid rgba(253,246,236,0.05);transition:background 0.3s;" onmouseover="this.style.background='rgba(196,136,58,0.05)'" onmouseout="this.style.background=''">
+        <div style="width:32px;height:1px;background:#C4883A;margin-bottom:28px;"></div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:16px;">True to You</h3>
+        <p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.48);line-height:1.85;">Your story shapes every creation. We listen carefully, then we bake — ensuring every cake feels deeply personal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROCESS -->
+<section style="padding:100px 60px;background:#FDF6EC;" class="sp sec">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:72px;">
+      <p class="sl">How It Works</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;font-style:italic;color:#2A1A0E;margin-bottom:16px;">From Dream<br>to Delivery</h2>
+      <p style="font-size:14px;font-weight:300;color:#8B5E3C;max-width:400px;margin:0 auto;line-height:1.85;">Four simple steps between you and your perfect cake.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(196,136,58,0.12);" class="four-col-about">
+      <div style="background:#FDF6EC;padding:44px 32px;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:rgba(196,136,58,0.15);line-height:1;margin-bottom:20px;">01</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:14px;">Reach Out</h3>
+        <p style="font-size:13px;font-weight:300;color:#8B5E3C;line-height:1.85;">Fill in our order form with your vision, event date, and any special requirements.</p>
+      </div>
+      <div style="background:#FDF6EC;padding:44px 32px;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:rgba(196,136,58,0.15);line-height:1;margin-bottom:20px;">02</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:14px;">Consultation</h3>
+        <p style="font-size:13px;font-weight:300;color:#8B5E3C;line-height:1.85;">We'll contact you within 24 hours to discuss flavours, design, sizing, and finalize your quote.</p>
+      </div>
+      <div style="background:#FDF6EC;padding:44px 32px;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:rgba(196,136,58,0.15);line-height:1;margin-bottom:20px;">03</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:14px;">Creation</h3>
+        <p style="font-size:13px;font-weight:300;color:#8B5E3C;line-height:1.85;">Your cake is baked fresh over 1–2 days using only the finest seasonal ingredients.</p>
+      </div>
+      <div style="background:#FDF6EC;padding:44px 32px;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:rgba(196,136,58,0.15);line-height:1;margin-bottom:20px;">04</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:14px;">Delivery</h3>
+        <p style="font-size:13px;font-weight:300;color:#8B5E3C;line-height:1.85;">We deliver to your door or you can collect from our kitchen — your cake arrives ready to celebrate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#2A1A0E;padding:120px 60px;text-align:center;position:relative;overflow:hidden;" class="sp sec">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(700px,110vw);height:min(700px,110vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.06),transparent 65%);pointer-events:none;"></div>
+  <div style="position:relative;">
+    <p class="sl">Your Turn</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,72px);font-weight:300;font-style:italic;color:#FDF6EC;line-height:1.1;margin-bottom:28px;">Let's bake something<br><em style="color:#C4883A;">extraordinary.</em></h2>
+    <p style="font-size:15px;font-weight:300;color:rgba(253,246,236,0.45);max-width:440px;margin:0 auto 48px;line-height:1.85;">Every great moment deserves a great cake. Tell us your story and we'll bake it to life.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="Dorys Bakes.dc.html#order" class="btn-gold">Order a Custom Cake</a>
+      <a href="Dorys Bakes.dc.html#menu" style="display:inline-block;border:1.5px solid rgba(253,246,236,0.25);color:rgba(253,246,236,0.7);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:14px 40px;transition:all 0.3s;" onmouseover="this.style.borderColor='#C4883A';this.style.color='#C4883A'" onmouseout="this.style.borderColor='rgba(253,246,236,0.25)';this.style.color='rgba(253,246,236,0.7)'">Browse the Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#120C04;padding:48px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp">
+  <div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
+    <p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p>
+  </div>
+  <p style="font-size:12px;color:rgba(253,246,236,0.2);">© 2025 Dory's Bakes. All rights reserved.</p>
+  <a href="Dorys Bakes.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,246,236,0.28);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.28)'">← Back to Website</a>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.loadContent();
+  }
+
+  loadContent() {
+    try {
+      const hp = JSON.parse(localStorage.getItem('db_homepage') || '{}');
+      const p1 = document.getElementById('aboutP1Story');
+      const p2 = document.getElementById('aboutP2Story');
+      const yn = document.getElementById('yearsNumAbout');
+      if (p1) p1.textContent = hp.about1 || "Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.";
+      if (p2) p2.textContent = hp.about2 || "From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.";
+      if (yn) yn.textContent = hp.years || '5+';
+    } catch(e) {}
+  }
+
+  renderVals() { return {}; }
+}
+
+</script>
+</body>
+</html>

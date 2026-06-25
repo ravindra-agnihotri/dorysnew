@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:#FDF6EC;color:#2A1A0E;font-family:'Jost',sans-serif;overflow-x:hidden;}
+    a{text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes floatY{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDF6EC}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:3px}
+    .nav-link{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#5A3E28;font-weight:500;position:relative;transition:color 0.2s;}
+    .nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:#C4883A;transition:width 0.3s;}
+    .nav-link:hover{color:#C4883A;}.nav-link:hover::after{width:100%;}
+    .btn-gold{display:inline-block;background:#C4883A;color:#FDF6EC;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 40px;transition:background 0.3s;border:none;font-family:'Jost',sans-serif;cursor:pointer;}
+    .btn-gold:hover{background:#2A1A0E;}
+    .btn-outline{display:inline-block;border:1.5px solid #2A1A0E;color:#2A1A0E;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:14px 40px;transition:all 0.3s;}
+    .btn-outline:hover{background:#2A1A0E;color:#FDF6EC;}
+    .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
+    .sh{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;font-style:italic;color:#2A1A0E;}
+    .sh-l{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;font-style:italic;color:#FDF6EC;}
+    .inp-dark{background:rgba(253,246,236,0.06);border:1px solid rgba(196,136,58,0.22);color:#FDF6EC;padding:13px 16px;font-family:'Jost',sans-serif;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
+    .inp-dark:focus{border-color:rgba(196,136,58,0.55);}
+    @media(max-width:1100px){#navLinks{gap:18px!important;}.nav-link{font-size:11px;}}
+    @media(max-width:900px){
+      #navLinks{display:none!important;}
+      #hbg{display:flex!important;}
+      .two-col,.contact-grid{grid-template-columns:1fr!important;}
+      .three-col{grid-template-columns:1fr 1fr!important;}
+      .two-col-v{grid-template-columns:1fr!important;}
+      .about-badge{display:none!important;}
+      .sp{padding-left:24px!important;padding-right:24px!important;}
+      .order-form{grid-template-columns:1fr!important;}
+      .footer-row{flex-direction:column!important;gap:16px!important;text-align:center!important;}
+      section.sp{padding-top:64px!important;padding-bottom:64px!important;}
+      .faq-grid{grid-template-columns:1fr!important;}
+      .faq-sticky{position:static!important;margin-bottom:32px;}
+      #igGrid{grid-template-columns:repeat(3,1fr)!important;}
+    }
+    @media(max-width:540px){.three-col{grid-template-columns:1fr!important;}#igGrid{grid-template-columns:repeat(2,1fr)!important;}.gal-grid{grid-template-columns:1fr 1fr!important;}}
+  </style>
+</helmet>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:rgba(253,246,236,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(196,136,58,0.12);" class="sp">
+  <a href="#hero" style="display:flex;flex-direction:column;gap:2px;">
+    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:#2A1A0E;letter-spacing:0.01em;line-height:1;">Dory's Bakes</span>
+    <span style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;">Artisan Patisserie</span>
+  </a>
+  <div id="navLinks" style="display:flex;gap:24px;align-items:center;">
+    <a href="#about" class="nav-link">Story</a>
+    <a href="#menu" class="nav-link">Menu</a>
+    <a href="#gallery" class="nav-link">Gallery</a>
+    <a href="#ingredients" class="nav-link">Ingredients</a>
+    <a href="#videos" class="nav-link">Studio</a>
+    <a href="#reviews" class="nav-link">Reviews</a>
+    <a href="#faq" class="nav-link">FAQ</a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <a href="#order" style="background:#2A1A0E;color:#FDF6EC;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 22px;transition:background 0.3s;" onmouseover="this.style.background='#C4883A'" onmouseout="this.style.background='#2A1A0E'">Order Custom</a>
+  </div>
+  <button id="hbg" onclick="toggleMob()" style="display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;" aria-label="Menu">
+    <span style="display:block;width:24px;height:1.5px;background:#2A1A0E;"></span>
+    <span style="display:block;width:24px;height:1.5px;background:#2A1A0E;"></span>
+    <span style="display:block;width:24px;height:1.5px;background:#2A1A0E;"></span>
+  </button>
+</nav>
+
+<div id="mobMenu" style="display:none;position:fixed;inset:0;background:#FDF6EC;z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;overflow-y:auto;">
+  <button onclick="toggleMob()" style="position:absolute;top:22px;right:26px;background:none;border:none;font-size:36px;cursor:pointer;color:#2A1A0E;line-height:1;">×</button>
+  <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:600;color:#C4883A;margin-bottom:8px;">Dory's Bakes</span>
+  <a href="#about" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Our Story</a>
+  <a href="#menu" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Menu</a>
+  <a href="#gallery" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Gallery</a>
+  <a href="#ingredients" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Ingredients</a>
+  <a href="#videos" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Studio</a>
+  <a href="#reviews" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Reviews</a>
+  <a href="#faq" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">FAQ</a>
+  <a href="#order" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#C4883A;">Order Custom</a>
+</div>
+
+<section id="hero" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 32px 100px;position:relative;overflow:hidden;background:#FDF6EC;">
+  <div style="position:absolute;inset:0;pointer-events:none;">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:min(880px,130vw);height:min(880px,130vw);border-radius:50%;border:1px solid rgba(196,136,58,0.06);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:min(580px,88vw);height:min(580px,88vw);border-radius:50%;border:1px solid rgba(196,136,58,0.11);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:min(320px,50vw);height:min(320px,50vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.1),transparent 70%);"></div>
+  </div>
+  <div style="animation:fadeIn 1s 0s both;display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+    <div style="width:40px;height:1px;background:rgba(196,136,58,0.4);"></div>
+    <span id="heroTagline" class="sl" style="margin-bottom:0;animation:none;"></span>
+    <div style="width:40px;height:1px;background:rgba(196,136,58,0.4);"></div>
+  </div>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(68px,14vw,200px);font-weight:300;font-style:italic;line-height:0.86;color:#2A1A0E;letter-spacing:-0.03em;animation:fadeUp 0.9s 0.2s both;">Dory's<br><em style="color:#C4883A;">Bakes</em></h1>
+  <div style="width:80px;height:1px;background:rgba(196,136,58,0.3);margin:36px auto 28px;animation:fadeIn 1s 0.35s both;"></div>
+  <p id="heroSub" style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.2vw,24px);font-weight:300;font-style:italic;color:#8B5E3C;max-width:520px;line-height:1.75;animation:fadeUp 0.9s 0.38s both;"></p>
+  <div style="display:flex;gap:14px;margin-top:48px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.9s 0.5s both;">
+    <a href="#menu" class="btn-gold">Explore Menu</a>
+    <a href="#order" class="btn-outline">Order a Cake</a>
+  </div>
+  <div style="position:absolute;bottom:36px;left:50%;animation:floatY 2.2s ease-in-out infinite;">
+    <svg width="22" height="36" viewBox="0 0 22 36" fill="none"><rect x="1" y="1" width="20" height="34" rx="10" stroke="#C4883A" stroke-width="1.5"/><circle cx="11" cy="10" r="3" fill="#C4883A"/></svg>
+  </div>
+</section>
+
+<div id="ribbonBar" style="padding:15px 0;overflow:hidden;white-space:nowrap;background:#2A1A0E;">
+  <div id="marqueeTrack" style="display:inline-flex;animation:marquee 26s linear infinite;"></div>
+</div>
+
+<section id="about" style="padding:110px 60px;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="two-col">
+    <div>
+      <p class="sl">Our Story</p>
+      <h2 class="sh" style="margin-bottom:28px;">Baked with<br>intention.</h2>
+      <p id="aboutP1" style="font-size:15px;font-weight:300;line-height:1.95;color:#5A3E28;margin-bottom:20px;"></p>
+      <p id="aboutP2" style="font-size:15px;font-weight:300;line-height:1.95;color:#5A3E28;margin-bottom:40px;"></p>
+      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+        <a href="#menu" style="display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border-bottom:1px solid rgba(196,136,58,0.3);padding-bottom:4px;">Explore Menu <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h16M12 1l4 4-4 4" stroke="#C4883A" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="About.dc.html" style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8B5E3C;border-bottom:1px solid rgba(139,94,60,0.25);padding-bottom:4px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='#8B5E3C'">Full Story →</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div style="aspect-ratio:3/4;background:linear-gradient(155deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(255,255,255,0.5);text-align:center;padding:24px;">Your bakery photo here<br><span style="font-size:13px;opacity:0.6;">Upload via Admin Panel</span></p>
+      </div>
+      <div class="about-badge" style="position:absolute;bottom:-28px;right:-28px;width:148px;height:148px;background:#FDF6EC;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(42,26,14,0.1);border:1px solid rgba(196,136,58,0.15);">
+        <div style="text-align:center;">
+          <p id="yearsNum" style="font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;color:#C4883A;line-height:1;">5+</p>
+          <p style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#5A3E28;margin-top:5px;">Years Baking</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="display:flex;align-items:center;gap:24px;padding:0 60px;max-width:1240px;margin:0 auto;" class="sp">
+  <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(196,136,58,0.3));"></div>
+  <span style="font-size:18px;color:rgba(196,136,58,0.5);">✦</span>
+  <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(196,136,58,0.3),transparent);"></div>
+</div>
+
+<section id="menu" style="padding:100px 60px;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:60px;"><p class="sl">Our Creations</p><h2 class="sh">The Menu</h2></div>
+    <div id="menuGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;" class="three-col"></div>
+  </div>
+</section>
+
+<section id="gallery" style="padding:100px 60px;background:#F5EDE0;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:56px;"><p class="sl">Our Portfolio</p><h2 class="sh">Gallery</h2><p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#8B5E3C;margin-top:14px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.7;">Every cake is a one-of-a-kind creation, made for a moment that matters.</p></div>
+    <div id="galleryGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" class="gal-grid"></div>
+    <div style="text-align:center;margin-top:48px;"><a href="About.dc.html" style="display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#5A3E28;border-bottom:1px solid rgba(90,62,40,0.28);padding-bottom:4px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='#5A3E28'">Read Our Full Story <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h16M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></div>
+  </div>
+</section>
+
+<section id="ingredients" style="padding:100px 60px;background:#2A1A0E;position:relative;overflow:hidden;" class="sp">
+  <div style="position:absolute;top:-180px;right:-180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.07),transparent 65%);pointer-events:none;"></div>
+  <div style="max-width:1240px;margin:0 auto;position:relative;">
+    <div style="text-align:center;margin-bottom:60px;"><p class="sl">What Goes In</p><h2 class="sh-l">Our Ingredients</h2></div>
+    <div id="ingGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="three-col"></div>
+  </div>
+</section>
+
+<section id="videos" style="padding:100px 60px;background:#F5EDE0;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:60px;"><p class="sl">Behind The Scenes</p><h2 class="sh">The Studio</h2></div>
+    <div id="videosGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;" class="two-col-v"></div>
+  </div>
+</section>
+
+<section id="reviews" style="padding:100px 60px;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:60px;"><p class="sl">What They Say</p><h2 class="sh">Reviews</h2></div>
+    <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="three-col"></div>
+  </div>
+</section>
+
+<section id="faq" style="padding:100px 60px;background:#F5EDE0;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;" class="faq-grid">
+    <div style="position:sticky;top:110px;" class="faq-sticky">
+      <p class="sl">Common Questions</p>
+      <h2 class="sh" style="margin-bottom:22px;line-height:1.1;">Things<br>you might<br>wonder.</h2>
+      <p style="font-size:14px;font-weight:300;color:#8B5E3C;line-height:1.85;margin-bottom:32px;">Can't find your answer? We'd love to hear from you directly.</p>
+      <a href="#order" class="btn-gold" style="font-size:11px;padding:13px 32px;">Ask Us Anything</a>
+    </div>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<section id="social" style="padding:80px 60px;background:#2A1A0E;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:16px;">
+      <div><p class="sl">Follow Along</p><h2 class="sh-l" style="font-size:clamp(28px,4vw,52px);">On Instagram</h2></div>
+      <a id="igLink" href="https://instagram.com/dorysbakes" target="_blank" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border:1px solid rgba(196,136,58,0.3);padding:13px 26px;transition:all 0.3s;flex-shrink:0;" onmouseover="this.style.background='rgba(196,136,58,0.09)'" onmouseout="this.style.background=''">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="0.75" y="0.75" width="13.5" height="13.5" rx="3.75" stroke="#C4883A" stroke-width="1.3"/><circle cx="7.5" cy="7.5" r="3.25" stroke="#C4883A" stroke-width="1.3"/><circle cx="11.25" cy="3.75" r="0.9" fill="#C4883A"/></svg>
+        <span id="igHandle">@dorysbakes</span>
+      </a>
+    </div>
+   <!-- <div id="igGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;"></div>-->
+  </div>
+</section>
+
+<section id="order" style="background:#2A1A0E;padding:100px 60px;" class="sp">
+  <div style="max-width:840px;margin:0 auto;text-align:center;">
+    <p class="sl">Reserve Yours</p>
+    <h2 class="sh-l" style="margin-bottom:18px;">Order a Custom Cake</h2>
+    <p style="font-size:15px;font-weight:300;color:rgba(253,246,236,0.5);margin-bottom:48px;line-height:1.85;">Tell us about your dream cake and we'll bring it to life. We take a limited number of orders each week to ensure every creation gets the attention it deserves.</p>
+    <form id="orderForm" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;" class="order-form">
+      <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Your Name</label><input id="oName" required type="text" placeholder="Full name" class="inp-dark"></div>
+      <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Email</label><input id="oEmail" required type="email" placeholder="your@email.com" class="inp-dark"></div>
+      <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Event Date</label><input id="oDate" required type="date" class="inp-dark" style="color-scheme:dark;"></div>
+      <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Cake Type</label><select id="oCakeType" class="inp-dark" style="background:#2A1A0E;cursor:pointer;"><option>Designer Layer Cake</option><option>Cheesecake</option><option>Cupcakes (dozen)</option><option>Custom Design</option></select></div>
+      <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Your Vision</label><textarea id="oNotes" rows="4" placeholder="Describe your dream cake — theme, flavors, size, dietary needs…" class="inp-dark" style="resize:vertical;"></textarea></div>
+      <div style="grid-column:1/-1;text-align:center;margin-top:8px;"><button type="submit" class="btn-gold">Send My Request</button></div>
+    </form>
+    <div id="orderConfirm" style="display:none;margin-top:28px;padding:20px 28px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.3);"><p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:#C4883A;">Thank you! We'll be in touch within 24 hours. ✦</p></div>
+  </div>
+</section>
+
+<section id="contact" style="background:#120C04;padding:80px 60px;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:60px;" class="contact-grid">
+    <div>
+      <div style="margin-bottom:20px;"><p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p><p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p></div>
+      <p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.4);line-height:1.9;max-width:260px;margin-bottom:24px;">Artisan cakes crafted with love, made for your most cherished moments.</p>
+      <a href="About.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,136,58,0.5);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(196,136,58,0.5)'">Our Story →</a>
+    </div>
+    <div><p class="sl">Find Us</p><p id="contactAddr" style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;"></p></div>
+    <div><p class="sl">Hours</p><p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;">Tuesday – Friday<br>9am – 6pm<br><br>Saturday – Sunday<br>9am – 4pm</p></div>
+  </div>
+  <div style="max-width:1240px;margin:48px auto 0;padding-top:28px;border-top:1px solid rgba(253,246,236,0.06);display:flex;justify-content:space-between;align-items:center;" class="footer-row">
+    <p style="font-size:12px;color:rgba(253,246,236,0.22);">© 2025 Dory's Bakes. All rights reserved.</p>
+    <a href="Admin Panel.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,246,236,0.22);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.22)'">Admin →</a>
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  _apiMode = null;
+
+  async componentDidMount() {
+    this.initDefaults();
+    await this.loadAll();
+    window.toggleMob = this.toggleMob.bind(this);
+    document.getElementById('orderForm').onsubmit = this.handleOrder.bind(this);
+  }
+
+  // ── API / STORAGE LAYER ───────────────────────────────────
+  async _checkApi() {
+    if (this._apiMode !== null) return this._apiMode;
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 2000);
+      const r = await fetch('/api/homepage', { signal: ctrl.signal });
+      clearTimeout(tid);
+      this._apiMode = r.ok;
+    } catch(e) { this._apiMode = false; }
+    return this._apiMode;
+  }
+
+  async listItems(key) {
+    if (await this._checkApi()) {
+      try { const r = await fetch('/api/'+key); if (r.ok) return r.json(); } catch(e) {}
+    }
+    try { return JSON.parse(localStorage.getItem('db_'+key)||'[]'); } catch(e) { return []; }
+  }
+
+  async getHomepage() {
+    if (await this._checkApi()) {
+      try { const r = await fetch('/api/homepage'); if (r.ok) return r.json(); } catch(e) {}
+    }
+    try { return JSON.parse(localStorage.getItem('db_homepage')||'{}'); } catch(e) { return {}; }
+  }
+
+  // ── INIT DEFAULTS (localStorage fallback seed) ────────────
+  initDefaults() {
+    const defs = {
+      db_products:[
+        {id:1,name:"Duchess Rose",category:"Designer Cake",price:"$180",desc:"Four-layer vanilla bean cake, strawberry compote, Swiss meringue buttercream, edible rose petals.",image:""},
+        {id:2,name:"Velvet Noir",category:"Designer Cake",price:"$195",desc:"Dark chocolate ganache cake with espresso cream, salted caramel drip, and gold leaf finish.",image:""},
+        {id:3,name:"Lemon Reverie",category:"Cheesecake",price:"$95",desc:"Burnt Basque cheesecake with lemon curd swirl, graham cracker base, fresh blueberry compote.",image:""},
+        {id:4,name:"Garden Party",category:"Cupcakes",price:"$48/doz",desc:"Vanilla sponge cupcakes with seasonal flower buttercream piping.",image:""},
+        {id:5,name:"Midnight Truffle",category:"Designer Cake",price:"$220",desc:"Belgian dark chocolate mousse cake, hazelnut praline crunch, mirror glaze finish.",image:""},
+        {id:6,name:"Peach Blossom",category:"Cheesecake",price:"$110",desc:"Classic New York cheesecake with roasted peach topping and almond shortbread crust.",image:""}
+      ],
+      db_reviews:[
+        {id:1,name:"Amelia R.",rating:5,text:"Dory's made our wedding cake and it was absolutely breathtaking. Every single guest asked for the recipe. Perfection!",event:"Wedding",approved:true},
+        {id:2,name:"James T.",rating:5,text:"The Velvet Noir is my birthday tradition now. Three years running. It gets better every single time.",event:"Birthday",approved:true},
+        {id:3,name:"Sofia M.",rating:5,text:"Ordered the Garden Party cupcakes for my daughter's baby shower. The presentation was stunning.",event:"Baby Shower",approved:true}
+      ],
+      db_ingredients:[
+        {id:1,name:"Single-Origin Flour",icon:"🌾",desc:"Stone-ground from a family mill in Vermont."},
+        {id:2,name:"Cultured Butter",icon:"🧈",desc:"84% fat European-style butter, churned from pasture-raised cream."},
+        {id:3,name:"Raw Cane Sugar",icon:"✦",desc:"Unrefined cane sugar that adds a subtle molasses depth."},
+        {id:4,name:"Free-Range Eggs",icon:"🥚",desc:"Richer yolks mean a more golden, flavourful crumb."},
+        {id:5,name:"Valrhona Chocolate",icon:"◆",desc:"Our preferred couverture for ganaches and mousses."},
+        {id:6,name:"Real Vanilla",icon:"◇",desc:"Tahitian vanilla pods steeped in our house-made extract."}
+      ],
+      db_videos:[{id:1,title:"Making the Duchess Rose",url:"",desc:"Watch a four-layer cake come together."},{id:2,title:"The Art of Mirror Glaze",url:"",desc:"A mesmerizing pour."}],
+      db_faq:[
+        {id:1,q:"How far in advance should I place my order?",a:"We recommend at least 2–3 weeks for custom cakes. For weddings, 2–3 months is ideal."},
+        {id:2,q:"Do you offer gluten-free or vegan options?",a:"Yes! Please mention dietary needs in your order and we'll tailor the recipe."},
+        {id:3,q:"Can I schedule a tasting?",a:"Absolutely — by appointment on Tuesdays and Thursdays. Send us a message to arrange."},
+        {id:4,q:"How is pricing determined?",a:"Pricing depends on size, design complexity, and ingredients. We'll send a quote within 24 hours."},
+        {id:5,q:"Do you deliver?",a:"Local delivery within 20 miles. Collection available Tuesday–Sunday during opening hours."},
+        {id:6,q:"How many people does a cake serve?",a:"6\" serves 10–12, 8\" serves 20–24, 10\" serves 35–40."}
+      ],
+      db_homepage:{tagline:"Artisan · Handcrafted · Bespoke",sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",years:"5+",ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes"}
+    };
+    Object.entries(defs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
+  }
+
+  // ── LOAD ALL ──────────────────────────────────────────────
+  async loadAll() {
+    const [hp, products, ingredients, videos, faq, media, reviews] = await Promise.all([
+      this.getHomepage(),
+      this.listItems('products'),
+      this.listItems('ingredients'),
+      this.listItems('videos'),
+      this.listItems('faq'),
+      this.listItems('media'),
+      this.listItems('reviews'),
+    ]);
+
+    const tEl = document.getElementById('heroTagline');
+    const sEl = document.getElementById('heroSub');
+    if (tEl) tEl.textContent = hp.tagline || 'Artisan · Handcrafted · Bespoke';
+    if (sEl) sEl.textContent = hp.sub || '';
+
+    const p1 = document.getElementById('aboutP1');
+    const p2 = document.getElementById('aboutP2');
+    const yn = document.getElementById('yearsNum');
+    if (p1) p1.textContent = hp.about1 || '';
+    if (p2) p2.textContent = hp.about2 || '';
+    if (yn) yn.textContent = hp.years || '5+';
+
+    const ca = document.getElementById('contactAddr');
+    if (ca) ca.innerHTML = (hp.contactAddress || '').replace(/\n/g,'<br>');
+
+    const ribbon = document.getElementById('ribbonBar');
+    if (ribbon) ribbon.style.background = hp.ribbonBg || '#2A1A0E';
+
+    this.buildMarquee(hp);
+    this.renderMenu(products);
+    this.renderGallery(media);
+    this.renderIngredients(ingredients);
+    this.renderVideos(videos);
+    this.renderReviews(reviews);
+    this.renderFaq(faq);
+    this.renderSocial(hp, media);
+  }
+
+  buildMarquee(hp) {
+    const track = document.getElementById('marqueeTrack');
+    if (!track) return;
+    const raw = hp.marqueeItems || 'Designer Cakes,✦,Cheesecakes,✦,Cupcakes';
+    const items = raw.split(',').map(s=>s.trim());
+    const textColor = hp.ribbonTextColor || 'rgba(253,246,236,0.48)';
+    const accentColor = hp.ribbonAccentColor || '#C4883A';
+    track.innerHTML = '';
+    [...items,...items,...items,...items].forEach(item => {
+      const span = document.createElement('span');
+      const isAccent = ['✦','★','◆','◇','•','·','–'].includes(item.trim());
+      span.style.cssText = isAccent ? `color:${accentColor};font-size:13px;margin-right:36px;` : `font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:${textColor};margin-right:36px;`;
+      span.textContent = item;
+      track.appendChild(span);
+    });
+  }
+
+  renderMenu(products) {
+    const grid = document.getElementById('menuGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    if (!products || !products.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#8B5E3C;font-family:\'Cormorant Garamond\',serif;font-size:22px;font-style:italic;">Menu coming soon.</div>';
+      return;
+    }
+    products.forEach(p => {
+      const card = document.createElement('div');
+      card.style.cssText = 'background:#fff;border:1px solid rgba(196,136,58,0.13);overflow:hidden;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;';
+      const imgWrap = document.createElement('div');
+      imgWrap.style.cssText = 'aspect-ratio:4/3;overflow:hidden;';
+      if (p.image) {
+        const img = document.createElement('img');
+        img.src = p.image; img.style.cssText = 'width:100%;height:100%;object-fit:cover;transition:transform 0.5s;';
+        card.onmouseover = ()=>{card.style.transform='translateY(-6px)';card.style.boxShadow='0 20px 48px rgba(42,26,14,0.11)';img.style.transform='scale(1.04)';};
+        card.onmouseout = ()=>{card.style.transform='';card.style.boxShadow='';img.style.transform='';};
+        imgWrap.appendChild(img);
+      } else {
+        imgWrap.style.cssText += 'background:linear-gradient(145deg,#E8C99A,#C4883A 60%,#8B5E3C);display:flex;align-items:center;justify-content:center;';
+        imgWrap.innerHTML = '<span style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.5);">Photo coming soon</span>';
+        card.onmouseover = ()=>{card.style.transform='translateY(-6px)';card.style.boxShadow='0 20px 48px rgba(42,26,14,0.11)';};
+        card.onmouseout = ()=>{card.style.transform='';card.style.boxShadow='';};
+      }
+      const body = document.createElement('div');
+      body.style.cssText = 'padding:24px 22px;';
+      body.innerHTML = `<p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C4883A;margin-bottom:8px;">${p.category}</p><h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:10px;">${p.name}</h3><p style="font-size:13px;font-weight:300;color:#5A3E28;line-height:1.75;margin-bottom:16px;">${p.desc}</p><p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#C4883A;">${p.price}</p>`;
+      card.appendChild(imgWrap); card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  renderGallery(media) {
+    const grid = document.getElementById('galleryGrid');
+    if (!grid) return;
+    const images = (media || []).filter(m => m.type === 'image');
+    grid.innerHTML = '';
+    const labels = ['Duchess Rose','Velvet Noir','Lemon Reverie','Garden Party','Midnight Truffle','Peach Blossom'];
+    const angles = [135, 148, 158, 128, 142, 155];
+    for (let i = 0; i < 6; i++) {
+      const src = images[i];
+      const featured = i === 0;
+      const tile = document.createElement('div');
+      tile.style.cssText = `grid-column:span ${featured?2:1};aspect-ratio:1;overflow:hidden;position:relative;`;
+      if (src) {
+        const imgEl = document.createElement('img');
+        imgEl.src = src.data; imgEl.alt = src.name || labels[i];
+        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s;';
+        tile.appendChild(imgEl);
+        tile.onmouseover = () => imgEl.style.transform = 'scale(1.06)';
+        tile.onmouseout = () => imgEl.style.transform = '';
+      } else {
+        tile.style.background = `linear-gradient(${angles[i]}deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%)`;
+        const inner = document.createElement('div');
+        inner.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;';
+        inner.innerHTML = `<p style="font-family:'Cormorant Garamond',serif;font-size:${featured?'18':'14'}px;font-style:italic;color:rgba(255,255,255,0.6);text-align:center;padding:0 24px;">${labels[i]}</p>${featured?'<p style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.28);">Upload via Admin Panel</p>':''}`;
+        tile.appendChild(inner);
+        tile.onmouseover = () => tile.style.filter = 'brightness(1.08)';
+        tile.onmouseout = () => tile.style.filter = '';
+      }
+      grid.appendChild(tile);
+    }
+  }
+
+  renderIngredients(ings) {
+    const grid = document.getElementById('ingGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    (ings || []).forEach(ing => {
+      const el = document.createElement('div');
+      el.style.cssText = 'padding:36px 32px;border:1px solid rgba(253,246,236,0.06);transition:background 0.3s;';
+      el.onmouseover = ()=>el.style.background='rgba(196,136,58,0.06)';
+      el.onmouseout = ()=>el.style.background='';
+      el.innerHTML = `<div style="font-size:30px;margin-bottom:18px;">${ing.icon}</div><h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:12px;">${ing.name}</h3><p style="font-size:13px;font-weight:300;color:rgba(253,246,236,0.5);line-height:1.85;">${ing.desc}</p>`;
+      grid.appendChild(el);
+    });
+  }
+
+  renderVideos(videos) {
+    const grid = document.getElementById('videosGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    if (!videos || !videos.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#8B5E3C;font-family:\'Cormorant Garamond\',serif;font-size:22px;font-style:italic;">Videos coming soon.</div>';
+      return;
+    }
+    videos.forEach(v => {
+      const card = document.createElement('div');
+      card.style.cssText = 'background:#2A1A0E;overflow:hidden;';
+      if (v.url) {
+        const vid = document.createElement('video');
+        vid.src = v.url; vid.style.cssText = 'width:100%;aspect-ratio:16/9;object-fit:cover;display:block;'; vid.controls = true; card.appendChild(vid);
+      } else {
+        const ph = document.createElement('div');
+        ph.style.cssText = 'aspect-ratio:16/9;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;';
+        ph.innerHTML = `<svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="24" stroke="rgba(196,136,58,0.5)" stroke-width="1.5"/><polygon points="21,16 40,26 21,36" fill="#C4883A"/></svg><p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(253,246,236,0.5);">${v.title}</p>`;
+        card.appendChild(ph);
+      }
+      const info = document.createElement('div');
+      info.style.cssText = 'padding:22px 24px;';
+      info.innerHTML = `<h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:8px;">${v.title}</h3><p style="font-size:13px;font-weight:300;color:rgba(253,246,236,0.45);">${v.desc}</p>`;
+      card.appendChild(info); grid.appendChild(card);
+    });
+  }
+
+  renderReviews(all) {
+    const grid = document.getElementById('reviewsGrid');
+    if (!grid) return;
+    const reviews = (all || []).filter(r => r.approved);
+    grid.innerHTML = '';
+    if (!reviews.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8B5E3C;font-family:\'Cormorant Garamond\',serif;font-size:20px;font-style:italic;">Reviews coming soon.</div>';
+      return;
+    }
+    reviews.forEach(r => {
+      const el = document.createElement('div');
+      el.style.cssText = 'background:#fff;padding:36px 32px;border-top:3px solid #C4883A;transition:transform 0.3s,box-shadow 0.3s;';
+      el.onmouseover = ()=>{el.style.transform='translateY(-4px)';el.style.boxShadow='0 12px 36px rgba(42,26,14,0.09)';};
+      el.onmouseout = ()=>{el.style.transform='';el.style.boxShadow='';};
+      const stars = '★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
+      el.innerHTML = `<p style="color:#C4883A;font-size:17px;letter-spacing:3px;margin-bottom:18px;">${stars}</p><p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:#2A1A0E;line-height:1.75;margin-bottom:24px;">"${r.text}"</p><div style="display:flex;justify-content:space-between;align-items:center;"><p style="font-size:13px;font-weight:500;color:#5A3E28;">${r.name}</p><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#C4883A;">${r.event||''}</p></div>`;
+      grid.appendChild(el);
+    });
+  }
+
+  renderFaq(faqs) {
+    const list = document.getElementById('faqList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (!faqs || !faqs.length) {
+      const ep = document.createElement('p');
+      ep.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#8B5E3C;";
+      ep.textContent = 'Questions coming soon.';
+      list.appendChild(ep); return;
+    }
+    faqs.forEach(faq => {
+      const item = document.createElement('div');
+      item.style.cssText = 'border-bottom:1px solid rgba(196,136,58,0.18);';
+      const hdr = document.createElement('button');
+      hdr.style.cssText = 'width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;cursor:pointer;text-align:left;gap:20px;';
+      const qText = document.createElement('span');
+      qText.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#2A1A0E;line-height:1.3;";
+      qText.textContent = faq.q;
+      const icon = document.createElement('span');
+      icon.style.cssText = 'font-size:24px;color:#C4883A;flex-shrink:0;line-height:1;display:inline-block;width:24px;text-align:center;';
+      icon.textContent = '+'; icon.className = 'faq-icon';
+      hdr.appendChild(qText); hdr.appendChild(icon);
+      const body = document.createElement('div');
+      body.style.cssText = 'overflow:hidden;max-height:0;transition:max-height 0.4s ease;'; body.className = 'faq-body';
+      const aText = document.createElement('p');
+      aText.style.cssText = 'font-size:15px;font-weight:300;line-height:1.85;color:#5A3E28;padding-bottom:24px;';
+      aText.textContent = faq.a; body.appendChild(aText);
+      hdr.onclick = () => {
+        const isOpen = body.style.maxHeight !== '' && body.style.maxHeight !== '0px';
+        list.querySelectorAll('.faq-body').forEach(b => b.style.maxHeight = '0px');
+        list.querySelectorAll('.faq-icon').forEach(ic => ic.textContent = '+');
+        if (!isOpen) { body.style.maxHeight = (aText.scrollHeight + 30) + 'px'; icon.textContent = '−'; }
+      };
+      item.appendChild(hdr); item.appendChild(body);
+      list.appendChild(item);
+    });
+  }
+
+  renderSocial(hp, media) {
+    const grid = document.getElementById('igGrid');
+    if (!grid) return;
+    const handle = (hp && hp.instagramHandle) || '@dorysbakes';
+    const url = (hp && hp.instagramUrl) || 'https://instagram.com/dorysbakes';
+    const handleEl = document.getElementById('igHandle');
+    const linkEl = document.getElementById('igLink');
+    if (handleEl) handleEl.textContent = handle;
+    if (linkEl) linkEl.href = url;
+    const images = (media || []).filter(m => m.type === 'image').slice(0, 6);
+    grid.innerHTML = '';
+    const gBg = ['linear-gradient(135deg,#E8C99A,#C4883A)','linear-gradient(145deg,#C4883A,#8B5E3C)','linear-gradient(158deg,#F0E0C8,#C4883A 70%)','linear-gradient(125deg,#8B5E3C,#3A2410)','linear-gradient(138deg,#E8C99A,#8B5E3C)','linear-gradient(148deg,#C4883A,#2A1A0E)'];
+    for (let i = 0; i < 6; i++) {
+      const tile = document.createElement('a');
+      tile.href = url; tile.target = '_blank'; tile.rel = 'noopener';
+      tile.style.cssText = 'aspect-ratio:1;overflow:hidden;display:block;position:relative;cursor:pointer;';
+      const src = images[i];
+      if (src) {
+        const imgEl = document.createElement('img');
+        imgEl.src = src.data; imgEl.alt = '';
+        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;';
+        tile.appendChild(imgEl);
+      } else {
+        tile.style.background = gBg[i % gBg.length];
+        const ph = document.createElement('div');
+        ph.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+        ph.innerHTML = '<span style="font-size:22px;opacity:0.2;">✦</span>'; tile.appendChild(ph);
+      }
+      const ov = document.createElement('div');
+      ov.style.cssText = 'position:absolute;inset:0;background:rgba(42,26,14,0);transition:background 0.3s;display:flex;align-items:center;justify-content:center;';
+      ov.innerHTML = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="white" stroke-width="1.4" style="opacity:0;transition:opacity 0.3s;"><rect x="1" y="1" width="20" height="20" rx="5.5"/><circle cx="11" cy="11" r="5"/><circle cx="16.5" cy="5.5" r="1.2" fill="white" stroke="none"/></svg>';
+      const svgEl = ov.querySelector('svg');
+      tile.onmouseover = () => { ov.style.background='rgba(42,26,14,0.5)'; svgEl.style.opacity='1'; const img=tile.querySelector('img'); if(img) img.style.transform='scale(1.07)'; };
+      tile.onmouseout = () => { ov.style.background='rgba(42,26,14,0)'; svgEl.style.opacity='0'; const img=tile.querySelector('img'); if(img) img.style.transform=''; };
+      tile.appendChild(ov); grid.appendChild(tile);
+    }
+  }
+
+  async handleOrder(e) {
+    e.preventDefault();
+    const orderData = {
+      name: document.getElementById('oName').value,
+      email: document.getElementById('oEmail').value,
+      date: document.getElementById('oDate').value,
+      cakeType: document.getElementById('oCakeType').value,
+      notes: document.getElementById('oNotes').value,
+    };
+    if (await this._checkApi()) {
+      try {
+        await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(orderData) });
+      } catch(e) {}
+    } else {
+      const orders = JSON.parse(localStorage.getItem('db_orders')||'[]');
+      orders.push({id:Date.now(), ...orderData, submittedAt:new Date().toISOString()});
+      localStorage.setItem('db_orders', JSON.stringify(orders));
+    }
+    e.target.reset();
+    const conf = document.getElementById('orderConfirm');
+    conf.style.display = 'block';
+    setTimeout(() => conf.style.display = 'none', 5000);
+  }
+
+  toggleMob() {
+    const m = document.getElementById('mobMenu');
+    const open = m.style.display === 'flex';
+    m.style.display = open ? 'none' : 'flex';
+    document.body.style.overflow = open ? '' : 'hidden';
+  }
+
+  renderVals() { return {}; }
+}
+
+</script>
+</body>
+</html>
