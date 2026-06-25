@@ -69,20 +69,21 @@ db.exec(`
   );
   CREATE TABLE IF NOT EXISTS homepage (
     id INTEGER PRIMARY KEY DEFAULT 1,
-    tagline TEXT DEFAULT 'Artisan · Handcrafted · Bespoke',
-    sub TEXT DEFAULT '',
-    about1 TEXT DEFAULT '',
-    about2 TEXT DEFAULT '',
-    years TEXT DEFAULT '5+',
-    ribbon_bg TEXT DEFAULT '#2A1A0E',
-    ribbon_text_color TEXT DEFAULT 'rgba(253,246,236,0.48)',
-    ribbon_accent_color TEXT DEFAULT '#C4883A',
-    marquee_items TEXT DEFAULT 'Designer Cakes,✦,Cheesecakes,✦,Custom Orders',
-    contact_address TEXT DEFAULT '',
-    instagram_handle TEXT DEFAULT '@dorysbakes',
-    instagram_url TEXT DEFAULT 'https://instagram.com/dorysbakes'
+    settings_json TEXT DEFAULT '{}'
+  );
+  CREATE TABLE IF NOT EXISTS flavours (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT DEFAULT '',
+    category TEXT DEFAULT '',
+    icon TEXT DEFAULT '',
+    desc TEXT DEFAULT '',
+    sort_order INTEGER DEFAULT 0
   );
 `);
+
+// ── MIGRATE: add new columns if upgrading from old schema ─────────────────────
+try { db.exec(`ALTER TABLE homepage ADD COLUMN settings_json TEXT DEFAULT '{}'`); } catch(e) {}
+try { db.exec(`CREATE TABLE IF NOT EXISTS flavours (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT DEFAULT '', category TEXT DEFAULT '', icon TEXT DEFAULT '', desc TEXT DEFAULT '', sort_order INTEGER DEFAULT 0)`); } catch(e) {}
 
 // ── SEED DEFAULT DATA ─────────────────────────────────────────────────────────
 function seed() {
@@ -136,16 +137,61 @@ function seed() {
     ].forEach(f => ins.run(...f));
   }
   if (db.prepare('SELECT COUNT(*) as c FROM homepage').get().c === 0) {
-    db.prepare(`INSERT INTO homepage (id,tagline,sub,about1,about2,years,ribbon_bg,ribbon_text_color,ribbon_accent_color,marquee_items,contact_address,instagram_handle,instagram_url) VALUES (1,?,?,?,?,?,?,?,?,?,?,?,?)`).run(
-      'Artisan · Handcrafted · Bespoke',
-      'Where every cake tells a story — baked with love, crafted for your most special moments.',
-      "Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",
-      'From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.',
-      '5+','#2A1A0E','rgba(253,246,236,0.48)','#C4883A',
-      'Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch',
-      '123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567',
-      '@dorysbakes','https://instagram.com/dorysbakes'
-    );
+    const defaults = {
+      brandName:"Dory's Bakes", brandSubtitle:"Artisan Patisserie",
+      tagline:"Artisan · Handcrafted · Bespoke",
+      sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",
+      about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal.",
+      about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",
+      aboutHeading:"Baked with\nintention.", aboutTagLabel:"Our Story", years:"5+", yearsLabel:"Years Baking", aboutPhoto:"",
+      menuTagLabel:"Our Creations", menuHeading:"The Menu",
+      galleryTagLabel:"Our Portfolio", galleryHeading:"Gallery", galleryDesc:"Every cake is a one-of-a-kind creation, made for a moment that matters.",
+      ingTagLabel:"What Goes In", ingHeading:"Our Ingredients",
+      studioTagLabel:"Behind The Scenes", studioHeading:"The Studio",
+      reviewsTagLabel:"What They Say", reviewsHeading:"Reviews",
+      faqTagLabel:"Common Questions", faqHeading:"Things you might\nwonder.", faqSubtext:"Can't find your answer? We'd love to hear from you directly.", faqCta:"Ask Us Anything",
+      orderTagLabel:"Reserve Yours", orderHeading:"Order a Custom Cake", orderDesc:"Tell us about your dream cake and we'll bring it to life.",
+      socialTagLabel:"Follow Along", socialHeading:"On Instagram",
+      footerTagline:"Artisan cakes crafted with love, made for your most cherished moments.", footerCopyright:"© 2025 Dory's Bakes. All rights reserved.",
+      ribbonBg:"#2A1A0E", ribbonTextColor:"rgba(253,246,236,0.48)", ribbonAccentColor:"#C4883A",
+      marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",
+      contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",
+      instagramHandle:"@dorysbakes", instagramUrl:"https://instagram.com/dorysbakes",
+      accentColor:"#C4883A", darkColor:"#2A1A0E", bgColor:"#FDF6EC", fontPair:"classic",
+      whatsappNumber:"", whatsappMessage:"Hi Dory! Custom cake enquiry:\n\nName: {name}\nEmail: {email}\nEvent Date: {date}\nCake Type: {cakeType}\n\nNotes: {notes}",
+      workingHours:"Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm"
+    };
+    db.prepare('INSERT INTO homepage (id, settings_json) VALUES (1, ?)').run(JSON.stringify(defaults));
+  } else {
+    // Migrate old schema: if settings_json is empty, try to pull from old columns
+    const row = db.prepare('SELECT settings_json FROM homepage WHERE id=1').get();
+    if (row && (!row.settings_json || row.settings_json === '{}')) {
+      try {
+        const old = db.prepare('SELECT * FROM homepage WHERE id=1').get();
+        const migrated = {
+          tagline: old.tagline||'', sub: old.sub||'', about1: old.about1||'', about2: old.about2||'',
+          years: old.years||'5+', ribbonBg: old.ribbon_bg||'#2A1A0E',
+          ribbonTextColor: old.ribbon_text_color||'rgba(253,246,236,0.48)',
+          ribbonAccentColor: old.ribbon_accent_color||'#C4883A',
+          marqueeItems: old.marquee_items||'', contactAddress: old.contact_address||'',
+          instagramHandle: old.instagram_handle||'@dorysbakes', instagramUrl: old.instagram_url||''
+        };
+        db.prepare('UPDATE homepage SET settings_json=? WHERE id=1').run(JSON.stringify(migrated));
+      } catch(e) {}
+    }
+  }
+  if (db.prepare('SELECT COUNT(*) as c FROM flavours').get().c === 0) {
+    const ins = db.prepare('INSERT INTO flavours (name,category,icon,desc) VALUES (?,?,?,?)');
+    [
+      ['Vanilla Bean','Cake Bases','◇','Light, fragrant sponge using real Tahitian vanilla pods.'],
+      ['Dark Chocolate','Cake Bases','◆','Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying.'],
+      ['Lemon Zest','Cake Bases','✦','Bright, citrusy sponge with fresh lemon zest and juice.'],
+      ['Strawberry Compote','Fillings','◆','House-made fresh strawberry compote — slightly tart, bright, and never overly sweet.'],
+      ['Salted Caramel','Fillings','◇','Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive.'],
+      ['Swiss Meringue','Buttercreams','◇','Impossibly silky buttercream, less sweet than American style. Our signature finish.'],
+      ['Mirror Glaze','Finishes','✦','The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish.'],
+      ['Edible Gold Leaf','Finishes','◆','Real 24ct gold leaf applied by hand for an unmistakably luxurious finish.'],
+    ].forEach(f => ins.run(...f));
   }
 }
 seed();
@@ -282,26 +328,43 @@ app.delete('/api/orders/:id', w((req,res) => {
 
 // ── HOMEPAGE ──────────────────────────────────────────────────────────────────
 app.get('/api/homepage', w((req,res) => {
-  const row = db.prepare('SELECT * FROM homepage WHERE id=1').get();
+  const row = db.prepare('SELECT settings_json FROM homepage WHERE id=1').get();
   if (!row) return res.json({});
-  res.json({
-    tagline: row.tagline, sub: row.sub, about1: row.about1, about2: row.about2,
-    years: row.years, ribbonBg: row.ribbon_bg, ribbonTextColor: row.ribbon_text_color,
-    ribbonAccentColor: row.ribbon_accent_color, marqueeItems: row.marquee_items,
-    contactAddress: row.contact_address, instagramHandle: row.instagram_handle,
-    instagramUrl: row.instagram_url
-  });
+  try { res.json(JSON.parse(row.settings_json || '{}')); }
+  catch(e) { res.json({}); }
 }));
 app.put('/api/homepage', w((req,res) => {
-  const {tagline,sub,about1,about2,years,ribbonBg,ribbonTextColor,ribbonAccentColor,marqueeItems,contactAddress,instagramHandle,instagramUrl} = req.body;
-  db.prepare(`UPDATE homepage SET tagline=?,sub=?,about1=?,about2=?,years=?,ribbon_bg=?,ribbon_text_color=?,ribbon_accent_color=?,marquee_items=?,contact_address=?,instagram_handle=?,instagram_url=? WHERE id=1`)
-    .run(tagline,sub,about1,about2,years,ribbonBg,ribbonTextColor,ribbonAccentColor,marqueeItems,contactAddress,instagramHandle,instagramUrl);
+  const current = db.prepare('SELECT settings_json FROM homepage WHERE id=1').get();
+  let existing = {};
+  try { existing = JSON.parse(current && current.settings_json || '{}'); } catch(e) {}
+  const merged = { ...existing, ...req.body };
+  db.prepare('UPDATE homepage SET settings_json=? WHERE id=1').run(JSON.stringify(merged));
   res.json({success:true});
 }));
 
-// ── CATCH-ALL: serve main page ────────────────────────────────────────────────
+// ── FLAVOURS ──────────────────────────────────────────────────────────────────
+app.get('/api/flavours', w((req,res) =>
+  res.json(db.prepare('SELECT * FROM flavours ORDER BY sort_order,id').all())
+));
+app.post('/api/flavours', w((req,res) => {
+  const {name,category,icon,desc} = req.body;
+  const r = db.prepare('INSERT INTO flavours (name,category,icon,desc) VALUES (?,?,?,?)').run(name,category||'',icon||'',desc||'');
+  res.json({id:r.lastInsertRowid,name,category,icon,desc});
+}));
+app.put('/api/flavours/:id', w((req,res) => {
+  const {name,category,icon,desc} = req.body;
+  db.prepare('UPDATE flavours SET name=?,category=?,icon=?,desc=? WHERE id=?').run(name,category||'',icon||'',desc||'',req.params.id);
+  res.json({success:true});
+}));
+app.delete('/api/flavours/:id', w((req,res) => {
+  db.prepare('DELETE FROM flavours WHERE id=?').run(req.params.id);
+  res.json({success:true});
+}));
+
 app.get('/', (req,res) => res.sendFile(path.join(__dirname,'Dorys Bakes.dc.html')));
 app.get('/about', (req,res) => res.sendFile(path.join(__dirname,'About.dc.html')));
 app.get('/admin', (req,res) => res.sendFile(path.join(__dirname,'Admin Panel.dc.html')));
+app.get('/flavours', (req,res) => res.sendFile(path.join(__dirname,'Flavours.dc.html')));
+app.get('/reviews', (req,res) => res.sendFile(path.join(__dirname,'Reviews.dc.html')));
 
 app.listen(PORT, () => console.log(`✦ Dory's Bakes running → http://localhost:${PORT}`));
