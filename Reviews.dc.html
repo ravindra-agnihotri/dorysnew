@@ -21,8 +21,20 @@
     .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
     .inp-l{background:transparent;border:1px solid rgba(42,26,14,0.18);color:#2A1A0E;padding:13px 16px;font-family:'Jost',sans-serif;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
     .inp-l:focus{border-color:#C4883A;}
-    @media(max-width:900px){.three-col-r{grid-template-columns:1fr 1fr!important;}.sp{padding-left:24px!important;padding-right:24px!important;}.form-grid{grid-template-columns:1fr!important;}}
-    @media(max-width:540px){.three-col-r{grid-template-columns:1fr!important;}}
+    @media(max-width:900px){
+      .three-col-r{grid-template-columns:1fr 1fr!important;}
+      .sp{padding-left:24px!important;padding-right:24px!important;}
+      .form-grid{grid-template-columns:1fr!important;}
+      .hero-sub{padding-top:100px!important;padding-bottom:52px!important;min-height:auto!important;}
+      .hero-sub h1{font-size:clamp(44px,11vw,100px)!important;}
+      .rev-sections{padding-top:52px!important;padding-bottom:52px!important;}
+      .rev-footer{padding-top:28px!important;padding-bottom:28px!important;}
+    }
+    @media(max-width:540px){
+      .three-col-r{grid-template-columns:1fr!important;}
+      .hero-sub p{font-size:14px!important;}
+      .rev-form-submit{width:100%!important;display:block!important;text-align:center!important;}
+    }
   </style>
 </helmet>
 
@@ -36,7 +48,7 @@
   </a>
 </nav>
 
-<section style="min-height:58vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 80px;position:relative;overflow:hidden;">
+<section class="hero-sub" style="min-height:58vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 80px;position:relative;overflow:hidden;">
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,100vw);height:min(600px,100vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.07),transparent 65%);pointer-events:none;"></div>
   <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;position:relative;animation:fadeIn 1s both;">
     <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
@@ -47,7 +59,7 @@
   <div style="position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to bottom,transparent,#FDF6EC);pointer-events:none;"></div>
 </section>
 
-<section style="padding:80px 60px;" class="sp">
+<section style="padding:80px 60px;" class="sp rev-sections">
   <div style="max-width:1240px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:56px;"><p class="sl">From Our Customers</p><h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,56px);font-weight:300;font-style:italic;color:#2A1A0E;">Voices of Joy</h2></div>
     <div id="reviewsDisplay" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="three-col-r"></div>
@@ -60,7 +72,7 @@
   <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(196,136,58,0.3),transparent);"></div>
 </div>
 
-<section id="leaveReview" style="padding:80px 60px;" class="sp">
+<section id="leaveReview" style="padding:80px 60px;" class="sp rev-sections">
   <div style="max-width:680px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:48px;">
       <p class="sl">Leave a Review</p>
@@ -114,7 +126,7 @@
   </div>
 </section>
 
-<footer style="background:#120C04;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp">
+<footer style="background:#120C04;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp rev-footer">
   <div>
     <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
     <p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p>

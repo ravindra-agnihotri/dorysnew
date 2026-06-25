@@ -519,33 +519,101 @@ class Component extends DCLogic {
   /* ─── HOMEPAGE ─── */
   async tHomepage(m) {
     this.loading(m);const hp=await this.getHomepage();m.innerHTML='';
-    m.appendChild(this.hdr('Homepage Content','Control every piece of text and style shown on the public website.'));
-    const wrap=this.el('div','display:grid;gap:24px;max-width:720px;');
+    m.appendChild(this.hdr('Homepage Content','Every piece of text on the website — edit and save.'));
+    const wrap=this.el('div','display:grid;gap:20px;max-width:720px;');
+
+    // Brand
+    const brCard=this.card('padding:28px;');brCard.appendChild(this.secLabel('Brand Identity'));
+    const bnI=this.inp('text',hp.brandName||"Dory's Bakes",'Brand name');
+    const bsI=this.inp('text',hp.brandSubtitle||'Artisan Patisserie','e.g. Artisan Patisserie');
+    brCard.appendChild(this.fieldW('Brand Name',bnI));brCard.appendChild(this.fieldW('Brand Subtitle',bsI));wrap.appendChild(brCard);
+
+    // Hero
     const hCard=this.card('padding:28px;');hCard.appendChild(this.secLabel('Hero Section'));
-    const tgI=this.inp('text',hp.tagline||'','e.g. Artisan · Handcrafted · Bespoke');const sbI=this.ta(hp.sub||'','Sub-headline below the main title',3);
-    hCard.appendChild(this.fieldW('Tagline',tgI));hCard.appendChild(this.fieldW('Sub-headline',sbI));wrap.appendChild(hCard);
-    const aCard=this.card('padding:28px;');aCard.appendChild(this.secLabel('About Section'));
-    const a1I=this.ta(hp.about1||'','First paragraph',4);const a2I=this.ta(hp.about2||'','Second paragraph',4);const yrI=this.inp('text',hp.years||'5+','e.g. 5+');yrI.style.maxWidth='120px';
-    aCard.appendChild(this.fieldW('Paragraph 1',a1I));aCard.appendChild(this.fieldW('Paragraph 2',a2I));aCard.appendChild(this.fieldW('Years Baking Badge',yrI));wrap.appendChild(aCard);
+    const tgI=this.inp('text',hp.tagline||'','e.g. Artisan · Handcrafted · Bespoke');
+    const sbI=this.ta(hp.sub||'','Sub-headline below the main title',3);
+    hCard.appendChild(this.fieldW('Tagline (small caps)',tgI));hCard.appendChild(this.fieldW('Sub-headline',sbI));wrap.appendChild(hCard);
+
+    // About
+    const aCard=this.card('padding:28px;');aCard.appendChild(this.secLabel('About / Our Story Section'));
+    const atI=this.inp('text',hp.aboutTagLabel||'Our Story','Small caps label');
+    const ahI=this.inp('text',hp.aboutHeading||'Baked with\nintention.','Heading (use \\n for line break)');
+    const a1I=this.ta(hp.about1||'','First paragraph',4);
+    const a2I=this.ta(hp.about2||'','Second paragraph',4);
+    const yrI=this.inp('text',hp.years||'5+','e.g. 5+');yrI.style.maxWidth='100px';
+    const ylI=this.inp('text',hp.yearsLabel||'Years Baking','e.g. Years Baking');
+    const g2y=this.el('div','display:grid;grid-template-columns:120px 1fr;gap:16px;');
+    g2y.appendChild(this.fieldW('Badge Number',yrI));g2y.appendChild(this.fieldW('Badge Label',ylI));
+    aCard.appendChild(this.fieldW('Tag Label',atI));aCard.appendChild(this.fieldW('Heading',ahI));
+    aCard.appendChild(this.fieldW('Paragraph 1',a1I));aCard.appendChild(this.fieldW('Paragraph 2',a2I));
+    aCard.appendChild(g2y);wrap.appendChild(aCard);
+
+    // Section headings
+    const shCard=this.card('padding:28px;');shCard.appendChild(this.secLabel('Section Labels & Headings'));
+    const fields=[
+      ['Menu Tag','menuTagLabel','Our Creations'],['Menu Heading','menuHeading','The Menu'],
+      ['Gallery Tag','galleryTagLabel','Our Portfolio'],['Gallery Heading','galleryHeading','Gallery'],
+      ['Gallery Description','galleryDesc','Every cake is a one-of-a-kind creation…'],
+      ['Ingredients Tag','ingTagLabel','What Goes In'],['Ingredients Heading','ingHeading','Our Ingredients'],
+      ['Studio Tag','studioTagLabel','Behind The Scenes'],['Studio Heading','studioHeading','The Studio'],
+      ['Reviews Tag','reviewsTagLabel','What They Say'],['Reviews Heading','reviewsHeading','Reviews'],
+      ['FAQ Tag','faqTagLabel','Common Questions'],
+      ['FAQ Heading','faqHeading','Things you might\nwonder.'],
+      ['FAQ Subtext','faqSubtext',"Can't find your answer? We'd love to hear from you directly."],
+      ['FAQ Button Text','faqCta','Ask Us Anything'],
+      ['Order Tag','orderTagLabel','Reserve Yours'],['Order Heading','orderHeading','Order a Custom Cake'],
+      ['Order Description','orderDesc','Tell us about your dream cake…'],
+      ['Social Tag','socialTagLabel','Follow Along'],['Social Heading','socialHeading','On Instagram'],
+    ];
+    const shInputs={};
+    fields.forEach(([lbl,key,ph])=>{
+      const inp=this.inp('text',hp[key]||'',ph);
+      shInputs[key]=inp;shCard.appendChild(this.fieldW(lbl,inp));
+    });
+    wrap.appendChild(shCard);
+
+    // Footer
+    const fCard=this.card('padding:28px;');fCard.appendChild(this.secLabel('Footer'));
+    const ftI=this.ta(hp.footerTagline||'','Short tagline in footer',2);
+    const fcI=this.inp('text',hp.footerCopyright||'© 2025 Dory\'s Bakes. All rights reserved.','Copyright line');
+    const caI=this.ta(hp.contactAddress||'','Address, email and phone',5);
+    fCard.appendChild(this.fieldW('Footer Tagline',ftI));fCard.appendChild(this.fieldW('Copyright',fcI));
+    fCard.appendChild(this.fieldW('Address / Contact Info',caI));wrap.appendChild(fCard);
+
+    // Ribbon
     const rCard=this.card('padding:28px;');rCard.appendChild(this.secLabel('Ribbon Strip'));
     const rbI=this.inp('color',hp.ribbonBg||'#2A1A0E','');rbI.style.cssText+='height:44px;padding:4px 8px;width:80px;';
-    const rtI=this.inp('text',hp.ribbonTextColor||'rgba(253,246,236,0.48)','');const raI=this.inp('text',hp.ribbonAccentColor||'#C4883A','');const mqI=this.ta(hp.marqueeItems||'','Comma-separated: Designer Cakes,✦,…',3);
+    const rtI=this.inp('text',hp.ribbonTextColor||'rgba(253,246,236,0.48)','');
+    const raI=this.inp('text',hp.ribbonAccentColor||'#C4883A','');
+    const mqI=this.ta(hp.marqueeItems||'','Comma-separated: Designer Cakes,✦,…',3);
     const g2r=this.el('div','display:grid;grid-template-columns:100px 1fr 1fr;gap:16px;align-items:end;');
     g2r.appendChild(this.fieldW('Bg Colour',rbI));g2r.appendChild(this.fieldW('Text Colour',rtI));g2r.appendChild(this.fieldW('Accent Colour',raI));
     rCard.appendChild(g2r);rCard.appendChild(this.fieldW('Marquee Items (comma-separated)',mqI));wrap.appendChild(rCard);
+
+    // Instagram
     const igCard=this.card('padding:28px;');igCard.appendChild(this.secLabel('Instagram / Social'));
-    const igHI=this.inp('text',hp.instagramHandle||'@dorysbakes','e.g. @dorysbakes');const igUI=this.inp('text',hp.instagramUrl||'','https://instagram.com/yourhandle');
+    const igHI=this.inp('text',hp.instagramHandle||'@dorysbakes','e.g. @dorysbakes');
+    const igUI=this.inp('text',hp.instagramUrl||'','https://instagram.com/yourhandle');
     igCard.appendChild(this.fieldW('Instagram Handle',igHI));igCard.appendChild(this.fieldW('Instagram URL',igUI));wrap.appendChild(igCard);
-    const cCard=this.card('padding:28px;');cCard.appendChild(this.secLabel('Contact & Footer'));
-    const caI=this.ta(hp.contactAddress||'','Address, email and phone',5);cCard.appendChild(this.fieldW('Address / Contact Info',caI));wrap.appendChild(cCard);
-    const saved=this.el('div','display:none;padding:12px 20px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.28);font-size:13px;color:#C4883A;','✦  Changes saved — reload the website to see them.');
+
+    const saved=this.el('div','display:none;padding:12px 20px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.28);font-size:13px;color:#C4883A;','✦  Saved — reload the website to see changes.');
     const sb=this.btn('Save All Changes','btn-g',async()=>{
       sb.textContent='Saving…';sb.disabled=true;
       const hp2=await this.getHomepage();
-      await this.saveHomepage({...hp2,tagline:tgI.value,sub:sbI.value,about1:a1I.value,about2:a2I.value,years:yrI.value,ribbonBg:rbI.value,ribbonTextColor:rtI.value,ribbonAccentColor:raI.value,marqueeItems:mqI.value,contactAddress:caI.value,instagramHandle:igHI.value,instagramUrl:igUI.value});
+      const shVals={};fields.forEach(([,key])=>{shVals[key]=shInputs[key].value;});
+      await this.saveHomepage({...hp2,
+        brandName:bnI.value,brandSubtitle:bsI.value,
+        tagline:tgI.value,sub:sbI.value,
+        aboutTagLabel:atI.value,aboutHeading:ahI.value,
+        about1:a1I.value,about2:a2I.value,years:yrI.value,yearsLabel:ylI.value,
+        ...shVals,
+        footerTagline:ftI.value,footerCopyright:fcI.value,contactAddress:caI.value,
+        ribbonBg:rbI.value,ribbonTextColor:rtI.value,ribbonAccentColor:raI.value,marqueeItems:mqI.value,
+        instagramHandle:igHI.value,instagramUrl:igUI.value,
+      });
       sb.textContent='Save All Changes';sb.disabled=false;saved.style.display='block';setTimeout(()=>saved.style.display='none',4000);
     });
-    sb.style.padding='14px 36px;';wrap.appendChild(sb);wrap.appendChild(saved);m.appendChild(wrap);
+    sb.style.cssText+='padding:14px 36px;';wrap.appendChild(sb);wrap.appendChild(saved);m.appendChild(wrap);
   }
 
   /* ─── SETTINGS ─── */

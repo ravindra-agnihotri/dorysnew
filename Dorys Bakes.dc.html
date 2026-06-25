@@ -8,34 +8,36 @@
 <body>
 <x-dc>
 <helmet>
+  <script>
+    (function(){try{var h=JSON.parse(localStorage.getItem('db_homepage')||'{}');var r=document.documentElement;var ac=h.accentColor||'#C4883A';var dk=h.darkColor||'#2A1A0E';var bg=h.bgColor||'#FDF6EC';r.style.setProperty('--accent',ac);r.style.setProperty('--dark',dk);r.style.setProperty('--bg',bg);r.style.setProperty('--bg-alt',bg==='#FDF6EC'?'#F5EDE0':bg);if(bg.startsWith('#')&&bg.length===7){var rr=parseInt(bg.slice(1,3),16),gg=parseInt(bg.slice(3,5),16),bb=parseInt(bg.slice(5,7),16);r.style.setProperty('--nav-bg','rgba('+rr+','+gg+','+bb+',0.97)');}else{r.style.setProperty('--nav-bg','rgba(253,246,236,0.97)');}}catch(e){}})();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     html{scroll-behavior:smooth;}
-    body{background:#FDF6EC;color:#2A1A0E;font-family:'Jost',sans-serif;overflow-x:hidden;}
+    body{background:var(--bg,#FDF6EC);color:var(--dark,#2A1A0E);font-family:'Jost',sans-serif;overflow-x:hidden;}
     a{text-decoration:none;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes floatY{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
     @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDF6EC}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:3px}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg,#FDF6EC)}::-webkit-scrollbar-thumb{background:var(--accent,#C4883A);border-radius:3px}
     .nav-link{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#5A3E28;font-weight:500;position:relative;transition:color 0.2s;}
-    .nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:#C4883A;transition:width 0.3s;}
-    .nav-link:hover{color:#C4883A;}.nav-link:hover::after{width:100%;}
-    .btn-gold{display:inline-block;background:#C4883A;color:#FDF6EC;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 40px;transition:background 0.3s;border:none;font-family:'Jost',sans-serif;cursor:pointer;}
-    .btn-gold:hover{background:#2A1A0E;}
-    .btn-outline{display:inline-block;border:1.5px solid #2A1A0E;color:#2A1A0E;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:14px 40px;transition:all 0.3s;}
-    .btn-outline:hover{background:#2A1A0E;color:#FDF6EC;}
-    .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
-    .sh{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;font-style:italic;color:#2A1A0E;}
-    .sh-l{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;font-style:italic;color:#FDF6EC;}
-    .inp-dark{background:rgba(253,246,236,0.06);border:1px solid rgba(196,136,58,0.22);color:#FDF6EC;padding:13px 16px;font-family:'Jost',sans-serif;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
+    .nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent,#C4883A);transition:width 0.3s;}
+    .nav-link:hover{color:var(--accent,#C4883A);}.nav-link:hover::after{width:100%;}
+    .btn-gold{display:inline-block;background:var(--accent,#C4883A);color:var(--bg,#FDF6EC);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:15px 40px;transition:background 0.3s;border:none;font-family:'Jost',sans-serif;cursor:pointer;}
+    .btn-gold:hover{background:var(--dark,#2A1A0E);}
+    .btn-outline{display:inline-block;border:1.5px solid var(--dark,#2A1A0E);color:var(--dark,#2A1A0E);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:14px 40px;transition:all 0.3s;}
+    .btn-outline:hover{background:var(--dark,#2A1A0E);color:var(--bg,#FDF6EC);}
+    .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent,#C4883A);margin-bottom:14px;}
+    .sh{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;font-style:italic;color:var(--dark,#2A1A0E);}
+    .sh-l{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;font-style:italic;color:var(--bg,#FDF6EC);}
+    .inp-dark{background:rgba(0,0,0,0.25);border:1px solid rgba(196,136,58,0.22);color:var(--bg,#FDF6EC);padding:13px 16px;font-family:'Jost',sans-serif;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
     .inp-dark:focus{border-color:rgba(196,136,58,0.55);}
     @media(max-width:1100px){#navLinks{gap:18px!important;}.nav-link{font-size:11px;}}
     @media(max-width:900px){
-      #navLinks{display:none!important;}
-      #hbg{display:flex!important;}
+      #navLinks{display:none!important;}#hbg{display:flex!important;}
       .two-col,.contact-grid{grid-template-columns:1fr!important;}
       .three-col{grid-template-columns:1fr 1fr!important;}
       .two-col-v{grid-template-columns:1fr!important;}
@@ -47,15 +49,25 @@
       .faq-grid{grid-template-columns:1fr!important;}
       .faq-sticky{position:static!important;margin-bottom:32px;}
       #igGrid{grid-template-columns:repeat(3,1fr)!important;}
+      #hero{padding-top:110px!important;padding-bottom:64px!important;min-height:auto!important;}
+      #hero h1{font-size:clamp(52px,14vw,200px)!important;}
+      .contact-grid{gap:32px!important;}
+      #order .sh-l{font-size:clamp(30px,7vw,56px)!important;}
     }
-    @media(max-width:540px){.three-col{grid-template-columns:1fr!important;}#igGrid{grid-template-columns:repeat(2,1fr)!important;}.gal-grid{grid-template-columns:1fr 1fr!important;}}
+    @media(max-width:540px){
+      .three-col{grid-template-columns:1fr!important;}
+      #igGrid{grid-template-columns:repeat(2,1fr)!important;}
+      .gal-grid{grid-template-columns:1fr 1fr!important;}
+      #hero{padding-top:90px!important;}
+      .btn-gold,.btn-outline{padding:13px 28px!important;font-size:11px!important;}
+    }
   </style>
 </helmet>
 
-<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:rgba(253,246,236,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(196,136,58,0.12);" class="sp">
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:var(--nav-bg,rgba(253,246,236,0.97));backdrop-filter:blur(20px);border-bottom:1px solid rgba(196,136,58,0.12);" class="sp">
   <a href="#hero" style="display:flex;flex-direction:column;gap:2px;">
-    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:#2A1A0E;letter-spacing:0.01em;line-height:1;">Dory's Bakes</span>
-    <span style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;">Artisan Patisserie</span>
+    <span id="navBrand" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:var(--dark,#2A1A0E);letter-spacing:0.01em;line-height:1;">Dory's Bakes</span>
+    <span id="navSubtitle" style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent,#C4883A);">Artisan Patisserie</span>
   </a>
   <div id="navLinks" style="display:flex;gap:24px;align-items:center;">
     <a href="#about" class="nav-link">Story</a>
@@ -67,30 +79,30 @@
     <a href="#reviews" class="nav-link">Reviews</a>
     <a href="#faq" class="nav-link">FAQ</a>
     <a href="#contact" class="nav-link">Contact</a>
-    <a href="#order" style="background:#2A1A0E;color:#FDF6EC;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 22px;transition:background 0.3s;" onmouseover="this.style.background='#C4883A'" onmouseout="this.style.background='#2A1A0E'">Order Custom</a>
+    <a href="#order" id="navOrderBtn" style="background:var(--dark,#2A1A0E);color:var(--bg,#FDF6EC);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 22px;transition:background 0.3s;">Order Custom</a>
   </div>
   <button id="hbg" onclick="toggleMob()" style="display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;" aria-label="Menu">
-    <span style="display:block;width:24px;height:1.5px;background:#2A1A0E;"></span>
-    <span style="display:block;width:24px;height:1.5px;background:#2A1A0E;"></span>
-    <span style="display:block;width:24px;height:1.5px;background:#2A1A0E;"></span>
+    <span style="display:block;width:24px;height:1.5px;background:var(--dark,#2A1A0E);"></span>
+    <span style="display:block;width:24px;height:1.5px;background:var(--dark,#2A1A0E);"></span>
+    <span style="display:block;width:24px;height:1.5px;background:var(--dark,#2A1A0E);"></span>
   </button>
 </nav>
 
-<div id="mobMenu" style="display:none;position:fixed;inset:0;background:#FDF6EC;z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;overflow-y:auto;">
-  <button onclick="toggleMob()" style="position:absolute;top:22px;right:26px;background:none;border:none;font-size:36px;cursor:pointer;color:#2A1A0E;line-height:1;">×</button>
-  <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:600;color:#C4883A;margin-bottom:8px;">Dory's Bakes</span>
-  <a href="#about" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Our Story</a>
-  <a href="#menu" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Menu</a>
-  <a href="Flavours.dc.html" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Flavours</a>
-  <a href="#gallery" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Gallery</a>
-  <a href="#ingredients" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Ingredients</a>
-  <a href="#videos" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Studio</a>
-  <a href="#reviews" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Reviews</a>
-  <a href="#faq" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">FAQ</a>
-  <a href="#order" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#C4883A;">Order Custom</a>
+<div id="mobMenu" style="display:none;position:fixed;inset:0;background:var(--bg,#FDF6EC);z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;overflow-y:auto;">
+  <button onclick="toggleMob()" style="position:absolute;top:22px;right:26px;background:none;border:none;font-size:36px;cursor:pointer;color:var(--dark,#2A1A0E);line-height:1;">×</button>
+  <span id="mobBrand" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:600;color:var(--accent,#C4883A);margin-bottom:8px;">Dory's Bakes</span>
+  <a href="#about" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Our Story</a>
+  <a href="#menu" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Menu</a>
+  <a href="Flavours.dc.html" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Flavours</a>
+  <a href="#gallery" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Gallery</a>
+  <a href="#ingredients" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Ingredients</a>
+  <a href="#videos" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Studio</a>
+  <a href="#reviews" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">Reviews</a>
+  <a href="#faq" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--dark,#2A1A0E);">FAQ</a>
+  <a href="#order" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--accent,#C4883A);">Order Custom</a>
 </div>
 
-<section id="hero" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 32px 100px;position:relative;overflow:hidden;background:#FDF6EC;">
+<section id="hero" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 32px 100px;position:relative;overflow:hidden;background:var(--bg,#FDF6EC);">
   <div style="position:absolute;inset:0;pointer-events:none;">
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:min(880px,130vw);height:min(880px,130vw);border-radius:50%;border:1px solid rgba(196,136,58,0.06);"></div>
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:min(580px,88vw);height:min(580px,88vw);border-radius:50%;border:1px solid rgba(196,136,58,0.11);"></div>
@@ -101,7 +113,7 @@
     <span id="heroTagline" class="sl" style="margin-bottom:0;animation:none;"></span>
     <div style="width:40px;height:1px;background:rgba(196,136,58,0.4);"></div>
   </div>
-  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(68px,14vw,200px);font-weight:300;font-style:italic;line-height:0.86;color:#2A1A0E;letter-spacing:-0.03em;animation:fadeUp 0.9s 0.2s both;">Dory's<br><em style="color:#C4883A;">Bakes</em></h1>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(68px,14vw,200px);font-weight:300;font-style:italic;line-height:0.86;color:var(--dark,#2A1A0E);letter-spacing:-0.03em;animation:fadeUp 0.9s 0.2s both;">Dory's<br><em style="color:var(--accent,#C4883A);">Bakes</em></h1>
   <div style="width:80px;height:1px;background:rgba(196,136,58,0.3);margin:36px auto 28px;animation:fadeIn 1s 0.35s both;"></div>
   <p id="heroSub" style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.2vw,24px);font-weight:300;font-style:italic;color:#8B5E3C;max-width:520px;line-height:1.75;animation:fadeUp 0.9s 0.38s both;"></p>
   <div style="display:flex;gap:14px;margin-top:48px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.9s 0.5s both;">
@@ -109,23 +121,23 @@
     <a href="#order" class="btn-outline">Order a Cake</a>
   </div>
   <div style="position:absolute;bottom:36px;left:50%;animation:floatY 2.2s ease-in-out infinite;">
-    <svg width="22" height="36" viewBox="0 0 22 36" fill="none"><rect x="1" y="1" width="20" height="34" rx="10" stroke="#C4883A" stroke-width="1.5"/><circle cx="11" cy="10" r="3" fill="#C4883A"/></svg>
+    <svg width="22" height="36" viewBox="0 0 22 36" fill="none"><rect x="1" y="1" width="20" height="34" rx="10" stroke="var(--accent,#C4883A)" stroke-width="1.5"/><circle cx="11" cy="10" r="3" fill="var(--accent,#C4883A)"/></svg>
   </div>
 </section>
 
-<div id="ribbonBar" style="padding:15px 0;overflow:hidden;white-space:nowrap;background:#2A1A0E;">
+<div id="ribbonBar" style="padding:15px 0;overflow:hidden;white-space:nowrap;background:var(--dark,#2A1A0E);">
   <div id="marqueeTrack" style="display:inline-flex;animation:marquee 26s linear infinite;"></div>
 </div>
 
 <section id="about" style="padding:110px 60px;" class="sp">
   <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="two-col">
     <div>
-      <p class="sl">Our Story</p>
-      <h2 class="sh" style="margin-bottom:28px;">Baked with<br>intention.</h2>
+      <p id="aboutTagLabel" class="sl">Our Story</p>
+      <h2 id="aboutHeading" class="sh" style="margin-bottom:28px;">Baked with<br>intention.</h2>
       <p id="aboutP1" style="font-size:15px;font-weight:300;line-height:1.95;color:#5A3E28;margin-bottom:20px;"></p>
       <p id="aboutP2" style="font-size:15px;font-weight:300;line-height:1.95;color:#5A3E28;margin-bottom:40px;"></p>
       <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-        <a href="#menu" style="display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border-bottom:1px solid rgba(196,136,58,0.3);padding-bottom:4px;">Explore Menu <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h16M12 1l4 4-4 4" stroke="#C4883A" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="#menu" style="display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent,#C4883A);border-bottom:1px solid rgba(196,136,58,0.3);padding-bottom:4px;">Explore Menu <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h16M12 1l4 4-4 4" stroke="var(--accent,#C4883A)" stroke-width="1.5" stroke-linecap="round"/></svg></a>
         <a href="About.dc.html" style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8B5E3C;border-bottom:1px solid rgba(139,94,60,0.25);padding-bottom:4px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='#8B5E3C'">Full Story →</a>
       </div>
     </div>
@@ -133,10 +145,10 @@
       <div style="aspect-ratio:3/4;background:linear-gradient(155deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
         <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(255,255,255,0.5);text-align:center;padding:24px;">Your bakery photo here<br><span style="font-size:13px;opacity:0.6;">Upload via Admin Panel</span></p>
       </div>
-      <div class="about-badge" style="position:absolute;bottom:-28px;right:-28px;width:148px;height:148px;background:#FDF6EC;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(42,26,14,0.1);border:1px solid rgba(196,136,58,0.15);">
+      <div class="about-badge" style="position:absolute;bottom:-28px;right:-28px;width:148px;height:148px;background:var(--bg,#FDF6EC);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(42,26,14,0.1);border:1px solid rgba(196,136,58,0.15);">
         <div style="text-align:center;">
-          <p id="yearsNum" style="font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;color:#C4883A;line-height:1;">5+</p>
-          <p style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#5A3E28;margin-top:5px;">Years Baking</p>
+          <p id="yearsNum" style="font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;color:var(--accent,#C4883A);line-height:1;">5+</p>
+          <p id="yearsLabel" style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#5A3E28;margin-top:5px;">Years Baking</p>
         </div>
       </div>
     </div>
@@ -151,59 +163,59 @@
 
 <section id="menu" style="padding:100px 60px;" class="sp">
   <div style="max-width:1240px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:60px;"><p class="sl">Our Creations</p><h2 class="sh">The Menu</h2></div>
+    <div style="text-align:center;margin-bottom:60px;"><p id="menuTagLabel" class="sl">Our Creations</p><h2 id="menuHeading" class="sh">The Menu</h2></div>
     <div id="menuGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;" class="three-col"></div>
   </div>
 </section>
 
-<section id="gallery" style="padding:100px 60px;background:#F5EDE0;" class="sp">
+<section id="gallery" style="padding:100px 60px;background:var(--bg-alt,#F5EDE0);" class="sp">
   <div style="max-width:1240px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:56px;"><p class="sl">Our Portfolio</p><h2 class="sh">Gallery</h2><p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#8B5E3C;margin-top:14px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.7;">Every cake is a one-of-a-kind creation, made for a moment that matters.</p></div>
+    <div style="text-align:center;margin-bottom:56px;"><p id="galleryTagLabel" class="sl">Our Portfolio</p><h2 id="galleryHeading" class="sh">Gallery</h2><p id="galleryDesc" style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#8B5E3C;margin-top:14px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.7;">Every cake is a one-of-a-kind creation, made for a moment that matters.</p></div>
     <div id="galleryGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" class="gal-grid"></div>
     <div style="text-align:center;margin-top:48px;"><a href="About.dc.html" style="display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#5A3E28;border-bottom:1px solid rgba(90,62,40,0.28);padding-bottom:4px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='#5A3E28'">Read Our Full Story <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h16M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></div>
   </div>
 </section>
 
-<section id="ingredients" style="padding:100px 60px;background:#2A1A0E;position:relative;overflow:hidden;" class="sp">
+<section id="ingredients" style="padding:100px 60px;background:var(--dark,#2A1A0E);position:relative;overflow:hidden;" class="sp">
   <div style="position:absolute;top:-180px;right:-180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.07),transparent 65%);pointer-events:none;"></div>
   <div style="max-width:1240px;margin:0 auto;position:relative;">
-    <div style="text-align:center;margin-bottom:60px;"><p class="sl">What Goes In</p><h2 class="sh-l">Our Ingredients</h2></div>
+    <div style="text-align:center;margin-bottom:60px;"><p id="ingTagLabel" class="sl">What Goes In</p><h2 id="ingHeading" class="sh-l">Our Ingredients</h2></div>
     <div id="ingGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="three-col"></div>
   </div>
 </section>
 
-<section id="videos" style="padding:100px 60px;background:#F5EDE0;" class="sp">
+<section id="videos" style="padding:100px 60px;background:var(--bg-alt,#F5EDE0);" class="sp">
   <div style="max-width:1240px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:60px;"><p class="sl">Behind The Scenes</p><h2 class="sh">The Studio</h2></div>
+    <div style="text-align:center;margin-bottom:60px;"><p id="studioTagLabel" class="sl">Behind The Scenes</p><h2 id="studioHeading" class="sh">The Studio</h2></div>
     <div id="videosGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;" class="two-col-v"></div>
   </div>
 </section>
 
 <section id="reviews" style="padding:100px 60px;" class="sp">
   <div style="max-width:1240px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:60px;"><p class="sl">What They Say</p><h2 class="sh">Reviews</h2><div style="margin-top:20px;"><a href="Reviews.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border:1px solid rgba(196,136,58,0.3);padding:11px 26px;transition:all 0.3s;" onmouseover="this.style.background='rgba(196,136,58,0.08)'" onmouseout="this.style.background=''">Write a Review <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M9 1l3 3-3 3" stroke="#C4883A" stroke-width="1.3" stroke-linecap="round"/></svg></a></div></div>
+    <div style="text-align:center;margin-bottom:60px;"><p id="reviewsTagLabel" class="sl">What They Say</p><h2 id="reviewsHeading" class="sh">Reviews</h2><div style="margin-top:20px;"><a href="Reviews.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent,#C4883A);border:1px solid rgba(196,136,58,0.3);padding:11px 26px;transition:all 0.3s;" onmouseover="this.style.background='rgba(196,136,58,0.08)'" onmouseout="this.style.background=''">Write a Review <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M9 1l3 3-3 3" stroke="var(--accent,#C4883A)" stroke-width="1.3" stroke-linecap="round"/></svg></a></div></div>
     <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="three-col"></div>
   </div>
 </section>
 
-<section id="faq" style="padding:100px 60px;background:#F5EDE0;" class="sp">
+<section id="faq" style="padding:100px 60px;background:var(--bg-alt,#F5EDE0);" class="sp">
   <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;" class="faq-grid">
     <div style="position:sticky;top:110px;" class="faq-sticky">
-      <p class="sl">Common Questions</p>
-      <h2 class="sh" style="margin-bottom:22px;line-height:1.1;">Things<br>you might<br>wonder.</h2>
-      <p style="font-size:14px;font-weight:300;color:#8B5E3C;line-height:1.85;margin-bottom:32px;">Can't find your answer? We'd love to hear from you directly.</p>
-      <a href="#order" class="btn-gold" style="font-size:11px;padding:13px 32px;">Ask Us Anything</a>
+      <p id="faqTagLabel" class="sl">Common Questions</p>
+      <h2 id="faqHeading" class="sh" style="margin-bottom:22px;line-height:1.1;">Things<br>you might<br>wonder.</h2>
+      <p id="faqSubtext" style="font-size:14px;font-weight:300;color:#8B5E3C;line-height:1.85;margin-bottom:32px;">Can't find your answer? We'd love to hear from you directly.</p>
+      <a id="faqCta" href="#order" class="btn-gold" style="font-size:11px;padding:13px 32px;">Ask Us Anything</a>
     </div>
     <div id="faqList"></div>
   </div>
 </section>
 
-<section id="social" style="padding:80px 60px;background:#2A1A0E;" class="sp">
+<section id="social" style="padding:80px 60px;background:var(--dark,#2A1A0E);" class="sp">
   <div style="max-width:1240px;margin:0 auto;">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:16px;">
-      <div><p class="sl">Follow Along</p><h2 class="sh-l" style="font-size:clamp(28px,4vw,52px);">On Instagram</h2></div>
-      <a id="igLink" href="https://instagram.com/dorysbakes" target="_blank" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border:1px solid rgba(196,136,58,0.3);padding:13px 26px;transition:all 0.3s;flex-shrink:0;" onmouseover="this.style.background='rgba(196,136,58,0.09)'" onmouseout="this.style.background=''">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="0.75" y="0.75" width="13.5" height="13.5" rx="3.75" stroke="#C4883A" stroke-width="1.3"/><circle cx="7.5" cy="7.5" r="3.25" stroke="#C4883A" stroke-width="1.3"/><circle cx="11.25" cy="3.75" r="0.9" fill="#C4883A"/></svg>
+      <div><p id="socialTagLabel" class="sl">Follow Along</p><h2 id="socialHeading" class="sh-l" style="font-size:clamp(28px,4vw,52px);">On Instagram</h2></div>
+      <a id="igLink" href="https://instagram.com/dorysbakes" target="_blank" style="display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent,#C4883A);border:1px solid rgba(196,136,58,0.3);padding:13px 26px;transition:all 0.3s;flex-shrink:0;" onmouseover="this.style.background='rgba(196,136,58,0.09)'" onmouseout="this.style.background=''">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="0.75" y="0.75" width="13.5" height="13.5" rx="3.75" stroke="var(--accent,#C4883A)" stroke-width="1.3"/><circle cx="7.5" cy="7.5" r="3.25" stroke="var(--accent,#C4883A)" stroke-width="1.3"/><circle cx="11.25" cy="3.75" r="0.9" fill="var(--accent,#C4883A)"/></svg>
         <span id="igHandle">@dorysbakes</span>
       </a>
     </div>
@@ -211,79 +223,88 @@
   </div>
 </section>
 
-<section id="order" style="background:#2A1A0E;padding:100px 60px;" class="sp">
+<section id="order" style="background:var(--dark,#2A1A0E);padding:100px 60px;" class="sp">
   <div style="max-width:840px;margin:0 auto;text-align:center;">
-    <p class="sl">Reserve Yours</p>
-    <h2 class="sh-l" style="margin-bottom:18px;">Order a Custom Cake</h2>
-    <p style="font-size:15px;font-weight:300;color:rgba(253,246,236,0.5);margin-bottom:48px;line-height:1.85;">Tell us about your dream cake and we'll bring it to life. We take a limited number of orders each week to ensure every creation gets the attention it deserves.</p>
+    <p id="orderTagLabel" class="sl">Reserve Yours</p>
+    <h2 id="orderHeading" class="sh-l" style="margin-bottom:18px;">Order a Custom Cake</h2>
+    <p id="orderDesc" style="font-size:15px;font-weight:300;color:rgba(253,246,236,0.5);margin-bottom:48px;line-height:1.85;">Tell us about your dream cake and we'll bring it to life. We take a limited number of orders each week to ensure every creation gets the attention it deserves.</p>
     <form id="orderForm" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;" class="order-form">
       <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Your Name</label><input id="oName" required type="text" placeholder="Full name" class="inp-dark"></div>
       <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Email</label><input id="oEmail" required type="email" placeholder="your@email.com" class="inp-dark"></div>
       <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Event Date</label><input id="oDate" required type="date" class="inp-dark" style="color-scheme:dark;"></div>
-      <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Cake Type</label><select id="oCakeType" class="inp-dark" style="background:#2A1A0E;cursor:pointer;"><option>Designer Layer Cake</option><option>Cheesecake</option><option>Cupcakes (dozen)</option><option>Custom Design</option></select></div>
+      <div style="display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Cake Type</label><select id="oCakeType" class="inp-dark" style="background:var(--dark,#2A1A0E);cursor:pointer;"><option>Designer Layer Cake</option><option>Cheesecake</option><option>Cupcakes (dozen)</option><option>Custom Design</option></select></div>
       <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px;"><label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(196,136,58,0.75);">Your Vision</label><textarea id="oNotes" rows="4" placeholder="Describe your dream cake — theme, flavors, size, dietary needs…" class="inp-dark" style="resize:vertical;"></textarea></div>
       <div style="grid-column:1/-1;text-align:center;margin-top:8px;"><button type="submit" class="btn-gold">Send My Request</button></div>
     </form>
-    <div id="orderConfirm" style="display:none;margin-top:28px;padding:20px 28px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.3);"><p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:#C4883A;">Thank you! We'll be in touch within 24 hours. ✦</p></div>
+    <div id="orderConfirm" style="display:none;margin-top:28px;padding:20px 28px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.3);"><p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--accent,#C4883A);">Thank you! We'll be in touch within 24 hours. ✦</p></div>
   </div>
 </section>
 
 <section id="contact" style="background:#120C04;padding:80px 60px;" class="sp">
   <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:60px;" class="contact-grid">
     <div>
-      <div style="margin-bottom:20px;"><p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p><p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p></div>
-      <p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.4);line-height:1.9;max-width:260px;margin-bottom:24px;">Artisan cakes crafted with love, made for your most cherished moments.</p>
+      <div style="margin-bottom:20px;">
+        <p id="footerBrand" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;font-weight:600;color:var(--bg,#FDF6EC);line-height:1.1;">Dory's Bakes</p>
+        <p id="footerSubtitle" style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent,#C4883A);margin-top:5px;">Artisan Patisserie</p>
+      </div>
+      <p id="footerTagline" style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.4);line-height:1.9;max-width:260px;margin-bottom:24px;">Artisan cakes crafted with love, made for your most cherished moments.</p>
       <a href="About.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,136,58,0.5);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(196,136,58,0.5)'">Our Story →</a>
     </div>
     <div><p class="sl">Find Us</p><p id="contactAddr" style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;"></p></div>
     <div><p class="sl">Hours</p><p id="hoursDisplay" style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;"></p></div>
   </div>
   <div style="max-width:1240px;margin:48px auto 0;padding-top:28px;border-top:1px solid rgba(253,246,236,0.06);display:flex;justify-content:space-between;align-items:center;" class="footer-row">
-    <p style="font-size:12px;color:rgba(253,246,236,0.22);">© 2025 Dory's Bakes. All rights reserved.</p>
+    <p id="footerCopyright" style="font-size:12px;color:rgba(253,246,236,0.22);">© 2025 Dory's Bakes. All rights reserved.</p>
     <a href="Admin Panel.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,246,236,0.22);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.22)'">Admin →</a>
   </div>
 </section>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  accent = '#C4883A';
+  dark   = '#2A1A0E';
+  bg     = '#FDF6EC';
   _apiMode = null;
 
   async componentDidMount() {
     this.initDefaults();
+    const earlyHp = this._getHpSync();
+    this.applyTheme(earlyHp);
     await this.loadAll();
     window.toggleMob = this.toggleMob.bind(this);
     document.getElementById('orderForm').onsubmit = this.handleOrder.bind(this);
   }
 
-  // ── API / STORAGE LAYER ───────────────────────────────────
+  _getHpSync() {
+    try { return JSON.parse(localStorage.getItem('db_homepage') || '{}'); } catch(e) { return {}; }
+  }
+
+  _hex2rgb(hex) {
+    if (!hex || !hex.startsWith('#') || hex.length < 7) return '196,136,58';
+    return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
+  }
+
   async _checkApi() {
     if (this._apiMode !== null) return this._apiMode;
     try {
       const ctrl = new AbortController();
       const tid = setTimeout(() => ctrl.abort(), 2000);
       const r = await fetch('/api/homepage', { signal: ctrl.signal });
-      clearTimeout(tid);
-      this._apiMode = r.ok;
+      clearTimeout(tid); this._apiMode = r.ok;
     } catch(e) { this._apiMode = false; }
     return this._apiMode;
   }
 
   async listItems(key) {
-    if (await this._checkApi()) {
-      try { const r = await fetch('/api/'+key); if (r.ok) return r.json(); } catch(e) {}
-    }
+    if (await this._checkApi()) { try { const r=await fetch('/api/'+key); if(r.ok) return r.json(); } catch(e){} }
     try { return JSON.parse(localStorage.getItem('db_'+key)||'[]'); } catch(e) { return []; }
   }
 
   async getHomepage() {
-    if (await this._checkApi()) {
-      try { const r = await fetch('/api/homepage'); if (r.ok) return r.json(); } catch(e) {}
-    }
+    if (await this._checkApi()) { try { const r=await fetch('/api/homepage'); if(r.ok) return r.json(); } catch(e){} }
     try { return JSON.parse(localStorage.getItem('db_homepage')||'{}'); } catch(e) { return {}; }
   }
 
-  // ── INIT DEFAULTS ─────────────────────────────────────────
   initDefaults() {
     const arrs = {
       db_products:[{id:1,name:"Duchess Rose",category:"Designer Cake",price:"$180",desc:"Four-layer vanilla bean cake, strawberry compote, Swiss meringue buttercream, edible rose petals.",image:""},{id:2,name:"Velvet Noir",category:"Designer Cake",price:"$195",desc:"Dark chocolate ganache cake with espresso cream, salted caramel drip, and gold leaf finish.",image:""},{id:3,name:"Lemon Reverie",category:"Cheesecake",price:"$95",desc:"Burnt Basque cheesecake with lemon curd swirl, graham cracker base, fresh blueberry compote.",image:""},{id:4,name:"Garden Party",category:"Cupcakes",price:"$48/doz",desc:"Vanilla sponge cupcakes with seasonal flower buttercream piping.",image:""},{id:5,name:"Midnight Truffle",category:"Designer Cake",price:"$220",desc:"Belgian dark chocolate mousse cake, hazelnut praline crunch, mirror glaze finish.",image:""},{id:6,name:"Peach Blossom",category:"Cheesecake",price:"$110",desc:"Classic New York cheesecake with roasted peach topping and almond shortbread crust.",image:""}],
@@ -291,45 +312,84 @@ class Component extends DCLogic {
       db_ingredients:[{id:1,name:"Single-Origin Flour",icon:"🌾",desc:"Stone-ground from a family mill in Vermont."},{id:2,name:"Cultured Butter",icon:"🧈",desc:"84% fat European-style butter, churned from pasture-raised cream."},{id:3,name:"Raw Cane Sugar",icon:"✦",desc:"Unrefined cane sugar that adds a subtle molasses depth."},{id:4,name:"Free-Range Eggs",icon:"🥚",desc:"Richer yolks mean a more golden, flavourful crumb."},{id:5,name:"Valrhona Chocolate",icon:"◆",desc:"Our preferred couverture for ganaches and mousses."},{id:6,name:"Real Vanilla",icon:"◇",desc:"Tahitian vanilla pods steeped in our house-made extract."}],
       db_videos:[{id:1,title:"Making the Duchess Rose",url:"",desc:"Watch a four-layer cake come together."},{id:2,title:"The Art of Mirror Glaze",url:"",desc:"A mesmerizing pour."}],
       db_faq:[{id:1,q:"How far in advance should I place my order?",a:"We recommend at least 2–3 weeks for custom cakes. For weddings, 2–3 months is ideal."},{id:2,q:"Do you offer gluten-free or vegan options?",a:"Yes! Please mention dietary needs in your order and we'll tailor the recipe."},{id:3,q:"Can I schedule a tasting?",a:"Absolutely — by appointment on Tuesdays and Thursdays. Send us a message to arrange."},{id:4,q:"How is pricing determined?",a:"Pricing depends on size, design complexity, and ingredients. We'll send a quote within 24 hours."},{id:5,q:"Do you deliver?",a:"Local delivery within 20 miles. Collection available Tuesday–Sunday during opening hours."},{id:6,q:"How many people does a cake serve?",a:"6\" serves 10–12, 8\" serves 20–24, 10\" serves 35–40."}],
-      db_flavours:[{id:1,category:"Cake Bases",name:"Vanilla Bean",icon:"◇",desc:"Light, fragrant sponge using real Tahitian vanilla pods steeped in our house-made extract."},{id:2,category:"Cake Bases",name:"Dark Chocolate",icon:"◆",desc:"Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying."},{id:3,category:"Cake Bases",name:"Lemon Zest",icon:"✦",desc:"Bright, citrusy sponge with fresh lemon zest and juice. Perfect for spring occasions."},{id:4,category:"Cake Bases",name:"Earl Grey",icon:"◇",desc:"Delicate tea-infused sponge with subtle bergamot notes. Pairs beautifully with lavender cream."},{id:5,category:"Fillings",name:"Strawberry Compote",icon:"◆",desc:"House-made fresh strawberry compote — slightly tart, bright, and never overly sweet."},{id:6,category:"Fillings",name:"Salted Caramel",icon:"◇",desc:"Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive."},{id:7,category:"Fillings",name:"Espresso Cream",icon:"✦",desc:"Silky meringue buttercream spiked with single-origin espresso shots."},{id:8,category:"Fillings",name:"Raspberry Curd",icon:"◆",desc:"Tart, jewel-bright raspberry curd — cuts through rich chocolate perfectly."},{id:9,category:"Buttercreams",name:"Swiss Meringue",icon:"◇",desc:"Impossibly silky buttercream, less sweet than American style. Our signature finish."},{id:10,category:"Buttercreams",name:"Whipped Dark Ganache",icon:"◆",desc:"Dark chocolate ganache whipped to a cloud-like texture — intense yet light."},{id:11,category:"Buttercreams",name:"Lavender Honey",icon:"◇",desc:"House-made lavender-infused buttercream with a touch of wildflower honey."},{id:12,category:"Finishes",name:"Mirror Glaze",icon:"✦",desc:"The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish."},{id:13,category:"Finishes",name:"Edible Gold Leaf",icon:"◆",desc:"Real 24ct gold leaf applied by hand for an unmistakably luxurious finish."},{id:14,category:"Finishes",name:"Fresh Botanicals",icon:"◇",desc:"Seasonal edible flowers and herbs, carefully arranged to crown your creation."}]
+      db_flavours:[{id:1,category:"Cake Bases",name:"Vanilla Bean",icon:"◇",desc:"Light, fragrant sponge using real Tahitian vanilla pods."},{id:2,category:"Cake Bases",name:"Dark Chocolate",icon:"◆",desc:"Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying."},{id:3,category:"Cake Bases",name:"Lemon Zest",icon:"✦",desc:"Bright, citrusy sponge with fresh lemon zest and juice."},{id:4,category:"Cake Bases",name:"Earl Grey",icon:"◇",desc:"Delicate tea-infused sponge with subtle bergamot notes."},{id:5,category:"Fillings",name:"Strawberry Compote",icon:"◆",desc:"House-made fresh strawberry compote — slightly tart, bright, and never overly sweet."},{id:6,category:"Fillings",name:"Salted Caramel",icon:"◇",desc:"Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive."},{id:7,category:"Fillings",name:"Espresso Cream",icon:"✦",desc:"Silky meringue buttercream spiked with single-origin espresso shots."},{id:8,category:"Fillings",name:"Raspberry Curd",icon:"◆",desc:"Tart, jewel-bright raspberry curd — cuts through rich chocolate perfectly."},{id:9,category:"Buttercreams",name:"Swiss Meringue",icon:"◇",desc:"Impossibly silky buttercream, less sweet than American style. Our signature finish."},{id:10,category:"Buttercreams",name:"Whipped Dark Ganache",icon:"◆",desc:"Dark chocolate ganache whipped to a cloud-like texture — intense yet light."},{id:11,category:"Buttercreams",name:"Lavender Honey",icon:"◇",desc:"House-made lavender-infused buttercream with a touch of wildflower honey."},{id:12,category:"Finishes",name:"Mirror Glaze",icon:"✦",desc:"The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish."},{id:13,category:"Finishes",name:"Edible Gold Leaf",icon:"◆",desc:"Real 24ct gold leaf applied by hand for an unmistakably luxurious finish."},{id:14,category:"Finishes",name:"Fresh Botanicals",icon:"◇",desc:"Seasonal edible flowers and herbs applied fresh — each creation uniquely adorned."}],
     };
     Object.entries(arrs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
-    const hpDef = {tagline:"Artisan · Handcrafted · Bespoke",sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",years:"5+",ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes",accentColor:"#C4883A",darkColor:"#2A1A0E",bgColor:"#FDF6EC",fontPair:"classic",whatsappNumber:"",whatsappMessage:"Hi Dory! I'd like to enquire about a custom cake.\n\nName: {name}\nEmail: {email}\nEvent Date: {date}\nCake Type: {cakeType}\nNotes: {notes}",workingHours:"Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm"};
+    const hpDef = {
+      tagline:"Artisan · Handcrafted · Bespoke",
+      sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",
+      about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",
+      about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",
+      years:"5+",
+      brandName:"Dory's Bakes",
+      brandSubtitle:"Artisan Patisserie",
+      aboutTagLabel:"Our Story",
+      aboutHeading:"Baked with\nintention.",
+      yearsLabel:"Years Baking",
+      menuTagLabel:"Our Creations",
+      menuHeading:"The Menu",
+      galleryTagLabel:"Our Portfolio",
+      galleryHeading:"Gallery",
+      galleryDesc:"Every cake is a one-of-a-kind creation, made for a moment that matters.",
+      ingTagLabel:"What Goes In",
+      ingHeading:"Our Ingredients",
+      studioTagLabel:"Behind The Scenes",
+      studioHeading:"The Studio",
+      reviewsTagLabel:"What They Say",
+      reviewsHeading:"Reviews",
+      faqTagLabel:"Common Questions",
+      faqHeading:"Things you might\nwonder.",
+      faqSubtext:"Can't find your answer? We'd love to hear from you directly.",
+      faqCta:"Ask Us Anything",
+      orderTagLabel:"Reserve Yours",
+      orderHeading:"Order a Custom Cake",
+      orderDesc:"Tell us about your dream cake and we'll bring it to life. We take a limited number of orders each week to ensure every creation gets the attention it deserves.",
+      socialTagLabel:"Follow Along",
+      socialHeading:"On Instagram",
+      footerTagline:"Artisan cakes crafted with love, made for your most cherished moments.",
+      footerCopyright:"© 2025 Dory's Bakes. All rights reserved.",
+      ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",
+      marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",
+      contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",
+      instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes",
+      accentColor:"#C4883A",darkColor:"#2A1A0E",bgColor:"#FDF6EC",fontPair:"classic",
+      whatsappNumber:"",whatsappMessage:"Hi Dory! I'd like to enquire about a custom cake.\n\nName: {name}\nEmail: {email}\nEvent Date: {date}\nCake Type: {cakeType}\nNotes: {notes}",
+      workingHours:"Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm"
+    };
     const existHp = JSON.parse(localStorage.getItem('db_homepage')||'{}');
     localStorage.setItem('db_homepage', JSON.stringify({...hpDef,...existHp}));
     if (!localStorage.getItem('db_adminPassword')) localStorage.setItem('db_adminPassword','dorys2025');
   }
 
-  // ── LOAD ALL ──────────────────────────────────────────────
   async loadAll() {
     const [hp, products, ingredients, videos, faq, media, reviews] = await Promise.all([
-      this.getHomepage(),
-      this.listItems('products'),
-      this.listItems('ingredients'),
-      this.listItems('videos'),
-      this.listItems('faq'),
-      this.listItems('media'),
-      this.listItems('reviews'),
+      this.getHomepage(), this.listItems('products'), this.listItems('ingredients'),
+      this.listItems('videos'), this.listItems('faq'), this.listItems('media'), this.listItems('reviews'),
     ]);
+    this.applyTheme(hp);
 
-    const tEl = document.getElementById('heroTagline');
-    const sEl = document.getElementById('heroSub');
-    if (tEl) tEl.textContent = hp.tagline || 'Artisan · Handcrafted · Bespoke';
-    if (sEl) sEl.textContent = hp.sub || '';
+    const s = (id, val) => { const el=document.getElementById(id); if(el && val!=null) el.textContent=val; };
+    const h = (id, val) => { const el=document.getElementById(id); if(el && val!=null) el.innerHTML=val; };
 
-    const p1 = document.getElementById('aboutP1');
-    const p2 = document.getElementById('aboutP2');
-    const yn = document.getElementById('yearsNum');
-    if (p1) p1.textContent = hp.about1 || '';
-    if (p2) p2.textContent = hp.about2 || '';
-    if (yn) yn.textContent = hp.years || '5+';
-
-    const ca = document.getElementById('contactAddr');
-    if (ca) ca.innerHTML = (hp.contactAddress || '').replace(/\n/g,'<br>');
-
+    s('heroTagline', hp.tagline); s('heroSub', hp.sub);
+    const bn = hp.brandName||"Dory's Bakes", bs = hp.brandSubtitle||"Artisan Patisserie";
+    s('navBrand',bn); s('navSubtitle',bs); s('mobBrand',bn); s('footerBrand',bn); s('footerSubtitle',bs);
+    s('aboutTagLabel', hp.aboutTagLabel); s('aboutP1', hp.about1); s('aboutP2', hp.about2);
+    s('yearsNum', hp.years); s('yearsLabel', hp.yearsLabel);
+    if (hp.aboutHeading) h('aboutHeading', (hp.aboutHeading||'').replace(/\n/g,'<br>'));
+    s('menuTagLabel', hp.menuTagLabel); s('menuHeading', hp.menuHeading);
+    s('galleryTagLabel', hp.galleryTagLabel); s('galleryHeading', hp.galleryHeading); s('galleryDesc', hp.galleryDesc);
+    s('ingTagLabel', hp.ingTagLabel); s('ingHeading', hp.ingHeading);
+    s('studioTagLabel', hp.studioTagLabel); s('studioHeading', hp.studioHeading);
+    s('reviewsTagLabel', hp.reviewsTagLabel); s('reviewsHeading', hp.reviewsHeading);
+    s('faqTagLabel', hp.faqTagLabel); s('faqSubtext', hp.faqSubtext); s('faqCta', hp.faqCta);
+    if (hp.faqHeading) h('faqHeading', (hp.faqHeading||'').replace(/\n/g,'<br>'));
+    s('orderTagLabel', hp.orderTagLabel); s('orderHeading', hp.orderHeading); s('orderDesc', hp.orderDesc);
+    s('socialTagLabel', hp.socialTagLabel); s('socialHeading', hp.socialHeading);
+    s('footerTagline', hp.footerTagline); s('footerCopyright', hp.footerCopyright);
+    h('contactAddr', (hp.contactAddress||'').replace(/\n/g,'<br>'));
     const ribbon = document.getElementById('ribbonBar');
-    if (ribbon) ribbon.style.background = hp.ribbonBg || '#2A1A0E';
-
+    if (ribbon) ribbon.style.background = hp.ribbonBg || this.dark;
     this.buildMarquee(hp);
     this.renderMenu(products);
     this.renderGallery(media);
@@ -338,7 +398,6 @@ class Component extends DCLogic {
     this.renderReviews(reviews);
     this.renderFaq(faq);
     this.renderSocial(hp, media);
-    this.applyTheme(hp);
     this.renderHours(hp);
   }
 
@@ -347,6 +406,16 @@ class Component extends DCLogic {
     const dark   = hp.darkColor   || '#2A1A0E';
     const bg     = hp.bgColor     || '#FDF6EC';
     const fp     = hp.fontPair    || 'classic';
+    this.accent = accent; this.dark = dark; this.bg = bg;
+    const r = document.documentElement;
+    r.style.setProperty('--accent', accent);
+    r.style.setProperty('--dark', dark);
+    r.style.setProperty('--bg', bg);
+    r.style.setProperty('--bg-alt', bg === '#FDF6EC' ? '#F5EDE0' : bg);
+    if (bg.startsWith('#') && bg.length === 7) {
+      const rr=parseInt(bg.slice(1,3),16),gg=parseInt(bg.slice(3,5),16),bb=parseInt(bg.slice(5,7),16);
+      r.style.setProperty('--nav-bg', `rgba(${rr},${gg},${bb},0.97)`);
+    }
     const fontPairs = {
       classic:{heading:"'Cormorant Garamond',serif",body:"'Jost',sans-serif",url:"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap"},
       modern: {heading:"'Playfair Display',serif",  body:"'DM Sans',sans-serif",url:"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"},
@@ -358,38 +427,14 @@ class Component extends DCLogic {
       if (!lnk) { lnk=document.createElement('link'); lnk.id='theme-font-link'; lnk.rel='stylesheet'; document.head.appendChild(lnk); }
       lnk.href = pair.url;
     }
-    // Helper: hex → "r,g,b" for rgba() replacement
-    const h2r = hex => { const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `${r},${g},${b}`; };
-    // Colour substitution pairs: [old-lower, old-upper, new-hex, old-rgb, new-rgb]
-    const swaps = [
-      ['#c4883a','#C4883A', accent, '196,136,58', h2r(accent)],
-      ['#2a1a0e','#2A1A0E', dark,   '42,26,14',   h2r(dark)  ],
-      ['#fdf6ec','#FDF6EC', bg,     '253,246,236', h2r(bg)    ],
-      ['#f5ede0','#F5EDE0', bg,     '245,237,224', h2r(bg)    ],
-    ];
-    // Walk every DOM element and rewrite inline style attributes
-    const walk = (el) => {
-      if (!el || el.nodeType !== 1) return;
-      const s = el.getAttribute('style');
-      if (s) {
-        let ns = s;
-        swaps.forEach(([lo,hi,nv,or,nr]) => {
-          ns = ns.split(lo).join(nv).split(hi).join(nv).split(or).join(nr);
-        });
-        if (ns !== s) el.setAttribute('style', ns);
-      }
-      Array.from(el.children).forEach(walk);
-    };
-    walk(document.body);
-    // CSS overrides for class-based styles and fonts
     let style = document.getElementById('dory-theme');
     if (!style) { style=document.createElement('style'); style.id='dory-theme'; document.head.appendChild(style); }
-    style.textContent = `body{font-family:${pair.body}!important;}.sh,.sh-l{font-family:${pair.heading}!important;}.btn-gold{background:${accent}!important;color:${bg}!important;}.btn-gold:hover{background:${dark}!important;}.btn-outline{border-color:${dark}!important;color:${dark}!important;}.btn-outline:hover{background:${dark}!important;color:${bg}!important;}.sl{color:${accent}!important;}.nav-link:hover{color:${accent}!important;}.nav-link::after{background:${accent}!important;}::-webkit-scrollbar-thumb{background:${accent}!important;}`;
+    style.textContent = `body{font-family:${pair.body}!important;}.sh,.sh-l{font-family:${pair.heading}!important;}`;
   }
 
   renderHours(hp) {
     const el = document.getElementById('hoursDisplay');
-    if (el) el.innerHTML = (hp.workingHours || 'Tuesday – Friday<br>9am – 6pm<br><br>Saturday – Sunday<br>9am – 4pm').replace(/\n/g,'<br>');
+    if (el) el.innerHTML = (hp.workingHours||'Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm').replace(/\n/g,'<br>');
   }
 
   buildMarquee(hp) {
@@ -398,7 +443,7 @@ class Component extends DCLogic {
     const raw = hp.marqueeItems || 'Designer Cakes,✦,Cheesecakes,✦,Cupcakes';
     const items = raw.split(',').map(s=>s.trim());
     const textColor = hp.ribbonTextColor || 'rgba(253,246,236,0.48)';
-    const accentColor = hp.ribbonAccentColor || '#C4883A';
+    const accentColor = hp.ribbonAccentColor || this.accent;
     track.innerHTML = '';
     [...items,...items,...items,...items].forEach(item => {
       const span = document.createElement('span');
@@ -414,7 +459,7 @@ class Component extends DCLogic {
     if (!grid) return;
     grid.innerHTML = '';
     if (!products || !products.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#8B5E3C;font-family:\'Cormorant Garamond\',serif;font-size:22px;font-style:italic;">Menu coming soon.</div>';
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#8B5E3C;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;">Menu coming soon.</div>`;
       return;
     }
     products.forEach(p => {
@@ -425,18 +470,18 @@ class Component extends DCLogic {
       if (p.image) {
         const img = document.createElement('img');
         img.src = p.image; img.style.cssText = 'width:100%;height:100%;object-fit:cover;transition:transform 0.5s;';
-        card.onmouseover = ()=>{card.style.transform='translateY(-6px)';card.style.boxShadow='0 20px 48px rgba(42,26,14,0.11)';img.style.transform='scale(1.04)';};
-        card.onmouseout = ()=>{card.style.transform='';card.style.boxShadow='';img.style.transform='';};
+        card.onmouseover=()=>{card.style.transform='translateY(-6px)';card.style.boxShadow='0 20px 48px rgba(42,26,14,0.11)';img.style.transform='scale(1.04)';};
+        card.onmouseout=()=>{card.style.transform='';card.style.boxShadow='';img.style.transform='';};
         imgWrap.appendChild(img);
       } else {
         imgWrap.style.cssText += 'background:linear-gradient(145deg,#E8C99A,#C4883A 60%,#8B5E3C);display:flex;align-items:center;justify-content:center;';
-        imgWrap.innerHTML = '<span style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.5);">Photo coming soon</span>';
-        card.onmouseover = ()=>{card.style.transform='translateY(-6px)';card.style.boxShadow='0 20px 48px rgba(42,26,14,0.11)';};
-        card.onmouseout = ()=>{card.style.transform='';card.style.boxShadow='';};
+        imgWrap.innerHTML = `<span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.5);">Photo coming soon</span>`;
+        card.onmouseover=()=>{card.style.transform='translateY(-6px)';card.style.boxShadow='0 20px 48px rgba(42,26,14,0.11)';};
+        card.onmouseout=()=>{card.style.transform='';card.style.boxShadow='';};
       }
       const body = document.createElement('div');
       body.style.cssText = 'padding:24px 22px;';
-      body.innerHTML = `<p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C4883A;margin-bottom:8px;">${p.category}</p><h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:10px;">${p.name}</h3><p style="font-size:13px;font-weight:300;color:#5A3E28;line-height:1.75;margin-bottom:16px;">${p.desc}</p><p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#C4883A;">${p.price}</p>`;
+      body.innerHTML = `<p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:${this.accent};margin-bottom:8px;">${p.category}</p><h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:${this.dark};margin-bottom:10px;">${p.name}</h3><p style="font-size:13px;font-weight:300;color:#5A3E28;line-height:1.75;margin-bottom:16px;">${p.desc}</p><p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:${this.accent};">${p.price}</p>`;
       card.appendChild(imgWrap); card.appendChild(body);
       grid.appendChild(card);
     });
@@ -445,30 +490,27 @@ class Component extends DCLogic {
   renderGallery(media) {
     const grid = document.getElementById('galleryGrid');
     if (!grid) return;
-    const images = (media || []).filter(m => m.type === 'image');
+    const images = (media||[]).filter(m=>m.type==='image');
     grid.innerHTML = '';
     const labels = ['Duchess Rose','Velvet Noir','Lemon Reverie','Garden Party','Midnight Truffle','Peach Blossom'];
-    const angles = [135, 148, 158, 128, 142, 155];
-    for (let i = 0; i < 6; i++) {
+    const angles = [135,148,158,128,142,155];
+    for (let i=0; i<6; i++) {
       const src = images[i];
-      const featured = i === 0;
       const tile = document.createElement('div');
-      tile.style.cssText = `grid-column:span ${featured?2:1};aspect-ratio:1;overflow:hidden;position:relative;`;
+      tile.style.cssText = `grid-column:span ${i===0?2:1};aspect-ratio:1;overflow:hidden;position:relative;`;
       if (src) {
         const imgEl = document.createElement('img');
-        imgEl.src = src.data; imgEl.alt = src.name || labels[i];
-        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s;';
+        imgEl.src=src.data; imgEl.alt=src.name||labels[i];
+        imgEl.style.cssText='width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s;';
         tile.appendChild(imgEl);
-        tile.onmouseover = () => imgEl.style.transform = 'scale(1.06)';
-        tile.onmouseout = () => imgEl.style.transform = '';
+        tile.onmouseover=()=>imgEl.style.transform='scale(1.06)';
+        tile.onmouseout=()=>imgEl.style.transform='';
       } else {
-        tile.style.background = `linear-gradient(${angles[i]}deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%)`;
-        const inner = document.createElement('div');
-        inner.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;';
-        inner.innerHTML = `<p style="font-family:'Cormorant Garamond',serif;font-size:${featured?'18':'14'}px;font-style:italic;color:rgba(255,255,255,0.6);text-align:center;padding:0 24px;">${labels[i]}</p>${featured?'<p style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.28);">Upload via Admin Panel</p>':''}`;
+        tile.style.background=`linear-gradient(${angles[i]}deg,#E8C99A 0%,#C4883A 52%,#7A4F2C 100%)`;
+        const inner=document.createElement('div');
+        inner.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;';
+        inner.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:${i===0?'18':'14'}px;font-style:italic;color:rgba(255,255,255,0.6);text-align:center;padding:0 24px;">${labels[i]}</p>${i===0?'<p style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.28);">Upload via Admin Panel</p>':''}`;
         tile.appendChild(inner);
-        tile.onmouseover = () => tile.style.filter = 'brightness(1.08)';
-        tile.onmouseout = () => tile.style.filter = '';
       }
       grid.appendChild(tile);
     }
@@ -478,12 +520,12 @@ class Component extends DCLogic {
     const grid = document.getElementById('ingGrid');
     if (!grid) return;
     grid.innerHTML = '';
-    (ings || []).forEach(ing => {
+    (ings||[]).forEach(ing => {
       const el = document.createElement('div');
-      el.style.cssText = 'padding:36px 32px;border:1px solid rgba(253,246,236,0.06);transition:background 0.3s;';
-      el.onmouseover = ()=>el.style.background='rgba(196,136,58,0.06)';
-      el.onmouseout = ()=>el.style.background='';
-      el.innerHTML = `<div style="font-size:30px;margin-bottom:18px;">${ing.icon}</div><h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:12px;">${ing.name}</h3><p style="font-size:13px;font-weight:300;color:rgba(253,246,236,0.5);line-height:1.85;">${ing.desc}</p>`;
+      el.style.cssText = `padding:36px 32px;border:1px solid rgba(${this._hex2rgb(this.bg)},0.06);transition:background 0.3s;`;
+      el.onmouseover=()=>el.style.background=`rgba(${this._hex2rgb(this.accent)},0.06)`;
+      el.onmouseout=()=>el.style.background='';
+      el.innerHTML = `<div style="font-size:30px;margin-bottom:18px;">${ing.icon}</div><h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:${this.bg};margin-bottom:12px;">${ing.name}</h3><p style="font-size:13px;font-weight:300;color:rgba(${this._hex2rgb(this.bg)},0.5);line-height:1.85;">${ing.desc}</p>`;
       grid.appendChild(el);
     });
   }
@@ -492,25 +534,25 @@ class Component extends DCLogic {
     const grid = document.getElementById('videosGrid');
     if (!grid) return;
     grid.innerHTML = '';
-    if (!videos || !videos.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#8B5E3C;font-family:\'Cormorant Garamond\',serif;font-size:22px;font-style:italic;">Videos coming soon.</div>';
+    if (!videos||!videos.length) {
+      grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px;color:#8B5E3C;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;">Videos coming soon.</div>`;
       return;
     }
     videos.forEach(v => {
       const card = document.createElement('div');
-      card.style.cssText = 'background:#2A1A0E;overflow:hidden;';
+      card.style.cssText = `background:${this.dark};overflow:hidden;`;
       if (v.url) {
-        const vid = document.createElement('video');
-        vid.src = v.url; vid.style.cssText = 'width:100%;aspect-ratio:16/9;object-fit:cover;display:block;'; vid.controls = true; card.appendChild(vid);
+        const vid=document.createElement('video');
+        vid.src=v.url; vid.style.cssText='width:100%;aspect-ratio:16/9;object-fit:cover;display:block;'; vid.controls=true; card.appendChild(vid);
       } else {
-        const ph = document.createElement('div');
-        ph.style.cssText = 'aspect-ratio:16/9;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;';
-        ph.innerHTML = `<svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="24" stroke="rgba(196,136,58,0.5)" stroke-width="1.5"/><polygon points="21,16 40,26 21,36" fill="#C4883A"/></svg><p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(253,246,236,0.5);">${v.title}</p>`;
+        const ph=document.createElement('div');
+        ph.style.cssText='aspect-ratio:16/9;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;';
+        ph.innerHTML=`<svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="24" stroke="rgba(196,136,58,0.5)" stroke-width="1.5"/><polygon points="21,16 40,26 21,36" fill="${this.accent}"/></svg><p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(253,246,236,0.5);">${v.title}</p>`;
         card.appendChild(ph);
       }
-      const info = document.createElement('div');
-      info.style.cssText = 'padding:22px 24px;';
-      info.innerHTML = `<h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#FDF6EC;margin-bottom:8px;">${v.title}</h3><p style="font-size:13px;font-weight:300;color:rgba(253,246,236,0.45);">${v.desc}</p>`;
+      const info=document.createElement('div');
+      info.style.cssText='padding:22px 24px;';
+      info.innerHTML=`<h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:${this.bg};margin-bottom:8px;">${v.title}</h3><p style="font-size:13px;font-weight:300;color:rgba(${this._hex2rgb(this.bg)},0.45);">${v.desc}</p>`;
       card.appendChild(info); grid.appendChild(card);
     });
   }
@@ -518,20 +560,20 @@ class Component extends DCLogic {
   renderReviews(all) {
     const grid = document.getElementById('reviewsGrid');
     if (!grid) return;
-    const reviews = (all || []).filter(r => r.approved);
+    const reviews = (all||[]).filter(r=>r.approved);
     grid.innerHTML = '';
     if (!reviews.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8B5E3C;font-family:\'Cormorant Garamond\',serif;font-size:20px;font-style:italic;">Reviews coming soon.</div>';
+      grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8B5E3C;font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;">Reviews coming soon.</div>`;
       return;
     }
     reviews.forEach(r => {
       const el = document.createElement('div');
-      el.style.cssText = 'background:#fff;padding:36px 32px;border-top:3px solid #C4883A;transition:transform 0.3s,box-shadow 0.3s;';
-      el.onmouseover = ()=>{el.style.transform='translateY(-4px)';el.style.boxShadow='0 12px 36px rgba(42,26,14,0.09)';};
-      el.onmouseout = ()=>{el.style.transform='';el.style.boxShadow='';};
-      const stars = '★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
+      el.style.cssText = `background:#fff;padding:36px 32px;border-top:3px solid ${this.accent};transition:transform 0.3s,box-shadow 0.3s;`;
+      el.onmouseover=()=>{el.style.transform='translateY(-4px)';el.style.boxShadow='0 12px 36px rgba(42,26,14,0.09)';};
+      el.onmouseout=()=>{el.style.transform='';el.style.boxShadow='';};
+      const stars='★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
       const photoHtml = r.photo ? `<div style="margin-bottom:18px;overflow:hidden;margin:-36px -32px 18px;"><img src="${r.photo}" style="width:100%;max-height:200px;object-fit:cover;display:block;"></div>` : '';
-      el.innerHTML = `${photoHtml}<p style="color:#C4883A;font-size:17px;letter-spacing:3px;margin-bottom:18px;">${stars}</p><p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:#2A1A0E;line-height:1.75;margin-bottom:24px;">"${r.text}"</p><div style="display:flex;justify-content:space-between;align-items:center;"><p style="font-size:13px;font-weight:500;color:#5A3E28;">${r.name}</p><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#C4883A;">${r.event||''}</p></div>`;
+      el.innerHTML = `${photoHtml}<p style="color:${this.accent};font-size:17px;letter-spacing:3px;margin-bottom:18px;">${stars}</p><p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:${this.dark};line-height:1.75;margin-bottom:24px;">"${r.text}"</p><div style="display:flex;justify-content:space-between;align-items:center;"><p style="font-size:13px;font-weight:500;color:#5A3E28;">${r.name}</p><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:${this.accent};">${r.event||''}</p></div>`;
       grid.appendChild(el);
     });
   }
@@ -540,22 +582,21 @@ class Component extends DCLogic {
     const list = document.getElementById('faqList');
     if (!list) return;
     list.innerHTML = '';
-    if (!faqs || !faqs.length) {
-      const ep = document.createElement('p');
-      ep.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#8B5E3C;";
-      ep.textContent = 'Questions coming soon.';
-      list.appendChild(ep); return;
+    if (!faqs||!faqs.length) {
+      const ep=document.createElement('p');
+      ep.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#8B5E3C;";
+      ep.textContent='Questions coming soon.'; list.appendChild(ep); return;
     }
     faqs.forEach(faq => {
       const item = document.createElement('div');
-      item.style.cssText = 'border-bottom:1px solid rgba(196,136,58,0.18);';
+      item.style.cssText = `border-bottom:1px solid rgba(${this._hex2rgb(this.accent)},0.18);`;
       const hdr = document.createElement('button');
       hdr.style.cssText = 'width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;cursor:pointer;text-align:left;gap:20px;';
       const qText = document.createElement('span');
-      qText.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#2A1A0E;line-height:1.3;";
+      qText.style.cssText = `font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:${this.dark};line-height:1.3;`;
       qText.textContent = faq.q;
       const icon = document.createElement('span');
-      icon.style.cssText = 'font-size:24px;color:#C4883A;flex-shrink:0;line-height:1;display:inline-block;width:24px;text-align:center;';
+      icon.style.cssText = `font-size:24px;color:${this.accent};flex-shrink:0;line-height:1;display:inline-block;width:24px;text-align:center;`;
       icon.textContent = '+'; icon.className = 'faq-icon';
       hdr.appendChild(qText); hdr.appendChild(icon);
       const body = document.createElement('div');
@@ -565,9 +606,9 @@ class Component extends DCLogic {
       aText.textContent = faq.a; body.appendChild(aText);
       hdr.onclick = () => {
         const isOpen = body.style.maxHeight !== '' && body.style.maxHeight !== '0px';
-        list.querySelectorAll('.faq-body').forEach(b => b.style.maxHeight = '0px');
-        list.querySelectorAll('.faq-icon').forEach(ic => ic.textContent = '+');
-        if (!isOpen) { body.style.maxHeight = (aText.scrollHeight + 30) + 'px'; icon.textContent = '−'; }
+        list.querySelectorAll('.faq-body').forEach(b=>b.style.maxHeight='0px');
+        list.querySelectorAll('.faq-icon').forEach(ic=>ic.textContent='+');
+        if (!isOpen) { body.style.maxHeight=(aText.scrollHeight+30)+'px'; icon.textContent='−'; }
       };
       item.appendChild(hdr); item.appendChild(body);
       list.appendChild(item);
@@ -577,37 +618,37 @@ class Component extends DCLogic {
   renderSocial(hp, media) {
     const grid = document.getElementById('igGrid');
     if (!grid) return;
-    const handle = (hp && hp.instagramHandle) || '@dorysbakes';
-    const url = (hp && hp.instagramUrl) || 'https://instagram.com/dorysbakes';
+    const handle = (hp&&hp.instagramHandle)||'@dorysbakes';
+    const url = (hp&&hp.instagramUrl)||'https://instagram.com/dorysbakes';
     const handleEl = document.getElementById('igHandle');
     const linkEl = document.getElementById('igLink');
     if (handleEl) handleEl.textContent = handle;
     if (linkEl) linkEl.href = url;
-    const images = (media || []).filter(m => m.type === 'image').slice(0, 6);
+    const images = (media||[]).filter(m=>m.type==='image').slice(0,6);
     grid.innerHTML = '';
-    const gBg = ['linear-gradient(135deg,#E8C99A,#C4883A)','linear-gradient(145deg,#C4883A,#8B5E3C)','linear-gradient(158deg,#F0E0C8,#C4883A 70%)','linear-gradient(125deg,#8B5E3C,#3A2410)','linear-gradient(138deg,#E8C99A,#8B5E3C)','linear-gradient(148deg,#C4883A,#2A1A0E)'];
-    for (let i = 0; i < 6; i++) {
+    const gBg=['linear-gradient(135deg,#E8C99A,#C4883A)','linear-gradient(145deg,#C4883A,#8B5E3C)','linear-gradient(158deg,#F0E0C8,#C4883A 70%)','linear-gradient(125deg,#8B5E3C,#3A2410)','linear-gradient(138deg,#E8C99A,#8B5E3C)','linear-gradient(148deg,#C4883A,#2A1A0E)'];
+    for (let i=0; i<6; i++) {
       const tile = document.createElement('a');
-      tile.href = url; tile.target = '_blank'; tile.rel = 'noopener';
-      tile.style.cssText = 'aspect-ratio:1;overflow:hidden;display:block;position:relative;cursor:pointer;';
+      tile.href=url; tile.target='_blank'; tile.rel='noopener';
+      tile.style.cssText='aspect-ratio:1;overflow:hidden;display:block;position:relative;cursor:pointer;';
       const src = images[i];
       if (src) {
-        const imgEl = document.createElement('img');
-        imgEl.src = src.data; imgEl.alt = '';
-        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;';
+        const imgEl=document.createElement('img');
+        imgEl.src=src.data; imgEl.alt='';
+        imgEl.style.cssText='width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;';
         tile.appendChild(imgEl);
       } else {
-        tile.style.background = gBg[i % gBg.length];
-        const ph = document.createElement('div');
-        ph.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
-        ph.innerHTML = '<span style="font-size:22px;opacity:0.2;">✦</span>'; tile.appendChild(ph);
+        tile.style.background=gBg[i%gBg.length];
+        const ph=document.createElement('div');
+        ph.style.cssText='width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+        ph.innerHTML=`<span style="font-size:22px;opacity:0.2;">✦</span>`; tile.appendChild(ph);
       }
-      const ov = document.createElement('div');
-      ov.style.cssText = 'position:absolute;inset:0;background:rgba(42,26,14,0);transition:background 0.3s;display:flex;align-items:center;justify-content:center;';
-      ov.innerHTML = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="white" stroke-width="1.4" style="opacity:0;transition:opacity 0.3s;"><rect x="1" y="1" width="20" height="20" rx="5.5"/><circle cx="11" cy="11" r="5"/><circle cx="16.5" cy="5.5" r="1.2" fill="white" stroke="none"/></svg>';
-      const svgEl = ov.querySelector('svg');
-      tile.onmouseover = () => { ov.style.background='rgba(42,26,14,0.5)'; svgEl.style.opacity='1'; const img=tile.querySelector('img'); if(img) img.style.transform='scale(1.07)'; };
-      tile.onmouseout = () => { ov.style.background='rgba(42,26,14,0)'; svgEl.style.opacity='0'; const img=tile.querySelector('img'); if(img) img.style.transform=''; };
+      const ov=document.createElement('div');
+      ov.style.cssText='position:absolute;inset:0;background:rgba(42,26,14,0);transition:background 0.3s;display:flex;align-items:center;justify-content:center;';
+      ov.innerHTML=`<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="white" stroke-width="1.4" style="opacity:0;transition:opacity 0.3s;"><rect x="1" y="1" width="20" height="20" rx="5.5"/><circle cx="11" cy="11" r="5"/><circle cx="16.5" cy="5.5" r="1.2" fill="white" stroke="none"/></svg>`;
+      const svgEl=ov.querySelector('svg');
+      tile.onmouseover=()=>{ov.style.background='rgba(42,26,14,0.5)';svgEl.style.opacity='1';const img=tile.querySelector('img');if(img)img.style.transform='scale(1.07)';};
+      tile.onmouseout=()=>{ov.style.background='rgba(42,26,14,0)';svgEl.style.opacity='0';const img=tile.querySelector('img');if(img)img.style.transform='';};
       tile.appendChild(ov); grid.appendChild(tile);
     }
   }
@@ -615,47 +656,59 @@ class Component extends DCLogic {
   async handleOrder(e) {
     e.preventDefault();
     const orderData = {
-      name: document.getElementById('oName').value,
-      email: document.getElementById('oEmail').value,
-      date: document.getElementById('oDate').value,
-      cakeType: document.getElementById('oCakeType').value,
-      notes: document.getElementById('oNotes').value,
+      name:document.getElementById('oName').value, email:document.getElementById('oEmail').value,
+      date:document.getElementById('oDate').value, cakeType:document.getElementById('oCakeType').value,
+      notes:document.getElementById('oNotes').value,
     };
-    if (await this._checkApi()) {
-      try {
-        await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(orderData) });
-      } catch(e) {}
-    } else {
-      const orders = JSON.parse(localStorage.getItem('db_orders')||'[]');
-      orders.push({id:Date.now(), ...orderData, submittedAt:new Date().toISOString()});
-      localStorage.setItem('db_orders', JSON.stringify(orders));
-    }
-    // WhatsApp trigger
-    const hp = await this.getHomepage();
+
+    // Build WhatsApp URL BEFORE any async work so we can open it directly on user gesture
+    const hp = this._getHpSync();
+    let waUrl = '';
     if (hp.whatsappNumber) {
-      const phone = hp.whatsappNumber.replace(/[^0-9]/g,'');
+      const phone = hp.whatsappNumber.replace(/\D/g,'');
       if (phone) {
-        const template = hp.whatsappMessage || 'Hi Dory! Custom cake enquiry:\nName: {name}\nDate: {date}\nType: {cakeType}\nNotes: {notes}';
-        const msg = template.replace(/{name}/g,orderData.name).replace(/{email}/g,orderData.email).replace(/{date}/g,orderData.date).replace(/{cakeType}/g,orderData.cakeType).replace(/{notes}/g,orderData.notes);
-        setTimeout(() => window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(msg),'_blank'), 400);
+        const template = hp.whatsappMessage || 'Hi Dory! Custom cake enquiry:\n\nName: {name}\nEmail: {email}\nEvent Date: {date}\nCake Type: {cakeType}\n\nNotes: {notes}';
+        const msg = template
+          .replace(/{name}/g, orderData.name)
+          .replace(/{email}/g, orderData.email)
+          .replace(/{date}/g, orderData.date)
+          .replace(/{cakeType}/g, orderData.cakeType)
+          .replace(/{notes}/g, orderData.notes);
+        waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
       }
     }
+
+    // Open WhatsApp immediately — must be synchronous on user gesture to avoid popup block
+    if (waUrl) window.open(waUrl, '_blank');
+
+    // Save order (async — after WhatsApp opened)
+    if (await this._checkApi()) {
+      try { await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(orderData)}); } catch(err){}
+    } else {
+      const orders = JSON.parse(localStorage.getItem('db_orders')||'[]');
+      orders.push({id:Date.now(),...orderData,submittedAt:new Date().toISOString()});
+      localStorage.setItem('db_orders', JSON.stringify(orders));
+    }
+
     e.target.reset();
     const conf = document.getElementById('orderConfirm');
+    // Show confirmation with fallback WhatsApp link if popup was blocked
+    conf.innerHTML = waUrl
+      ? `<p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--accent,#C4883A);">Thank you! We'll be in touch within 24 hours. ✦</p><p style="font-size:12px;color:rgba(253,246,236,0.45);margin-top:10px;">WhatsApp not opened? <a href="${waUrl}" target="_blank" rel="noopener" style="color:var(--accent,#C4883A);text-decoration:underline;">Click here to send your message</a></p>`
+      : `<p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--accent,#C4883A);">Thank you! We'll be in touch within 24 hours. ✦</p>`;
     conf.style.display = 'block';
-    setTimeout(() => conf.style.display = 'none', 5000);
+    setTimeout(()=>conf.style.display='none', 8000);
   }
 
   toggleMob() {
-    const m = document.getElementById('mobMenu');
-    const open = m.style.display === 'flex';
-    m.style.display = open ? 'none' : 'flex';
-    document.body.style.overflow = open ? '' : 'hidden';
+    const m=document.getElementById('mobMenu');
+    const open=m.style.display==='flex';
+    m.style.display=open?'none':'flex';
+    document.body.style.overflow=open?'':'hidden';
   }
 
   renderVals() { return {}; }
 }
-
 </script>
 </body>
 </html>

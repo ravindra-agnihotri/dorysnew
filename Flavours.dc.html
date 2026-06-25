@@ -19,8 +19,21 @@
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDF6EC}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:3px}
     .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
-    @media(max-width:900px){.three-col-f{grid-template-columns:1fr 1fr!important;}.sp{padding-left:28px!important;padding-right:28px!important;}.sec{padding-top:72px!important;padding-bottom:72px!important;}}
-    @media(max-width:540px){.three-col-f{grid-template-columns:1fr!important;}}
+    @media(max-width:900px){
+      .three-col-f{grid-template-columns:1fr 1fr!important;}
+      .sp{padding-left:24px!important;padding-right:24px!important;}
+      .sec{padding-top:64px!important;padding-bottom:64px!important;}
+      .hero-sub{padding-top:100px!important;padding-bottom:52px!important;min-height:auto!important;}
+      .hero-sub h1{font-size:clamp(48px,12vw,120px)!important;}
+      .flav-body{padding-top:52px!important;padding-bottom:52px!important;}
+      .flav-cta{padding-top:64px!important;padding-bottom:64px!important;}
+      .flav-footer{padding-top:28px!important;padding-bottom:28px!important;}
+      nav .nav-back-label{display:none!important;}
+    }
+    @media(max-width:540px){
+      .three-col-f{grid-template-columns:1fr!important;}
+      .hero-sub p{font-size:15px!important;}
+    }
   </style>
 </helmet>
 
@@ -37,7 +50,7 @@
   </div>
 </nav>
 
-<section style="min-height:72vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 100px;position:relative;overflow:hidden;">
+<section class="hero-sub" style="min-height:72vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 100px;position:relative;overflow:hidden;">
   <div style="position:absolute;inset:0;pointer-events:none;">
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(700px,120vw);height:min(700px,120vw);border-radius:50%;border:1px solid rgba(196,136,58,0.05);"></div>
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(420px,70vw);height:min(420px,70vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.07),transparent 70%);"></div>
@@ -53,9 +66,9 @@
   <div style="position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to bottom,transparent,#FDF6EC);pointer-events:none;"></div>
 </section>
 
-<div id="flavoursBody" style="padding:80px 60px;max-width:1240px;margin:0 auto;" class="sp"></div>
+<div id="flavoursBody" style="padding:80px 60px;max-width:1240px;margin:0 auto;" class="sp flav-body"></div>
 
-<section style="background:#2A1A0E;padding:100px 60px;text-align:center;position:relative;overflow:hidden;" class="sp">
+<section style="background:#2A1A0E;padding:100px 60px;text-align:center;position:relative;overflow:hidden;" class="sp flav-cta">
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,100vw);height:min(600px,100vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.06),transparent 65%);pointer-events:none;"></div>
   <div style="position:relative;">
     <p class="sl">Ready to Order?</p>
@@ -65,7 +78,7 @@
   </div>
 </section>
 
-<footer style="background:#120C04;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp">
+<footer style="background:#120C04;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp flav-footer">
   <div>
     <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
     <p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p>
