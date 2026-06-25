@@ -60,6 +60,7 @@
   <div id="navLinks" style="display:flex;gap:24px;align-items:center;">
     <a href="#about" class="nav-link">Story</a>
     <a href="#menu" class="nav-link">Menu</a>
+    <a href="Flavours.dc.html" class="nav-link">Flavours</a>
     <a href="#gallery" class="nav-link">Gallery</a>
     <a href="#ingredients" class="nav-link">Ingredients</a>
     <a href="#videos" class="nav-link">Studio</a>
@@ -80,6 +81,7 @@
   <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:600;color:#C4883A;margin-bottom:8px;">Dory's Bakes</span>
   <a href="#about" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Our Story</a>
   <a href="#menu" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Menu</a>
+  <a href="Flavours.dc.html" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Flavours</a>
   <a href="#gallery" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Gallery</a>
   <a href="#ingredients" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Ingredients</a>
   <a href="#videos" onclick="toggleMob()" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;">Studio</a>
@@ -179,7 +181,7 @@
 
 <section id="reviews" style="padding:100px 60px;" class="sp">
   <div style="max-width:1240px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:60px;"><p class="sl">What They Say</p><h2 class="sh">Reviews</h2></div>
+    <div style="text-align:center;margin-bottom:60px;"><p class="sl">What They Say</p><h2 class="sh">Reviews</h2><div style="margin-top:20px;"><a href="Reviews.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border:1px solid rgba(196,136,58,0.3);padding:11px 26px;transition:all 0.3s;" onmouseover="this.style.background='rgba(196,136,58,0.08)'" onmouseout="this.style.background=''">Write a Review <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M9 1l3 3-3 3" stroke="#C4883A" stroke-width="1.3" stroke-linecap="round"/></svg></a></div></div>
     <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="three-col"></div>
   </div>
 </section>
@@ -205,7 +207,7 @@
         <span id="igHandle">@dorysbakes</span>
       </a>
     </div>
-   <!-- <div id="igGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;"></div>-->
+    <div id="igGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;"></div>
   </div>
 </section>
 
@@ -234,7 +236,7 @@
       <a href="About.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,136,58,0.5);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(196,136,58,0.5)'">Our Story →</a>
     </div>
     <div><p class="sl">Find Us</p><p id="contactAddr" style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;"></p></div>
-    <div><p class="sl">Hours</p><p style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;">Tuesday – Friday<br>9am – 6pm<br><br>Saturday – Sunday<br>9am – 4pm</p></div>
+    <div><p class="sl">Hours</p><p id="hoursDisplay" style="font-size:14px;font-weight:300;color:rgba(253,246,236,0.55);line-height:2.1;"></p></div>
   </div>
   <div style="max-width:1240px;margin:48px auto 0;padding-top:28px;border-top:1px solid rgba(253,246,236,0.06);display:flex;justify-content:space-between;align-items:center;" class="footer-row">
     <p style="font-size:12px;color:rgba(253,246,236,0.22);">© 2025 Dory's Bakes. All rights reserved.</p>
@@ -281,42 +283,21 @@ class Component extends DCLogic {
     try { return JSON.parse(localStorage.getItem('db_homepage')||'{}'); } catch(e) { return {}; }
   }
 
-  // ── INIT DEFAULTS (localStorage fallback seed) ────────────
+  // ── INIT DEFAULTS ─────────────────────────────────────────
   initDefaults() {
-    const defs = {
-      db_products:[
-        {id:1,name:"Duchess Rose",category:"Designer Cake",price:"$180",desc:"Four-layer vanilla bean cake, strawberry compote, Swiss meringue buttercream, edible rose petals.",image:""},
-        {id:2,name:"Velvet Noir",category:"Designer Cake",price:"$195",desc:"Dark chocolate ganache cake with espresso cream, salted caramel drip, and gold leaf finish.",image:""},
-        {id:3,name:"Lemon Reverie",category:"Cheesecake",price:"$95",desc:"Burnt Basque cheesecake with lemon curd swirl, graham cracker base, fresh blueberry compote.",image:""},
-        {id:4,name:"Garden Party",category:"Cupcakes",price:"$48/doz",desc:"Vanilla sponge cupcakes with seasonal flower buttercream piping.",image:""},
-        {id:5,name:"Midnight Truffle",category:"Designer Cake",price:"$220",desc:"Belgian dark chocolate mousse cake, hazelnut praline crunch, mirror glaze finish.",image:""},
-        {id:6,name:"Peach Blossom",category:"Cheesecake",price:"$110",desc:"Classic New York cheesecake with roasted peach topping and almond shortbread crust.",image:""}
-      ],
-      db_reviews:[
-        {id:1,name:"Amelia R.",rating:5,text:"Dory's made our wedding cake and it was absolutely breathtaking. Every single guest asked for the recipe. Perfection!",event:"Wedding",approved:true},
-        {id:2,name:"James T.",rating:5,text:"The Velvet Noir is my birthday tradition now. Three years running. It gets better every single time.",event:"Birthday",approved:true},
-        {id:3,name:"Sofia M.",rating:5,text:"Ordered the Garden Party cupcakes for my daughter's baby shower. The presentation was stunning.",event:"Baby Shower",approved:true}
-      ],
-      db_ingredients:[
-        {id:1,name:"Single-Origin Flour",icon:"🌾",desc:"Stone-ground from a family mill in Vermont."},
-        {id:2,name:"Cultured Butter",icon:"🧈",desc:"84% fat European-style butter, churned from pasture-raised cream."},
-        {id:3,name:"Raw Cane Sugar",icon:"✦",desc:"Unrefined cane sugar that adds a subtle molasses depth."},
-        {id:4,name:"Free-Range Eggs",icon:"🥚",desc:"Richer yolks mean a more golden, flavourful crumb."},
-        {id:5,name:"Valrhona Chocolate",icon:"◆",desc:"Our preferred couverture for ganaches and mousses."},
-        {id:6,name:"Real Vanilla",icon:"◇",desc:"Tahitian vanilla pods steeped in our house-made extract."}
-      ],
+    const arrs = {
+      db_products:[{id:1,name:"Duchess Rose",category:"Designer Cake",price:"$180",desc:"Four-layer vanilla bean cake, strawberry compote, Swiss meringue buttercream, edible rose petals.",image:""},{id:2,name:"Velvet Noir",category:"Designer Cake",price:"$195",desc:"Dark chocolate ganache cake with espresso cream, salted caramel drip, and gold leaf finish.",image:""},{id:3,name:"Lemon Reverie",category:"Cheesecake",price:"$95",desc:"Burnt Basque cheesecake with lemon curd swirl, graham cracker base, fresh blueberry compote.",image:""},{id:4,name:"Garden Party",category:"Cupcakes",price:"$48/doz",desc:"Vanilla sponge cupcakes with seasonal flower buttercream piping.",image:""},{id:5,name:"Midnight Truffle",category:"Designer Cake",price:"$220",desc:"Belgian dark chocolate mousse cake, hazelnut praline crunch, mirror glaze finish.",image:""},{id:6,name:"Peach Blossom",category:"Cheesecake",price:"$110",desc:"Classic New York cheesecake with roasted peach topping and almond shortbread crust.",image:""}],
+      db_reviews:[{id:1,name:"Amelia R.",rating:5,text:"Dory's made our wedding cake and it was absolutely breathtaking. Every single guest asked for the recipe. Perfection!",event:"Wedding",approved:true},{id:2,name:"James T.",rating:5,text:"The Velvet Noir is my birthday tradition now. Three years running. It gets better every single time.",event:"Birthday",approved:true},{id:3,name:"Sofia M.",rating:5,text:"Ordered the Garden Party cupcakes for my daughter's baby shower. The presentation was stunning.",event:"Baby Shower",approved:true}],
+      db_ingredients:[{id:1,name:"Single-Origin Flour",icon:"🌾",desc:"Stone-ground from a family mill in Vermont."},{id:2,name:"Cultured Butter",icon:"🧈",desc:"84% fat European-style butter, churned from pasture-raised cream."},{id:3,name:"Raw Cane Sugar",icon:"✦",desc:"Unrefined cane sugar that adds a subtle molasses depth."},{id:4,name:"Free-Range Eggs",icon:"🥚",desc:"Richer yolks mean a more golden, flavourful crumb."},{id:5,name:"Valrhona Chocolate",icon:"◆",desc:"Our preferred couverture for ganaches and mousses."},{id:6,name:"Real Vanilla",icon:"◇",desc:"Tahitian vanilla pods steeped in our house-made extract."}],
       db_videos:[{id:1,title:"Making the Duchess Rose",url:"",desc:"Watch a four-layer cake come together."},{id:2,title:"The Art of Mirror Glaze",url:"",desc:"A mesmerizing pour."}],
-      db_faq:[
-        {id:1,q:"How far in advance should I place my order?",a:"We recommend at least 2–3 weeks for custom cakes. For weddings, 2–3 months is ideal."},
-        {id:2,q:"Do you offer gluten-free or vegan options?",a:"Yes! Please mention dietary needs in your order and we'll tailor the recipe."},
-        {id:3,q:"Can I schedule a tasting?",a:"Absolutely — by appointment on Tuesdays and Thursdays. Send us a message to arrange."},
-        {id:4,q:"How is pricing determined?",a:"Pricing depends on size, design complexity, and ingredients. We'll send a quote within 24 hours."},
-        {id:5,q:"Do you deliver?",a:"Local delivery within 20 miles. Collection available Tuesday–Sunday during opening hours."},
-        {id:6,q:"How many people does a cake serve?",a:"6\" serves 10–12, 8\" serves 20–24, 10\" serves 35–40."}
-      ],
-      db_homepage:{tagline:"Artisan · Handcrafted · Bespoke",sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",years:"5+",ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes"}
+      db_faq:[{id:1,q:"How far in advance should I place my order?",a:"We recommend at least 2–3 weeks for custom cakes. For weddings, 2–3 months is ideal."},{id:2,q:"Do you offer gluten-free or vegan options?",a:"Yes! Please mention dietary needs in your order and we'll tailor the recipe."},{id:3,q:"Can I schedule a tasting?",a:"Absolutely — by appointment on Tuesdays and Thursdays. Send us a message to arrange."},{id:4,q:"How is pricing determined?",a:"Pricing depends on size, design complexity, and ingredients. We'll send a quote within 24 hours."},{id:5,q:"Do you deliver?",a:"Local delivery within 20 miles. Collection available Tuesday–Sunday during opening hours."},{id:6,q:"How many people does a cake serve?",a:"6\" serves 10–12, 8\" serves 20–24, 10\" serves 35–40."}],
+      db_flavours:[{id:1,category:"Cake Bases",name:"Vanilla Bean",icon:"◇",desc:"Light, fragrant sponge using real Tahitian vanilla pods steeped in our house-made extract."},{id:2,category:"Cake Bases",name:"Dark Chocolate",icon:"◆",desc:"Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying."},{id:3,category:"Cake Bases",name:"Lemon Zest",icon:"✦",desc:"Bright, citrusy sponge with fresh lemon zest and juice. Perfect for spring occasions."},{id:4,category:"Cake Bases",name:"Earl Grey",icon:"◇",desc:"Delicate tea-infused sponge with subtle bergamot notes. Pairs beautifully with lavender cream."},{id:5,category:"Fillings",name:"Strawberry Compote",icon:"◆",desc:"House-made fresh strawberry compote — slightly tart, bright, and never overly sweet."},{id:6,category:"Fillings",name:"Salted Caramel",icon:"◇",desc:"Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive."},{id:7,category:"Fillings",name:"Espresso Cream",icon:"✦",desc:"Silky meringue buttercream spiked with single-origin espresso shots."},{id:8,category:"Fillings",name:"Raspberry Curd",icon:"◆",desc:"Tart, jewel-bright raspberry curd — cuts through rich chocolate perfectly."},{id:9,category:"Buttercreams",name:"Swiss Meringue",icon:"◇",desc:"Impossibly silky buttercream, less sweet than American style. Our signature finish."},{id:10,category:"Buttercreams",name:"Whipped Dark Ganache",icon:"◆",desc:"Dark chocolate ganache whipped to a cloud-like texture — intense yet light."},{id:11,category:"Buttercreams",name:"Lavender Honey",icon:"◇",desc:"House-made lavender-infused buttercream with a touch of wildflower honey."},{id:12,category:"Finishes",name:"Mirror Glaze",icon:"✦",desc:"The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish."},{id:13,category:"Finishes",name:"Edible Gold Leaf",icon:"◆",desc:"Real 24ct gold leaf applied by hand for an unmistakably luxurious finish."},{id:14,category:"Finishes",name:"Fresh Botanicals",icon:"◇",desc:"Seasonal edible flowers and herbs, carefully arranged to crown your creation."}]
     };
-    Object.entries(defs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
+    Object.entries(arrs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
+    const hpDef = {tagline:"Artisan · Handcrafted · Bespoke",sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",years:"5+",ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes",accentColor:"#C4883A",darkColor:"#2A1A0E",bgColor:"#FDF6EC",fontPair:"classic",whatsappNumber:"",whatsappMessage:"Hi Dory! I'd like to enquire about a custom cake.\n\nName: {name}\nEmail: {email}\nEvent Date: {date}\nCake Type: {cakeType}\nNotes: {notes}",workingHours:"Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm"};
+    const existHp = JSON.parse(localStorage.getItem('db_homepage')||'{}');
+    localStorage.setItem('db_homepage', JSON.stringify({...hpDef,...existHp}));
+    if (!localStorage.getItem('db_adminPassword')) localStorage.setItem('db_adminPassword','dorys2025');
   }
 
   // ── LOAD ALL ──────────────────────────────────────────────
@@ -357,6 +338,58 @@ class Component extends DCLogic {
     this.renderReviews(reviews);
     this.renderFaq(faq);
     this.renderSocial(hp, media);
+    this.applyTheme(hp);
+    this.renderHours(hp);
+  }
+
+  applyTheme(hp) {
+    const accent = hp.accentColor || '#C4883A';
+    const dark   = hp.darkColor   || '#2A1A0E';
+    const bg     = hp.bgColor     || '#FDF6EC';
+    const fp     = hp.fontPair    || 'classic';
+    const fontPairs = {
+      classic:{heading:"'Cormorant Garamond',serif",body:"'Jost',sans-serif",url:"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap"},
+      modern: {heading:"'Playfair Display',serif",  body:"'DM Sans',sans-serif",url:"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"},
+      elegant:{heading:"'Libre Baskerville',serif",  body:"'Lato',sans-serif",  url:"https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap"}
+    };
+    const pair = fontPairs[fp] || fontPairs.classic;
+    if (fp !== 'classic') {
+      let lnk = document.getElementById('theme-font-link');
+      if (!lnk) { lnk=document.createElement('link'); lnk.id='theme-font-link'; lnk.rel='stylesheet'; document.head.appendChild(lnk); }
+      lnk.href = pair.url;
+    }
+    // Helper: hex → "r,g,b" for rgba() replacement
+    const h2r = hex => { const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `${r},${g},${b}`; };
+    // Colour substitution pairs: [old-lower, old-upper, new-hex, old-rgb, new-rgb]
+    const swaps = [
+      ['#c4883a','#C4883A', accent, '196,136,58', h2r(accent)],
+      ['#2a1a0e','#2A1A0E', dark,   '42,26,14',   h2r(dark)  ],
+      ['#fdf6ec','#FDF6EC', bg,     '253,246,236', h2r(bg)    ],
+      ['#f5ede0','#F5EDE0', bg,     '245,237,224', h2r(bg)    ],
+    ];
+    // Walk every DOM element and rewrite inline style attributes
+    const walk = (el) => {
+      if (!el || el.nodeType !== 1) return;
+      const s = el.getAttribute('style');
+      if (s) {
+        let ns = s;
+        swaps.forEach(([lo,hi,nv,or,nr]) => {
+          ns = ns.split(lo).join(nv).split(hi).join(nv).split(or).join(nr);
+        });
+        if (ns !== s) el.setAttribute('style', ns);
+      }
+      Array.from(el.children).forEach(walk);
+    };
+    walk(document.body);
+    // CSS overrides for class-based styles and fonts
+    let style = document.getElementById('dory-theme');
+    if (!style) { style=document.createElement('style'); style.id='dory-theme'; document.head.appendChild(style); }
+    style.textContent = `body{font-family:${pair.body}!important;}.sh,.sh-l{font-family:${pair.heading}!important;}.btn-gold{background:${accent}!important;color:${bg}!important;}.btn-gold:hover{background:${dark}!important;}.btn-outline{border-color:${dark}!important;color:${dark}!important;}.btn-outline:hover{background:${dark}!important;color:${bg}!important;}.sl{color:${accent}!important;}.nav-link:hover{color:${accent}!important;}.nav-link::after{background:${accent}!important;}::-webkit-scrollbar-thumb{background:${accent}!important;}`;
+  }
+
+  renderHours(hp) {
+    const el = document.getElementById('hoursDisplay');
+    if (el) el.innerHTML = (hp.workingHours || 'Tuesday – Friday<br>9am – 6pm<br><br>Saturday – Sunday<br>9am – 4pm').replace(/\n/g,'<br>');
   }
 
   buildMarquee(hp) {
@@ -497,7 +530,8 @@ class Component extends DCLogic {
       el.onmouseover = ()=>{el.style.transform='translateY(-4px)';el.style.boxShadow='0 12px 36px rgba(42,26,14,0.09)';};
       el.onmouseout = ()=>{el.style.transform='';el.style.boxShadow='';};
       const stars = '★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
-      el.innerHTML = `<p style="color:#C4883A;font-size:17px;letter-spacing:3px;margin-bottom:18px;">${stars}</p><p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:#2A1A0E;line-height:1.75;margin-bottom:24px;">"${r.text}"</p><div style="display:flex;justify-content:space-between;align-items:center;"><p style="font-size:13px;font-weight:500;color:#5A3E28;">${r.name}</p><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#C4883A;">${r.event||''}</p></div>`;
+      const photoHtml = r.photo ? `<div style="margin-bottom:18px;overflow:hidden;margin:-36px -32px 18px;"><img src="${r.photo}" style="width:100%;max-height:200px;object-fit:cover;display:block;"></div>` : '';
+      el.innerHTML = `${photoHtml}<p style="color:#C4883A;font-size:17px;letter-spacing:3px;margin-bottom:18px;">${stars}</p><p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:#2A1A0E;line-height:1.75;margin-bottom:24px;">"${r.text}"</p><div style="display:flex;justify-content:space-between;align-items:center;"><p style="font-size:13px;font-weight:500;color:#5A3E28;">${r.name}</p><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#C4883A;">${r.event||''}</p></div>`;
       grid.appendChild(el);
     });
   }
@@ -595,6 +629,16 @@ class Component extends DCLogic {
       const orders = JSON.parse(localStorage.getItem('db_orders')||'[]');
       orders.push({id:Date.now(), ...orderData, submittedAt:new Date().toISOString()});
       localStorage.setItem('db_orders', JSON.stringify(orders));
+    }
+    // WhatsApp trigger
+    const hp = await this.getHomepage();
+    if (hp.whatsappNumber) {
+      const phone = hp.whatsappNumber.replace(/[^0-9]/g,'');
+      if (phone) {
+        const template = hp.whatsappMessage || 'Hi Dory! Custom cake enquiry:\nName: {name}\nDate: {date}\nType: {cakeType}\nNotes: {notes}';
+        const msg = template.replace(/{name}/g,orderData.name).replace(/{email}/g,orderData.email).replace(/{date}/g,orderData.date).replace(/{cakeType}/g,orderData.cakeType).replace(/{notes}/g,orderData.notes);
+        setTimeout(() => window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(msg),'_blank'), 400);
+      }
     }
     e.target.reset();
     const conf = document.getElementById('orderConfirm');

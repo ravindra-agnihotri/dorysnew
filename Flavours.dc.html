@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:#FDF6EC;color:#2A1A0E;font-family:'Jost',sans-serif;overflow-x:hidden;}
+    a{text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDF6EC}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:3px}
+    .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
+    @media(max-width:900px){.three-col-f{grid-template-columns:1fr 1fr!important;}.sp{padding-left:28px!important;padding-right:28px!important;}.sec{padding-top:72px!important;padding-bottom:72px!important;}}
+    @media(max-width:540px){.three-col-f{grid-template-columns:1fr!important;}}
+  </style>
+</helmet>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:rgba(42,26,14,0.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(196,136,58,0.1);" class="sp">
+  <a href="Dorys Bakes.dc.html" style="display:flex;flex-direction:column;gap:2px;">
+    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:#FDF6EC;letter-spacing:0.01em;line-height:1;">Dory's Bakes</span>
+    <span style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;">Artisan Patisserie</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:28px;">
+    <a href="Dorys Bakes.dc.html#order" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,246,236,0.5);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.5)'">Order a Cake</a>
+    <a href="Dorys Bakes.dc.html" style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(253,246,236,0.5);display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.5)'">
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M15 5H1M6 1L2 5l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Back
+    </a>
+  </div>
+</nav>
+
+<section style="min-height:72vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 100px;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(700px,120vw);height:min(700px,120vw);border-radius:50%;border:1px solid rgba(196,136,58,0.05);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(420px,70vw);height:min(420px,70vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.07),transparent 70%);"></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;position:relative;animation:fadeIn 1s both;">
+    <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
+    <span class="sl" style="margin-bottom:0;">The Flavour Catalogue</span>
+    <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
+  </div>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(60px,11vw,140px);font-weight:300;font-style:italic;line-height:0.9;color:#FDF6EC;letter-spacing:-0.02em;animation:fadeUp 0.9s 0.15s both;position:relative;">Our<br><em style="color:#C4883A;">Flavours</em></h1>
+  <div style="width:60px;height:1px;background:rgba(196,136,58,0.35);margin:36px auto;animation:fadeIn 1s 0.35s both;"></div>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2vw,22px);font-weight:300;font-style:italic;color:rgba(253,246,236,0.5);max-width:460px;line-height:1.8;animation:fadeUp 0.9s 0.38s both;position:relative;">Every flavour is crafted with care — mix, match, and make it yours.</p>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to bottom,transparent,#FDF6EC);pointer-events:none;"></div>
+</section>
+
+<div id="flavoursBody" style="padding:80px 60px;max-width:1240px;margin:0 auto;" class="sp"></div>
+
+<section style="background:#2A1A0E;padding:100px 60px;text-align:center;position:relative;overflow:hidden;" class="sp">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,100vw);height:min(600px,100vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.06),transparent 65%);pointer-events:none;"></div>
+  <div style="position:relative;">
+    <p class="sl">Ready to Order?</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5.5vw,68px);font-weight:300;font-style:italic;color:#FDF6EC;line-height:1.1;margin-bottom:24px;">Tell us your dream<br><em style="color:#C4883A;">combination.</em></h2>
+    <p style="font-size:15px;font-weight:300;color:rgba(253,246,236,0.45);max-width:400px;margin:0 auto 48px;line-height:1.85;">Mix and match from any category — we'll craft something extraordinary just for you.</p>
+    <a href="Dorys Bakes.dc.html#order" style="display:inline-block;background:#C4883A;color:#FDF6EC;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:16px 44px;transition:background 0.3s;" onmouseover="this.style.background='#FDF6EC';this.style.color='#2A1A0E'" onmouseout="this.style.background='#C4883A';this.style.color='#FDF6EC'">Order a Custom Cake</a>
+  </div>
+</section>
+
+<footer style="background:#120C04;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp">
+  <div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
+    <p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p>
+  </div>
+  <p style="font-size:12px;color:rgba(253,246,236,0.2);">© 2025 Dory's Bakes. All rights reserved.</p>
+  <a href="Dorys Bakes.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,246,236,0.28);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.28)'">← Back to Website</a>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.seedDefaults();
+    this.loadFlavours();
+  }
+
+  seedDefaults() {
+    if (!localStorage.getItem('db_flavours')) {
+      localStorage.setItem('db_flavours', JSON.stringify([
+        {id:1,category:"Cake Bases",name:"Vanilla Bean",icon:"◇",desc:"Light, fragrant sponge using real Tahitian vanilla pods steeped in our house-made extract."},
+        {id:2,category:"Cake Bases",name:"Dark Chocolate",icon:"◆",desc:"Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying."},
+        {id:3,category:"Cake Bases",name:"Lemon Zest",icon:"✦",desc:"Bright, citrusy sponge with fresh lemon zest and juice. Perfect for spring occasions."},
+        {id:4,category:"Cake Bases",name:"Earl Grey",icon:"◇",desc:"Delicate tea-infused sponge with subtle bergamot notes. Pairs beautifully with lavender cream."},
+        {id:5,category:"Fillings",name:"Strawberry Compote",icon:"◆",desc:"House-made fresh strawberry compote — slightly tart, bright, and never overly sweet."},
+        {id:6,category:"Fillings",name:"Salted Caramel",icon:"◇",desc:"Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive."},
+        {id:7,category:"Fillings",name:"Espresso Cream",icon:"✦",desc:"Silky meringue buttercream spiked with single-origin espresso shots."},
+        {id:8,category:"Fillings",name:"Raspberry Curd",icon:"◆",desc:"Tart, jewel-bright raspberry curd — cuts through rich chocolate perfectly."},
+        {id:9,category:"Buttercreams",name:"Swiss Meringue",icon:"◇",desc:"Impossibly silky buttercream, less sweet than American style. Our signature finish."},
+        {id:10,category:"Buttercreams",name:"Whipped Dark Ganache",icon:"◆",desc:"Dark chocolate ganache whipped to a cloud-like texture — intense yet light."},
+        {id:11,category:"Buttercreams",name:"Lavender Honey",icon:"◇",desc:"House-made lavender-infused buttercream with a touch of wildflower honey."},
+        {id:12,category:"Finishes",name:"Mirror Glaze",icon:"✦",desc:"The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish."},
+        {id:13,category:"Finishes",name:"Edible Gold Leaf",icon:"◆",desc:"Real 24ct gold leaf applied by hand for an unmistakably luxurious finish."},
+        {id:14,category:"Finishes",name:"Fresh Botanicals",icon:"◇",desc:"Seasonal edible flowers and herbs, carefully arranged to crown your creation."}
+      ]));
+    }
+  }
+
+  loadFlavours() {
+    try {
+      const flavours = JSON.parse(localStorage.getItem('db_flavours') || '[]');
+      const body = document.getElementById('flavoursBody');
+      if (!body) return;
+      body.innerHTML = '';
+      const cats = ['Cake Bases', 'Fillings', 'Buttercreams', 'Finishes'];
+      const allCats = [...new Set(flavours.map(f => f.category))];
+      const displayCats = [...cats, ...allCats.filter(c => !cats.includes(c))];
+      const catInfo = {
+        'Cake Bases':   { label: 'The Foundation',  sub: 'Choose your sponge' },
+        'Fillings':     { label: 'The Heart',        sub: 'Layers of flavour within' },
+        'Buttercreams': { label: 'The Coat',         sub: 'How it looks and feels' },
+        'Finishes':     { label: 'The Crown',        sub: 'The finishing touch' }
+      };
+      let hasAny = false;
+      displayCats.forEach(cat => {
+        const items = flavours.filter(f => f.category === cat);
+        if (!items.length) return;
+        hasAny = true;
+        const info = catInfo[cat] || { label: cat, sub: cat };
+        const section = document.createElement('div');
+        section.style.cssText = 'margin-bottom:80px;';
+        const catHead = document.createElement('div');
+        catHead.style.cssText = 'display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid rgba(196,136,58,0.15);';
+        catHead.innerHTML = `<div><p style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:8px;">${info.sub}</p><h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:300;font-style:italic;color:#2A1A0E;">${info.label}</h2></div><span style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,44px);font-weight:300;color:rgba(196,136,58,0.12);font-style:italic;padding-bottom:4px;">${cat}</span>`;
+        section.appendChild(catHead);
+        const grid = document.createElement('div');
+        grid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(196,136,58,0.1);';
+        grid.className = 'three-col-f';
+        items.forEach(f => {
+          const card = document.createElement('div');
+          card.style.cssText = 'background:#FDF6EC;padding:32px 28px;transition:background 0.3s;';
+          card.onmouseover = () => card.style.background = '#F5EDE0';
+          card.onmouseout = () => card.style.background = '#FDF6EC';
+          const iconEl = document.createElement('div');
+          iconEl.style.cssText = 'font-size:22px;margin-bottom:14px;line-height:1;';
+          iconEl.textContent = f.icon || '✦';
+          const nameEl = document.createElement('h3');
+          nameEl.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#2A1A0E;margin-bottom:10px;";
+          nameEl.textContent = f.name;
+          const descEl = document.createElement('p');
+          descEl.style.cssText = 'font-size:13px;font-weight:300;color:#8B5E3C;line-height:1.85;';
+          descEl.textContent = f.desc;
+          card.appendChild(iconEl); card.appendChild(nameEl); card.appendChild(descEl);
+          grid.appendChild(card);
+        });
+        section.appendChild(grid);
+        body.appendChild(section);
+      });
+      if (!hasAny) {
+        body.innerHTML = '<div style="text-align:center;padding:80px 40px;"><p style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-style:italic;color:#8B5E3C;">Flavour catalogue coming soon.</p></div>';
+      }
+    } catch(e) {}
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

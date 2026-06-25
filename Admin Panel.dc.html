@@ -12,15 +12,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#151008;color:#FDF6EC;font-family:'Jost',sans-serif;display:flex;min-height:100vh;}
+    body{background:#151008;color:#FDF6EC;font-family:'Jost',sans-serif;}
     input,textarea,select{font-family:'Jost',sans-serif;}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#151008}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:2px}
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     .fade{animation:fadeUp 0.22s ease both;}
-    .navitem{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;font-size:13px;letter-spacing:0.04em;transition:all 0.18s;border-left:2px solid transparent;color:rgba(253,246,236,0.45);user-select:none;}
+    .navitem{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;font-size:13px;letter-spacing:0.04em;transition:all 0.18s;border-left:2px solid transparent;color:rgba(253,246,236,0.45);user-select:none;}
     .navitem:hover{color:rgba(253,246,236,0.8);background:rgba(196,136,58,0.05);}
     .navitem.active{color:#C4883A;background:rgba(196,136,58,0.09);border-left-color:#C4883A;}
-    .inp{background:rgba(253,246,236,0.05);border:1px solid rgba(196,136,58,0.18);color:#FDF6EC;padding:12px 15px;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
+    .inp{background:rgba(253,246,236,0.05);border:1px solid rgba(196,136,58,0.18);color:#FDF6EC;padding:11px 15px;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
     .inp:focus{border-color:rgba(196,136,58,0.5);}
     .btn-g{background:#C4883A;color:#FDF6EC;border:none;padding:10px 22px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background 0.2s;}
     .btn-g:hover{background:#a0702e;}
@@ -33,39 +33,90 @@
   </style>
 </helmet>
 
-<aside style="width:228px;min-height:100vh;background:#110D04;border-right:1px solid rgba(196,136,58,0.1);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;overflow-y:auto;">
-  <div style="padding:28px 22px 18px;border-bottom:1px solid rgba(196,136,58,0.09);">
-    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
-    <p style="font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#C4883A;margin-top:4px;">Admin Panel</p>
-  </div>
-  <nav style="flex:1;padding:10px 0;" id="sideNav"></nav>
-  <div style="padding:12px 22px;border-top:1px solid rgba(196,136,58,0.09);">
-    <div id="apiStatus" style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
-      <span id="apiDot" style="width:6px;height:6px;border-radius:50%;background:rgba(253,246,236,0.2);flex-shrink:0;"></span>
-      <span id="apiLabel" style="color:rgba(253,246,236,0.25);">Checking…</span>
+<div id="loginScreen" style="position:fixed;inset:0;background:#110D04;z-index:1000;display:flex;align-items:center;justify-content:center;">
+  <div style="width:380px;padding:52px 44px;border:1px solid rgba(196,136,58,0.14);background:#1C1208;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#FDF6EC;margin-bottom:6px;">Dory's Bakes</p>
+      <p style="font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#C4883A;">Admin Panel</p>
     </div>
-    <a href="Dorys Bakes.dc.html" style="font-size:11px;color:rgba(253,246,236,0.28);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.28)'">← View Website</a>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <label style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(253,246,236,0.38);">Password</label>
+        <input id="loginPass" type="password" placeholder="Enter admin password" class="inp" style="font-size:15px;">
+      </div>
+      <p id="loginErr" style="display:none;font-size:12px;color:#e07070;font-style:italic;margin:0;"></p>
+      <button id="loginBtn" class="btn-g" style="width:100%;padding:14px;font-size:13px;letter-spacing:0.12em;">Enter Admin Panel</button>
+    </div>
+    <p style="font-size:11px;color:rgba(253,246,236,0.18);text-align:center;margin-top:28px;line-height:1.5;">Default password: <span style="color:rgba(196,136,58,0.4);">dorys2025</span></p>
   </div>
-</aside>
+</div>
 
-<main style="margin-left:228px;flex:1;padding:44px 52px;min-height:100vh;max-width:1100px;" id="mainContent"></main>
-<div id="modalRoot"></div>
-
+<div id="adminPanel" style="display:none;">
+  <div style="display:flex;min-height:100vh;">
+    <aside style="width:228px;min-height:100vh;background:#110D04;border-right:1px solid rgba(196,136,58,0.1);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;overflow-y:auto;">
+      <div style="padding:28px 22px 18px;border-bottom:1px solid rgba(196,136,58,0.09);">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
+        <p style="font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#C4883A;margin-top:4px;">Admin Panel</p>
+      </div>
+      <nav style="flex:1;padding:10px 0;" id="sideNav"></nav>
+      <div style="padding:14px 22px;border-top:1px solid rgba(196,136,58,0.09);display:flex;flex-direction:column;gap:9px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span id="apiDot" style="width:6px;height:6px;border-radius:50%;background:rgba(253,246,236,0.2);flex-shrink:0;"></span>
+          <span id="apiLabel" style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(253,246,236,0.25);">Checking…</span>
+        </div>
+        <a href="Dorys Bakes.dc.html" style="font-size:11px;color:rgba(253,246,236,0.28);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.28)'">← View Website</a>
+        <button id="logoutBtn" style="background:none;border:none;font-size:11px;color:rgba(253,246,236,0.28);letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;text-align:left;padding:0;font-family:'Jost',sans-serif;transition:color 0.2s;" onmouseover="this.style.color='#e07070'" onmouseout="this.style.color='rgba(253,246,236,0.28)'">Log Out</button>
+      </div>
+    </aside>
+    <main style="margin-left:228px;flex:1;padding:44px 52px;min-height:100vh;max-width:1100px;" id="mainContent"></main>
+    <div id="modalRoot"></div>
+  </div>
+</div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { tab:'dashboard', reviewFilter:'all' };
+  state = { tab: 'dashboard', reviewFilter: 'all' };
   _apiMode = null;
 
   async componentDidMount() {
     this.initDefaults();
+    document.getElementById('loginBtn').onclick = () => this.doLogin();
+    document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') this.doLogin(); });
+    document.getElementById('logoutBtn').onclick = () => this.doLogout();
+    if (sessionStorage.getItem('dory_admin') === '1') this.showAdmin();
+  }
+
+  doLogin() {
+    const pass = document.getElementById('loginPass').value;
+    const stored = localStorage.getItem('db_adminPassword') || 'dorys2025';
+    if (pass === stored) {
+      sessionStorage.setItem('dory_admin', '1');
+      document.getElementById('loginErr').style.display = 'none';
+      this.showAdmin();
+    } else {
+      const err = document.getElementById('loginErr');
+      err.textContent = 'Incorrect password. Please try again.';
+      err.style.display = 'block';
+    }
+  }
+
+  doLogout() {
+    sessionStorage.removeItem('dory_admin');
+    document.getElementById('adminPanel').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginPass').value = '';
+  }
+
+  async showAdmin() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
     await this._checkApi();
     this._updateApiStatus();
     this.buildNav();
     this.renderTab();
   }
 
-  // ── API / STORAGE LAYER ───────────────────────────────────
+  // ── API / STORAGE ─────────────────────────────────────────
   async _checkApi() {
     if (this._apiMode !== null) return this._apiMode;
     try {
@@ -82,37 +133,23 @@ class Component extends DCLogic {
     const dot = document.getElementById('apiDot');
     const lbl = document.getElementById('apiLabel');
     if (!dot || !lbl) return;
-    if (this._apiMode) {
-      dot.style.background = '#7dc87d';
-      lbl.style.color = '#7dc87d';
-      lbl.textContent = 'SQLite Connected';
-    } else {
-      dot.style.background = '#C4883A';
-      lbl.style.color = 'rgba(196,136,58,0.7)';
-      lbl.textContent = 'Offline (localStorage)';
-    }
+    if (this._apiMode) { dot.style.background='#7dc87d'; lbl.style.color='#7dc87d'; lbl.textContent='SQLite Connected'; }
+    else { dot.style.background='#C4883A'; lbl.style.color='rgba(196,136,58,0.7)'; lbl.textContent='Offline (localStorage)'; }
   }
 
   async listItems(key) {
-    if (this._apiMode) {
-      try { const r = await fetch('/api/'+key); if (r.ok) return r.json(); } catch(e) {}
-    }
+    if (this._apiMode) { try { const r=await fetch('/api/'+key); if(r.ok) return r.json(); } catch(e){} }
     try { return JSON.parse(localStorage.getItem('db_'+key)||'[]'); } catch(e) { return []; }
   }
 
   async getHomepage() {
-    if (this._apiMode) {
-      try { const r = await fetch('/api/homepage'); if (r.ok) return r.json(); } catch(e) {}
-    }
+    if (this._apiMode) { try { const r=await fetch('/api/homepage'); if(r.ok) return r.json(); } catch(e){} }
     try { return JSON.parse(localStorage.getItem('db_homepage')||'{}'); } catch(e) { return {}; }
   }
 
   async createItem(key, data) {
     if (this._apiMode) {
-      try {
-        const r = await fetch('/api/'+key, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-        if (r.ok) return r.json();
-      } catch(e) {}
+      try { const r=await fetch('/api/'+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok) return r.json(); } catch(e){}
     }
     const arr = JSON.parse(localStorage.getItem('db_'+key)||'[]');
     const item = {...data, id: Date.now()};
@@ -123,10 +160,7 @@ class Component extends DCLogic {
 
   async updateItem(key, id, data) {
     if (this._apiMode) {
-      try {
-        const r = await fetch('/api/'+key+'/'+id, {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-        if (r.ok) return;
-      } catch(e) {}
+      try { const r=await fetch('/api/'+key+'/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok) return; } catch(e){}
     }
     const arr = JSON.parse(localStorage.getItem('db_'+key)||'[]');
     const idx = arr.findIndex(x => x.id == id);
@@ -135,140 +169,62 @@ class Component extends DCLogic {
   }
 
   async deleteItem(key, id) {
-    if (this._apiMode) {
-      try {
-        const r = await fetch('/api/'+key+'/'+id, {method:'DELETE'});
-        if (r.ok) return;
-      } catch(e) {}
-    }
+    if (this._apiMode) { try { const r=await fetch('/api/'+key+'/'+id,{method:'DELETE'}); if(r.ok) return; } catch(e){} }
     const arr = JSON.parse(localStorage.getItem('db_'+key)||'[]');
     localStorage.setItem('db_'+key, JSON.stringify(arr.filter(x => x.id != id)));
   }
 
   async saveHomepage(data) {
-    if (this._apiMode) {
-      try {
-        const r = await fetch('/api/homepage', {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-        if (r.ok) return;
-      } catch(e) {}
-    }
+    if (this._apiMode) { try { const r=await fetch('/api/homepage',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok) return; } catch(e){} }
     localStorage.setItem('db_homepage', JSON.stringify(data));
   }
 
   // ── HELPERS ───────────────────────────────────────────────
-  el(tag, css, html) {
-    const e = document.createElement(tag);
-    if (css) e.style.cssText = css;
-    if (html) e.innerHTML = html;
-    return e;
-  }
-  inp(type, val, ph) {
-    const i = document.createElement('input');
-    i.className='inp'; i.type=type; i.value=val||''; i.placeholder=ph||'';
-    return i;
-  }
-  ta(val, ph, rows) {
-    const t = document.createElement('textarea');
-    t.className='inp'; t.rows=rows||3; t.placeholder=ph||''; t.value=val||''; t.style.resize='vertical';
-    return t;
-  }
-  sel(options, val) {
-    const s = document.createElement('select');
-    s.className='inp'; s.style.background='#151008'; s.style.cursor='pointer';
-    options.forEach(o => { const opt=document.createElement('option'); opt.value=o; opt.textContent=o; if(o===val) opt.selected=true; s.appendChild(opt); });
-    return s;
-  }
-  fieldW(lbl, input) {
-    const w = document.createElement('div');
-    w.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
-    const l = document.createElement('label');
-    l.style.cssText = 'font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(253,246,236,0.38);';
-    l.textContent = lbl; w.appendChild(l); w.appendChild(input);
-    return w;
-  }
-  card(css) {
-    const c = document.createElement('div');
-    c.style.cssText = 'background:#1C1208;border:1px solid rgba(196,136,58,0.1);padding:24px;'+(css||'');
-    return c;
-  }
-  secLabel(text) {
-    const p = document.createElement('p');
-    p.style.cssText = 'font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C4883A;margin-bottom:18px;';
-    p.textContent = text; return p;
-  }
-  btn(label, cls, onclick) {
-    const b = document.createElement('button');
-    b.className=cls||'btn-g'; b.textContent=label;
-    if (onclick) b.onclick = onclick;
-    return b;
-  }
-  hdr(title, sub, btnLbl, btnCb) {
-    const d = this.el('div','display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;');
-    const l = this.el('div','');
-    const h = document.createElement('h1');
-    h.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:34px;font-style:italic;font-weight:400;color:#FDF6EC;margin-bottom:4px;";
-    h.textContent=title; l.appendChild(h);
-    if (sub) { const p=document.createElement('p'); p.style.cssText='font-size:13px;color:rgba(253,246,236,0.38);'; p.textContent=sub; l.appendChild(p); }
-    d.appendChild(l);
-    if (btnLbl) d.appendChild(this.btn(btnLbl,'btn-g',btnCb));
-    return d;
-  }
-  statCard(lbl, val, sub) {
-    const c = this.card('padding:24px;');
-    c.appendChild(this.secLabel(lbl));
-    const v = document.createElement('p');
-    v.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:400;color:#FDF6EC;line-height:1;";
-    v.textContent=String(val); c.appendChild(v);
-    if (sub) { const s=document.createElement('p'); s.style.cssText='font-size:12px;color:rgba(253,246,236,0.32);margin-top:8px;'; s.textContent=sub; c.appendChild(s); }
-    return c;
-  }
-  modal(title, contentFn) {
-    const root = document.getElementById('modalRoot');
-    const ob = this.el('div','position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:400;display:flex;align-items:center;justify-content:center;');
-    const mo = this.el('div','background:#1C1208;border:1px solid rgba(196,136,58,0.18);padding:40px;width:540px;max-height:88vh;overflow-y:auto;');
-    const mh = this.el('div','display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;');
-    const ht = document.createElement('p');
-    ht.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:#FDF6EC;";
-    ht.textContent=title; mh.appendChild(ht);
-    const cx = this.btn('×','',()=>ob.remove()); cx.style.cssText='background:none;border:none;color:rgba(253,246,236,0.4);font-size:30px;cursor:pointer;line-height:1;';
-    mh.appendChild(cx); mo.appendChild(mh);
-    contentFn(mo, ()=>ob.remove());
-    ob.appendChild(mo);
-    ob.onclick = e => { if(e.target===ob) ob.remove(); };
-    root.innerHTML=''; root.appendChild(ob);
-  }
-  loading(m) {
-    m.innerHTML='';
-    const p = document.createElement('p');
-    p.className='loading'; p.textContent='Loading…'; m.appendChild(p);
-  }
+  el(tag,css,html){const e=document.createElement(tag);if(css)e.style.cssText=css;if(html)e.innerHTML=html;return e;}
+  inp(type,val,ph){const i=document.createElement('input');i.className='inp';i.type=type;i.value=val||'';i.placeholder=ph||'';return i;}
+  ta(val,ph,rows){const t=document.createElement('textarea');t.className='inp';t.rows=rows||3;t.placeholder=ph||'';t.value=val||'';t.style.resize='vertical';return t;}
+  sel(options,val){const s=document.createElement('select');s.className='inp';s.style.background='#151008';s.style.cursor='pointer';options.forEach(o=>{const opt=document.createElement('option');opt.value=o;opt.textContent=o;if(o===val)opt.selected=true;s.appendChild(opt);});return s;}
+  fieldW(lbl,input){const w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:6px;';const l=document.createElement('label');l.style.cssText='font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(253,246,236,0.38);';l.textContent=lbl;w.appendChild(l);w.appendChild(input);return w;}
+  card(css){const c=document.createElement('div');c.style.cssText='background:#1C1208;border:1px solid rgba(196,136,58,0.1);padding:24px;'+(css||'');return c;}
+  secLabel(text){const p=document.createElement('p');p.style.cssText='font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C4883A;margin-bottom:18px;';p.textContent=text;return p;}
+  btn(label,cls,onclick){const b=document.createElement('button');b.className=cls||'btn-g';b.textContent=label;if(onclick)b.onclick=onclick;return b;}
+  hdr(title,sub,btnLbl,btnCb){const d=this.el('div','display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;');const l=this.el('div','');const h=document.createElement('h1');h.style.cssText="font-family:'Cormorant Garamond',serif;font-size:34px;font-style:italic;font-weight:400;color:#FDF6EC;margin-bottom:4px;";h.textContent=title;l.appendChild(h);if(sub){const p=document.createElement('p');p.style.cssText='font-size:13px;color:rgba(253,246,236,0.38);';p.textContent=sub;l.appendChild(p);}d.appendChild(l);if(btnLbl)d.appendChild(this.btn(btnLbl,'btn-g',btnCb));return d;}
+  statCard(lbl,val,sub){const c=this.card('padding:24px;');c.appendChild(this.secLabel(lbl));const v=document.createElement('p');v.style.cssText="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:400;color:#FDF6EC;line-height:1;";v.textContent=String(val);c.appendChild(v);if(sub){const s=document.createElement('p');s.style.cssText='font-size:12px;color:rgba(253,246,236,0.32);margin-top:8px;';s.textContent=sub;c.appendChild(s);}return c;}
+  modal(title,contentFn){const root=document.getElementById('modalRoot');const ob=this.el('div','position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:400;display:flex;align-items:center;justify-content:center;');const mo=this.el('div','background:#1C1208;border:1px solid rgba(196,136,58,0.18);padding:40px;width:540px;max-height:88vh;overflow-y:auto;');const mh=this.el('div','display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;');const ht=document.createElement('p');ht.style.cssText="font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:#FDF6EC;";ht.textContent=title;mh.appendChild(ht);const cx=this.btn('×','',()=>ob.remove());cx.style.cssText='background:none;border:none;color:rgba(253,246,236,0.4);font-size:30px;cursor:pointer;line-height:1;';mh.appendChild(cx);mo.appendChild(mh);contentFn(mo,()=>ob.remove());ob.appendChild(mo);ob.onclick=e=>{if(e.target===ob)ob.remove();};root.innerHTML='';root.appendChild(ob);}
+  loading(m){m.innerHTML='';const p=document.createElement('p');p.className='loading';p.textContent='Loading…';m.appendChild(p);}
 
   // ── INIT DEFAULTS ─────────────────────────────────────────
   initDefaults() {
-    const defs = {
+    const arrs = {
       db_products:[{id:1,name:"Duchess Rose",category:"Designer Cake",price:"$180",desc:"Four-layer vanilla bean cake, strawberry compote, Swiss meringue buttercream, edible rose petals.",image:""},{id:2,name:"Velvet Noir",category:"Designer Cake",price:"$195",desc:"Dark chocolate ganache cake with espresso cream, salted caramel drip, and gold leaf finish.",image:""},{id:3,name:"Lemon Reverie",category:"Cheesecake",price:"$95",desc:"Burnt Basque cheesecake with lemon curd swirl, graham cracker base, fresh blueberry compote.",image:""},{id:4,name:"Garden Party",category:"Cupcakes",price:"$48/doz",desc:"Vanilla sponge cupcakes with seasonal flower buttercream piping.",image:""},{id:5,name:"Midnight Truffle",category:"Designer Cake",price:"$220",desc:"Belgian dark chocolate mousse cake, hazelnut praline crunch, mirror glaze.",image:""},{id:6,name:"Peach Blossom",category:"Cheesecake",price:"$110",desc:"Classic New York cheesecake with roasted peach topping and almond shortbread crust.",image:""}],
       db_reviews:[{id:1,name:"Amelia R.",rating:5,text:"Dory's made our wedding cake and it was absolutely breathtaking. Every single guest asked for the recipe.",event:"Wedding",approved:true},{id:2,name:"James T.",rating:5,text:"The Velvet Noir is my birthday tradition now. Three years running. It gets better every single time.",event:"Birthday",approved:true},{id:3,name:"Sofia M.",rating:5,text:"Ordered the Garden Party cupcakes for my daughter's baby shower. The presentation was stunning.",event:"Baby Shower",approved:true},{id:4,name:"Priya K.",rating:4,text:"Beautiful cakes and wonderful service. The cheesecake was heavenly — will definitely order again!",event:"Anniversary",approved:false}],
       db_ingredients:[{id:1,name:"Single-Origin Flour",icon:"🌾",desc:"Stone-ground from a family mill in Vermont."},{id:2,name:"Cultured Butter",icon:"🧈",desc:"84% fat European-style butter, churned from pasture-raised cream."},{id:3,name:"Raw Cane Sugar",icon:"✦",desc:"Unrefined cane sugar that adds a subtle molasses depth."},{id:4,name:"Free-Range Eggs",icon:"🥚",desc:"Richer yolks mean a more golden, flavourful crumb."},{id:5,name:"Valrhona Chocolate",icon:"◆",desc:"Our preferred couverture for ganaches and mousses."},{id:6,name:"Real Vanilla",icon:"◇",desc:"Tahitian vanilla pods steeped in our house-made extract."}],
       db_videos:[{id:1,title:"Making the Duchess Rose",url:"",desc:"Watch a four-layer cake come together."},{id:2,title:"The Art of Mirror Glaze",url:"",desc:"A mesmerizing pour."}],
       db_faq:[{id:1,q:"How far in advance should I place my order?",a:"At least 2–3 weeks for custom cakes. For weddings, 2–3 months."},{id:2,q:"Do you offer gluten-free or vegan options?",a:"Yes — mention dietary needs in your order."},{id:3,q:"Can I schedule a tasting?",a:"By appointment Tuesdays and Thursdays."},{id:4,q:"How is pricing determined?",a:"Based on size, design, and ingredients. Quote within 24 hours."},{id:5,q:"Do you deliver?",a:"Within 20 miles. Collection available Tue–Sun."},{id:6,q:"How many people does a cake serve?",a:"6\" serves 10–12, 8\" serves 20–24, 10\" serves 35–40."}],
       db_media:[],db_orders:[],
-      db_homepage:{tagline:"Artisan · Handcrafted · Bespoke",sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal.",about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",years:"5+",ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes"}
+      db_flavours:[{id:1,category:"Cake Bases",name:"Vanilla Bean",icon:"◇",desc:"Light, fragrant sponge using real Tahitian vanilla pods steeped in our house-made extract."},{id:2,category:"Cake Bases",name:"Dark Chocolate",icon:"◆",desc:"Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying."},{id:3,category:"Cake Bases",name:"Lemon Zest",icon:"✦",desc:"Bright, citrusy sponge with fresh lemon zest and juice. Perfect for spring occasions."},{id:4,category:"Cake Bases",name:"Earl Grey",icon:"◇",desc:"Delicate tea-infused sponge with subtle bergamot notes. Pairs beautifully with lavender cream."},{id:5,category:"Fillings",name:"Strawberry Compote",icon:"◆",desc:"House-made fresh strawberry compote — slightly tart, bright, and never overly sweet."},{id:6,category:"Fillings",name:"Salted Caramel",icon:"◇",desc:"Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive."},{id:7,category:"Fillings",name:"Espresso Cream",icon:"✦",desc:"Silky meringue buttercream spiked with single-origin espresso shots."},{id:8,category:"Fillings",name:"Raspberry Curd",icon:"◆",desc:"Tart, jewel-bright raspberry curd — cuts through rich chocolate perfectly."},{id:9,category:"Buttercreams",name:"Swiss Meringue",icon:"◇",desc:"Impossibly silky buttercream, less sweet than American style. Our signature finish."},{id:10,category:"Buttercreams",name:"Whipped Dark Ganache",icon:"◆",desc:"Dark chocolate ganache whipped to a cloud-like texture — intense yet light."},{id:11,category:"Buttercreams",name:"Lavender Honey",icon:"◇",desc:"House-made lavender-infused buttercream with a touch of wildflower honey."},{id:12,category:"Finishes",name:"Mirror Glaze",icon:"✦",desc:"The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish."},{id:13,category:"Finishes",name:"Edible Gold Leaf",icon:"◆",desc:"Real 24ct gold leaf applied by hand for an unmistakably luxurious finish."},{id:14,category:"Finishes",name:"Fresh Botanicals",icon:"◇",desc:"Seasonal edible flowers and herbs, carefully arranged to crown your creation."}]
     };
-    Object.entries(defs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
+    Object.entries(arrs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
+    const hpDef = {tagline:"Artisan · Handcrafted · Bespoke",sub:"Where every cake tells a story — baked with love, crafted for your most special moments.",about1:"Dory's Bakes was born from a deep love of pastry and a desire to create something truly personal. Every cake that leaves our kitchen is made from scratch, using the finest ingredients sourced from trusted local suppliers.",about2:"From towering designer layer cakes to delicate cheesecakes and seasonal cupcakes — we believe dessert should be an experience, not just an afterthought.",years:"5+",ribbonBg:"#2A1A0E",ribbonTextColor:"rgba(253,246,236,0.48)",ribbonAccentColor:"#C4883A",marqueeItems:"Designer Cakes,✦,Cheesecakes,✦,Cupcakes,✦,Custom Orders,✦,Bespoke Creations,✦,Made From Scratch",contactAddress:"123 Baker Street\nSweet City, SC 10001\n\nhello@dorysbakes.com\n+1 (555) 123 4567",instagramHandle:"@dorysbakes",instagramUrl:"https://instagram.com/dorysbakes",accentColor:"#C4883A",darkColor:"#2A1A0E",bgColor:"#FDF6EC",fontPair:"classic",whatsappNumber:"",whatsappMessage:"Hi Dory! I'd like to enquire about a custom cake.\n\nName: {name}\nEmail: {email}\nEvent Date: {date}\nCake Type: {cakeType}\nNotes: {notes}",workingHours:"Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm"};
+    const existHp = JSON.parse(localStorage.getItem('db_homepage')||'{}');
+    localStorage.setItem('db_homepage', JSON.stringify({...hpDef,...existHp}));
+    if (!localStorage.getItem('db_adminPassword')) localStorage.setItem('db_adminPassword','dorys2025');
   }
 
   /* ─── NAV ─── */
   buildNav() {
     const tabs=[
-      {id:'dashboard',  label:'Dashboard',    icon:'M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z'},
-      {id:'products',   label:'Products',     icon:'M8 2L2 6v8h12V6zM5 10h6M5 12h4'},
-      {id:'media',      label:'Media Library',icon:'M1 3h14v10H1zM1 10l4-3 3 2 3-3 4 3'},
-      {id:'videos',     label:'Videos',       icon:'M1 3h14v10H1zM6.5 6.5l5 3-5 3z'},
-      {id:'ingredients',label:'Ingredients',  icon:'M8 1v14M4 5c0-2 8-2 8 0'},
-      {id:'reviews',    label:'Reviews',      icon:'M2 4h12M2 8h9M2 12h6'},
-      {id:'faq',        label:'FAQ',          icon:'M8 2a6 6 0 100 12A6 6 0 008 2zM8 10v.5M8 6a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5'},
-      {id:'orders',     label:'Orders',       icon:'M2 2h12v12H2zM5 5h6M5 8h6M5 11h3'},
-      {id:'homepage',   label:'Homepage',     icon:'M1 8L8 1l7 7M3 8v7h4v-4h2v4h4V8'}
+      {id:'dashboard',  label:'Dashboard',     icon:'M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z'},
+      {id:'products',   label:'Products',      icon:'M8 2L2 6v8h12V6zM5 10h6M5 12h4'},
+      {id:'flavours',   label:'Flavours',      icon:'M8 2c-2 0-5 2-5 5 0 3.5 5 7 5 7s5-3.5 5-7c0-3-3-5-5-5z'},
+      {id:'media',      label:'Media Library', icon:'M1 3h14v10H1zM1 10l4-3 3 2 3-3 4 3'},
+      {id:'videos',     label:'Videos',        icon:'M1 3h14v10H1zM6.5 6.5l5 3-5 3z'},
+      {id:'ingredients',label:'Ingredients',   icon:'M8 1v14M4 5c0-2 8-2 8 0'},
+      {id:'reviews',    label:'Reviews',       icon:'M2 4h12M2 8h9M2 12h6'},
+      {id:'faq',        label:'FAQ',           icon:'M8 2a6 6 0 100 12A6 6 0 008 2zM8 10v.5M8 6a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5'},
+      {id:'orders',     label:'Orders',        icon:'M2 2h12v12H2zM5 5h6M5 8h6M5 11h3'},
+      {id:'homepage',   label:'Homepage',      icon:'M1 8L8 1l7 7M3 8v7h4v-4h2v4h4V8'},
+      {id:'settings',   label:'Settings',      icon:'M8 5a3 3 0 100 6 3 3 0 000-6zM8 1v2M8 13v2M1 8h2M13 8h2M3.2 3.2l1.4 1.4M11.4 11.4l1.4 1.4M3.2 12.8l1.4-1.4M11.4 4.6l1.4-1.4'},
     ];
     const nav = document.getElementById('sideNav');
     nav.innerHTML='';
@@ -276,7 +232,7 @@ class Component extends DCLogic {
       const el=document.createElement('div');
       el.className='navitem'+(t.id===this.state.tab?' active':'');
       el.innerHTML=`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="${t.icon}"/></svg>${t.label}`;
-      el.onclick=()=>this.setState({tab:t.id},()=>{ this.buildNav(); this.renderTab(); });
+      el.onclick=()=>this.setState({tab:t.id},()=>{this.buildNav();this.renderTab();});
       nav.appendChild(el);
     });
   }
@@ -284,433 +240,383 @@ class Component extends DCLogic {
   renderTab() {
     const m = document.getElementById('mainContent');
     m.className = 'fade';
-    ({dashboard:()=>this.tDash(m),products:()=>this.tProducts(m),media:()=>this.tMedia(m),videos:()=>this.tVideos(m),ingredients:()=>this.tIngredients(m),reviews:()=>this.tReviews(m),faq:()=>this.tFaq(m),orders:()=>this.tOrders(m),homepage:()=>this.tHomepage(m)})[this.state.tab]();
+    const map={dashboard:()=>this.tDash(m),products:()=>this.tProducts(m),flavours:()=>this.tFlavours(m),media:()=>this.tMedia(m),videos:()=>this.tVideos(m),ingredients:()=>this.tIngredients(m),reviews:()=>this.tReviews(m),faq:()=>this.tFaq(m),orders:()=>this.tOrders(m),homepage:()=>this.tHomepage(m),settings:()=>this.tSettings(m)};
+    (map[this.state.tab]||map.dashboard)();
   }
 
   /* ─── DASHBOARD ─── */
   async tDash(m) {
     this.loading(m);
-    const [prods, revs, ords, media, faqs] = await Promise.all([
-      this.listItems('products'), this.listItems('reviews'), this.listItems('orders'),
-      this.listItems('media'), this.listItems('faq')
-    ]);
+    const [prods,revs,ords,flavours] = await Promise.all([this.listItems('products'),this.listItems('reviews'),this.listItems('orders'),this.listItems('flavours')]);
     m.innerHTML='';
-    const title = document.createElement('h1');
-    title.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:34px;font-style:italic;font-weight:400;color:#FDF6EC;margin-bottom:5px;";
-    title.textContent='Good day ✦'; m.appendChild(title);
-    const sub = document.createElement('p');
-    sub.style.cssText='font-size:14px;color:rgba(253,246,236,0.38);margin-bottom:36px;';
-    sub.textContent="Here's your bakery at a glance."; m.appendChild(sub);
-    const sr = this.el('div','display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px;');
+    const title=document.createElement('h1');title.style.cssText="font-family:'Cormorant Garamond',serif;font-size:34px;font-style:italic;font-weight:400;color:#FDF6EC;margin-bottom:5px;";title.textContent='Good day ✦';m.appendChild(title);
+    const sub=document.createElement('p');sub.style.cssText='font-size:14px;color:rgba(253,246,236,0.38);margin-bottom:36px;';sub.textContent="Here's your bakery at a glance.";m.appendChild(sub);
+    const sr=this.el('div','display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px;');
     sr.appendChild(this.statCard('Products',prods.length,'menu items'));
+    sr.appendChild(this.statCard('Flavours',flavours.length,'in catalogue'));
     sr.appendChild(this.statCard('Orders',ords.length,'custom requests'));
     sr.appendChild(this.statCard('Reviews',revs.length,revs.filter(r=>!r.approved).length+' pending'));
-    sr.appendChild(this.statCard('FAQ Items',faqs.length,'published'));
     m.appendChild(sr);
-    const g = this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:22px;');
-    const oc = this.card('padding:24px;');
-    oc.appendChild(this.secLabel('Recent Orders'));
-    const lastOrds = ords.slice(0,5);
-    if (!lastOrds.length) { const ep=document.createElement('p'); ep.style.cssText='font-size:13px;color:rgba(253,246,236,0.28);font-style:italic;'; ep.textContent='No orders yet.'; oc.appendChild(ep); }
-    lastOrds.forEach(o => {
-      const r = this.el('div','padding:11px 0;border-bottom:1px solid rgba(253,246,236,0.05);');
-      r.innerHTML=`<p style="font-size:14px;color:#FDF6EC;">${o.name}</p><p style="font-size:12px;color:rgba(253,246,236,0.35);margin-top:2px;">${o.cakeType||o.cake_type||''} · ${o.date}</p>`;
-      oc.appendChild(r);
-    });
+    const g=this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:22px;');
+    const oc=this.card('padding:24px;');oc.appendChild(this.secLabel('Recent Orders'));
+    const lastOrds=[...ords].reverse().slice(0,5);
+    if(!lastOrds.length){const ep=document.createElement('p');ep.style.cssText='font-size:13px;color:rgba(253,246,236,0.28);font-style:italic;';ep.textContent='No orders yet.';oc.appendChild(ep);}
+    lastOrds.forEach(o=>{const r=this.el('div','padding:11px 0;border-bottom:1px solid rgba(253,246,236,0.05);');r.innerHTML=`<p style="font-size:14px;color:#FDF6EC;">${o.name}</p><p style="font-size:12px;color:rgba(253,246,236,0.35);margin-top:2px;">${o.cakeType||''} · ${o.date}</p>`;oc.appendChild(r);});
     g.appendChild(oc);
-    const rc = this.card('padding:24px;');
-    rc.appendChild(this.secLabel('Pending Reviews'));
-    const pend = revs.filter(r=>!r.approved);
-    if (!pend.length) { const ep=document.createElement('p'); ep.style.cssText='font-size:13px;color:rgba(253,246,236,0.28);font-style:italic;'; ep.textContent='All reviews moderated.'; rc.appendChild(ep); }
-    pend.forEach(r => {
-      const row = this.el('div','padding:11px 0;border-bottom:1px solid rgba(253,246,236,0.05);');
-      row.innerHTML=`<p style="font-size:14px;color:#FDF6EC;margin-bottom:3px;">${r.name}</p><p style="font-size:13px;color:rgba(253,246,236,0.42);font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">"${r.text.substring(0,55)}…"</p>`;
-      const ab = this.btn('Approve','btn-gh', async()=>{await this.updateItem('reviews',r.id,{...r,approved:true});this.renderTab();});
-      ab.style.cssText+='margin-top:8px;padding:5px 14px;font-size:11px;';
-      row.appendChild(ab); rc.appendChild(row);
+    const rc=this.card('padding:24px;');rc.appendChild(this.secLabel('Pending Reviews'));
+    const pend=revs.filter(r=>!r.approved);
+    if(!pend.length){const ep=document.createElement('p');ep.style.cssText='font-size:13px;color:rgba(253,246,236,0.28);font-style:italic;';ep.textContent='All reviews moderated.';rc.appendChild(ep);}
+    pend.forEach(r=>{
+      const row=this.el('div','padding:11px 0;border-bottom:1px solid rgba(253,246,236,0.05);');
+      row.innerHTML=`<p style="font-size:14px;color:#FDF6EC;margin-bottom:3px;">${r.name}</p><p style="font-size:13px;color:rgba(253,246,236,0.42);font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">"${(r.text||'').substring(0,55)}…"</p>`;
+      const ab=this.btn('Approve','btn-gh',async()=>{await this.updateItem('reviews',r.id,{...r,approved:true});this.renderTab();});
+      ab.style.cssText+='margin-top:8px;padding:5px 14px;font-size:11px;';row.appendChild(ab);rc.appendChild(row);
     });
-    g.appendChild(rc); m.appendChild(g);
+    g.appendChild(rc);m.appendChild(g);
   }
 
   /* ─── PRODUCTS ─── */
   async tProducts(m) {
-    this.loading(m);
-    const products = await this.listItems('products');
-    m.innerHTML='';
+    this.loading(m);const products=await this.listItems('products');m.innerHTML='';
     m.appendChild(this.hdr('Products','Manage your cake menu.','+ Add Product',()=>this.productModal()));
-    const list = this.el('div','display:grid;gap:12px;');
-    products.forEach(p => {
-      const row = this.card('padding:20px 24px;display:flex;align-items:center;gap:20px;');
-      const imgBox = this.el('div','width:72px;height:72px;flex-shrink:0;overflow:hidden;');
-      if (p.image) { imgBox.innerHTML=`<img src="${p.image}" style="width:100%;height:100%;object-fit:cover;">`; }
-      else { imgBox.style.cssText+='background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;align-items:center;justify-content:center;'; imgBox.innerHTML='<span style="font-size:24px">🎂</span>'; }
+    const list=this.el('div','display:grid;gap:12px;');
+    products.forEach(p=>{
+      const row=this.card('padding:20px 24px;display:flex;align-items:center;gap:20px;');
+      const imgBox=this.el('div','width:72px;height:72px;flex-shrink:0;overflow:hidden;');
+      if(p.image){imgBox.innerHTML=`<img src="${p.image}" style="width:100%;height:100%;object-fit:cover;">`;}
+      else{imgBox.style.cssText+='background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;align-items:center;justify-content:center;';imgBox.innerHTML='<span style="font-size:24px">🎂</span>';}
       row.appendChild(imgBox);
-      const info = this.el('div','flex:1;min-width:0;');
+      const info=this.el('div','flex:1;min-width:0;');
       info.innerHTML=`<p style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#C4883A;margin-bottom:3px;">${p.category}</p><p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:#FDF6EC;">${p.name}</p><p style="font-size:12px;color:rgba(253,246,236,0.38);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.desc}</p>`;
       row.appendChild(info);
-      const price = document.createElement('p');
-      price.style.cssText="font-family:'Cormorant Garamond',serif;font-size:22px;color:#C4883A;flex-shrink:0;";
-      price.textContent=p.price; row.appendChild(price);
-      const btns = this.el('div','display:flex;gap:8px;flex-shrink:0;');
+      const price=document.createElement('p');price.style.cssText="font-family:'Cormorant Garamond',serif;font-size:22px;color:#C4883A;flex-shrink:0;";price.textContent=p.price;row.appendChild(price);
+      const btns=this.el('div','display:flex;gap:8px;flex-shrink:0;');
       btns.appendChild(this.btn('Edit','btn-gh',()=>this.productModal(p)));
       btns.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete '+p.name+'?')){await this.deleteItem('products',p.id);this.renderTab();}}));
-      row.appendChild(btns); list.appendChild(row);
+      row.appendChild(btns);list.appendChild(row);
     });
     m.appendChild(list);
   }
 
   productModal(p) {
     this.modal(p?'Edit Product':'Add Product',(mo,close)=>{
-      let imgData = p?p.image:'';
-      const fg = this.el('div','display:grid;gap:16px;');
-      const ni = this.inp('text',p?p.name:'','e.g. Duchess Rose');
-      const g2 = this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:16px;');
-      const cs = this.sel(['Designer Cake','Cheesecake','Cupcakes','Seasonal'],p?p.category:'');
-      const pi = this.inp('text',p?p.price:'','e.g. $180');
-      g2.appendChild(this.fieldW('Category',cs)); g2.appendChild(this.fieldW('Price',pi));
-      const di = this.ta(p?p.desc:'','Short description…',3);
-      const imgPrev = this.el('div','margin-bottom:10px;');
-      if (imgData) imgPrev.innerHTML=`<img src="${imgData}" style="width:100%;max-height:180px;object-fit:cover;">`;
-      const uplLabel = document.createElement('label');
-      uplLabel.style.cssText='border:1px dashed rgba(196,136,58,0.28);padding:18px;text-align:center;cursor:pointer;color:rgba(253,246,236,0.38);font-size:13px;display:block;';
-      uplLabel.textContent=p&&p.image?'Change photo':'Click to upload product image';
-      const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.style.display='none';
+      let imgData=p?p.image:'';
+      const fg=this.el('div','display:grid;gap:16px;');
+      const ni=this.inp('text',p?p.name:'','e.g. Duchess Rose');
+      const g2=this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:16px;');
+      const cs=this.sel(['Designer Cake','Cheesecake','Cupcakes','Seasonal'],p?p.category:'');
+      const pi=this.inp('text',p?p.price:'','e.g. $180');
+      g2.appendChild(this.fieldW('Category',cs));g2.appendChild(this.fieldW('Price',pi));
+      const di=this.ta(p?p.desc:'','Short description…',3);
+      const imgPrev=this.el('div','margin-bottom:10px;');
+      if(imgData)imgPrev.innerHTML=`<img src="${imgData}" style="width:100%;max-height:180px;object-fit:cover;">`;
+      const uplLabel=document.createElement('label');uplLabel.style.cssText='border:1px dashed rgba(196,136,58,0.28);padding:18px;text-align:center;cursor:pointer;color:rgba(253,246,236,0.38);font-size:13px;display:block;';uplLabel.textContent=p&&p.image?'Change photo':'Click to upload product image';
+      const fi=document.createElement('input');fi.type='file';fi.accept='image/*';fi.style.display='none';
       fi.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{imgData=ev.target.result;imgPrev.innerHTML=`<img src="${imgData}" style="width:100%;max-height:180px;object-fit:cover;">`;};rd.readAsDataURL(f);};
-      uplLabel.appendChild(fi);
-      const imgWrap = this.el('div',''); imgWrap.appendChild(imgPrev); imgWrap.appendChild(uplLabel);
-      fg.appendChild(this.fieldW('Name',ni)); fg.appendChild(g2);
-      fg.appendChild(this.fieldW('Description',di)); fg.appendChild(this.fieldW('Product Photo',imgWrap));
-      const sb = this.btn('Save Product','btn-g',async()=>{
-        sb.textContent='Saving…'; sb.disabled=true;
-        const d={name:ni.value,category:cs.value,price:pi.value,desc:di.value,image:imgData};
-        if(p){await this.updateItem('products',p.id,d);}else{await this.createItem('products',d);}
-        close(); this.renderTab();
+      uplLabel.appendChild(fi);const imgWrap=this.el('div','');imgWrap.appendChild(imgPrev);imgWrap.appendChild(uplLabel);
+      fg.appendChild(this.fieldW('Name',ni));fg.appendChild(g2);fg.appendChild(this.fieldW('Description',di));fg.appendChild(this.fieldW('Product Photo',imgWrap));
+      const sb=this.btn('Save Product','btn-g',async()=>{sb.textContent='Saving…';sb.disabled=true;const d={name:ni.value,category:cs.value,price:pi.value,desc:di.value,image:imgData};if(p){await this.updateItem('products',p.id,d);}else{await this.createItem('products',d);}close();this.renderTab();});
+      sb.style.cssText+='width:100%;padding:14px;margin-top:8px;';fg.appendChild(sb);mo.appendChild(fg);
+    });
+  }
+
+  /* ─── FLAVOURS ─── */
+  async tFlavours(m) {
+    this.loading(m);const flavours=await this.listItems('flavours');m.innerHTML='';
+    m.appendChild(this.hdr('Flavours','Manage the flavour catalogue shown on the Flavours page.','+ Add Flavour',()=>this.flavourModal()));
+    const cats=['Cake Bases','Fillings','Buttercreams','Finishes'];
+    const allCats=[...new Set(flavours.map(f=>f.category))];
+    const displayCats=[...cats,...allCats.filter(c=>!cats.includes(c))];
+    let hasAny=false;
+    displayCats.forEach(cat=>{
+      const items=flavours.filter(f=>f.category===cat);if(!items.length)return;hasAny=true;
+      const sec=this.el('div','margin-bottom:28px;');
+      const catRow=this.el('div','display:flex;align-items:center;gap:16px;margin-bottom:14px;');
+      catRow.innerHTML=`<span style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C4883A;">${cat}</span><div style="flex:1;height:1px;background:rgba(196,136,58,0.12);"></div>`;
+      sec.appendChild(catRow);
+      const grid=this.el('div','display:grid;gap:10px;');
+      items.forEach(f=>{
+        const row=this.card('padding:18px 22px;display:flex;align-items:flex-start;gap:14px;');
+        if(f.icon){const icon=this.el('span','font-size:20px;flex-shrink:0;margin-top:3px;line-height:1;');icon.textContent=f.icon;row.appendChild(icon);}
+        const inf=this.el('div','flex:1;min-width:0;');
+        const name=document.createElement('p');name.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:4px;";name.textContent=f.name;inf.appendChild(name);
+        const desc=document.createElement('p');desc.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);line-height:1.65;';desc.textContent=f.desc;inf.appendChild(desc);
+        row.appendChild(inf);
+        const btns=this.el('div','display:flex;gap:8px;flex-shrink:0;');
+        btns.appendChild(this.btn('Edit','btn-gh',()=>this.flavourModal(f)));
+        btns.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete '+f.name+'?')){await this.deleteItem('flavours',f.id);this.renderTab();}}));
+        row.appendChild(btns);grid.appendChild(row);
       });
-      sb.style.cssText+='width:100%;padding:14px;margin-top:8px;';
-      fg.appendChild(sb); mo.appendChild(fg);
+      sec.appendChild(grid);m.appendChild(sec);
+    });
+    if(!hasAny){const ep=this.el('div','text-align:center;padding:60px;border:1px dashed rgba(196,136,58,0.2);');ep.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:rgba(253,246,236,0.28);">No flavours yet. Add your first one.</p>`;m.appendChild(ep);}
+  }
+
+  flavourModal(f) {
+    this.modal(f?'Edit Flavour':'Add Flavour',(mo,close)=>{
+      const fg=this.el('div','display:grid;gap:16px;');
+      const g2=this.el('div','display:grid;grid-template-columns:80px 1fr;gap:16px;');
+      const iconI=this.inp('text',f?f.icon||'':'','e.g. ✦');iconI.style.cssText+='text-align:center;font-size:22px;';
+      const nameI=this.inp('text',f?f.name:'','e.g. Salted Caramel');
+      g2.appendChild(this.fieldW('Icon',iconI));g2.appendChild(this.fieldW('Name',nameI));
+      const catI=this.sel(['Cake Bases','Fillings','Buttercreams','Finishes','Other'],f?f.category:'Cake Bases');
+      const descI=this.ta(f?f.desc:'','Describe this flavour…',3);
+      fg.appendChild(g2);fg.appendChild(this.fieldW('Category',catI));fg.appendChild(this.fieldW('Description',descI));
+      const sb=this.btn('Save Flavour','btn-g',async()=>{if(!nameI.value.trim())return;sb.textContent='Saving…';sb.disabled=true;const d={icon:iconI.value,name:nameI.value,category:catI.value,desc:descI.value};if(f){await this.updateItem('flavours',f.id,d);}else{await this.createItem('flavours',d);}close();this.renderTab();});
+      sb.style.cssText+='width:100%;padding:14px;margin-top:4px;';fg.appendChild(sb);mo.appendChild(fg);
     });
   }
 
   /* ─── MEDIA ─── */
   async tMedia(m) {
-    this.loading(m);
-    const media = await this.listItems('media');
-    m.innerHTML='';
-    const uplLabel = document.createElement('label');
-    uplLabel.className='btn-g'; uplLabel.style.cursor='pointer'; uplLabel.textContent='+ Upload Files';
-    const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*,video/*'; fi.multiple=true; fi.style.display='none';
-    fi.onchange=e=>{this.processFiles(Array.from(e.target.files));};
-    uplLabel.appendChild(fi);
+    this.loading(m);const media=await this.listItems('media');m.innerHTML='';
+    const uplLabel=document.createElement('label');uplLabel.className='btn-g';uplLabel.style.cursor='pointer';uplLabel.textContent='+ Upload Files';
+    const fi=document.createElement('input');fi.type='file';fi.accept='image/*,video/*';fi.multiple=true;fi.style.display='none';
+    fi.onchange=e=>{this.processFiles(Array.from(e.target.files));};uplLabel.appendChild(fi);
     m.appendChild(this.hdr('Media Library','Upload and manage images and videos.',null));
     m.querySelector('div').appendChild(uplLabel);
-    const dz = this.el('div','border:1px dashed rgba(196,136,58,0.25);padding:36px;text-align:center;margin-bottom:28px;cursor:pointer;');
-    dz.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(253,246,236,0.3);">Drop images or videos here to upload</p><p style="font-size:12px;color:rgba(253,246,236,0.2);margin-top:6px;">JPG · PNG · WebP · MP4 · MOV</p>`;
-    dz.ondragover=e=>{e.preventDefault();dz.style.borderColor='#C4883A';};
-    dz.ondragleave=()=>{dz.style.borderColor='rgba(196,136,58,0.25)';};
-    dz.ondrop=e=>{e.preventDefault();dz.style.borderColor='rgba(196,136,58,0.25)';this.processFiles(Array.from(e.dataTransfer.files));};
-    m.appendChild(dz);
-    if (!media.length) { const ep=document.createElement('p'); ep.style.cssText='font-size:14px;color:rgba(253,246,236,0.28);font-style:italic;'; ep.textContent='No files uploaded yet.'; m.appendChild(ep); return; }
-    const grid = this.el('div','display:grid;grid-template-columns:repeat(4,1fr);gap:16px;');
+    const dz=this.el('div','border:1px dashed rgba(196,136,58,0.25);padding:36px;text-align:center;margin-bottom:28px;cursor:pointer;');
+    dz.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(253,246,236,0.3);">Drop images or videos here</p><p style="font-size:12px;color:rgba(253,246,236,0.2);margin-top:6px;">JPG · PNG · WebP · MP4 · MOV</p>`;
+    dz.ondragover=e=>{e.preventDefault();dz.style.borderColor='#C4883A';};dz.ondragleave=()=>{dz.style.borderColor='rgba(196,136,58,0.25)';};
+    dz.ondrop=e=>{e.preventDefault();dz.style.borderColor='rgba(196,136,58,0.25)';this.processFiles(Array.from(e.dataTransfer.files));};m.appendChild(dz);
+    if(!media.length){const ep=document.createElement('p');ep.style.cssText='font-size:14px;color:rgba(253,246,236,0.28);font-style:italic;';ep.textContent='No files uploaded yet.';m.appendChild(ep);return;}
+    const grid=this.el('div','display:grid;grid-template-columns:repeat(4,1fr);gap:16px;');
     media.forEach(med=>{
-      const c = this.el('div','');
-      c.innerHTML=med.type==='image'?`<img src="${med.data}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">`:`<video src="${med.data}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;" muted></video>`;
-      const inf = this.el('div','padding:8px 0;');
-      const pname=document.createElement('p'); pname.style.cssText='font-size:12px;color:rgba(253,246,236,0.65);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'; pname.textContent=med.name; inf.appendChild(pname);
-      const pmeta=document.createElement('p'); pmeta.style.cssText='font-size:10px;color:rgba(253,246,236,0.28);margin-top:2px;'; pmeta.textContent=(med.size||'')+(med.addedAt?' · '+med.addedAt:''); inf.appendChild(pmeta);
-      const db=this.btn('Remove','btn-d',async()=>{await this.deleteItem('media',med.id);this.renderTab();});
-      db.style.cssText+='width:100%;margin-top:6px;padding:6px;';
-      inf.appendChild(db); c.appendChild(inf); grid.appendChild(c);
-    });
-    m.appendChild(grid);
+      const c=this.el('div','');c.innerHTML=med.type==='image'?`<img src="${med.data}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">`:`<video src="${med.data}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;" muted></video>`;
+      const inf=this.el('div','padding:8px 0;');const pname=document.createElement('p');pname.style.cssText='font-size:12px;color:rgba(253,246,236,0.65);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';pname.textContent=med.name;inf.appendChild(pname);
+      const db=this.btn('Remove','btn-d',async()=>{await this.deleteItem('media',med.id);this.renderTab();});db.style.cssText+='width:100%;margin-top:6px;padding:6px;';inf.appendChild(db);c.appendChild(inf);grid.appendChild(c);
+    });m.appendChild(grid);
   }
 
   processFiles(files) {
-    let n=0;
-    const doNext = async () => {
-      if (n >= files.length) { this.renderTab(); return; }
-      const f = files[n++];
-      const rd = new FileReader();
-      rd.onload = async ev => {
-        await this.createItem('media',{name:f.name,type:f.type.startsWith('video')?'video':'image',size:(f.size/1024).toFixed(0)+' KB',data:ev.target.result,addedAt:new Date().toLocaleDateString()});
-        doNext();
-      };
-      rd.readAsDataURL(f);
-    };
-    doNext();
+    let n=0;const doNext=async()=>{if(n>=files.length){this.renderTab();return;}const f=files[n++];const rd=new FileReader();rd.onload=async ev=>{await this.createItem('media',{name:f.name,type:f.type.startsWith('video')?'video':'image',size:(f.size/1024).toFixed(0)+' KB',data:ev.target.result,addedAt:new Date().toLocaleDateString()});doNext();};rd.readAsDataURL(f);};doNext();
   }
 
   /* ─── VIDEOS ─── */
   async tVideos(m) {
-    this.loading(m);
-    const videos = await this.listItems('videos');
-    m.innerHTML='';
-    const uplLabel = document.createElement('label');
-    uplLabel.className='btn-g'; uplLabel.style.cursor='pointer'; uplLabel.textContent='+ Upload Video';
-    const fi=document.createElement('input'); fi.type='file'; fi.accept='video/*'; fi.style.display='none';
+    this.loading(m);const videos=await this.listItems('videos');m.innerHTML='';
+    const uplLabel=document.createElement('label');uplLabel.className='btn-g';uplLabel.style.cursor='pointer';uplLabel.textContent='+ Upload Video';
+    const fi=document.createElement('input');fi.type='file';fi.accept='video/*';fi.style.display='none';
     fi.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=async ev=>{await this.createItem('videos',{title:f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),url:ev.target.result,desc:'Uploaded video.'});this.renderTab();};rd.readAsDataURL(f);};
-    uplLabel.appendChild(fi);
-    m.appendChild(this.hdr('Videos','Upload short videos shown in the Studio section.',null));
-    m.querySelector('div').appendChild(uplLabel);
-    const list = this.el('div','display:grid;gap:14px;');
+    uplLabel.appendChild(fi);m.appendChild(this.hdr('Videos','Upload short videos shown in the Studio section.',null));m.querySelector('div').appendChild(uplLabel);
+    const list=this.el('div','display:grid;gap:14px;');
     videos.forEach(v=>{
       const row=this.card('padding:20px 24px;display:flex;align-items:center;gap:20px;');
       const th=this.el('div','width:128px;height:76px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;align-items:center;justify-content:center;');
       if(v.url){const vid=document.createElement('video');vid.src=v.url;vid.style.cssText='width:100%;height:100%;object-fit:cover;';th.appendChild(vid);}
       else th.innerHTML='<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polygon points="10,7 22,14 10,21" fill="#C4883A"/></svg>';
       row.appendChild(th);
-      const inf=this.el('div','flex:1;');
-      const vt=document.createElement('p');vt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:4px;";vt.textContent=v.title;inf.appendChild(vt);
-      const vd=document.createElement('p');vd.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);';vd.textContent=v.desc;inf.appendChild(vd);
-      row.appendChild(inf);
-      row.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete?')){await this.deleteItem('videos',v.id);this.renderTab();}}));
-      list.appendChild(row);
-    });
-    m.appendChild(list);
+      const inf=this.el('div','flex:1;');const vt=document.createElement('p');vt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:4px;";vt.textContent=v.title;inf.appendChild(vt);const vd=document.createElement('p');vd.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);';vd.textContent=v.desc;inf.appendChild(vd);row.appendChild(inf);
+      row.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete?')){await this.deleteItem('videos',v.id);this.renderTab();}}));list.appendChild(row);
+    });m.appendChild(list);
   }
 
   /* ─── INGREDIENTS ─── */
   async tIngredients(m) {
-    this.loading(m);
-    const ings = await this.listItems('ingredients');
-    m.innerHTML='';
+    this.loading(m);const ings=await this.listItems('ingredients');m.innerHTML='';
     m.appendChild(this.hdr('Ingredients','Edit ingredient highlights on the website.','+ Add',()=>this.ingModal()));
     const grid=this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:16px;');
     ings.forEach(ing=>{
       const c=this.card('padding:20px 24px;display:flex;align-items:flex-start;gap:16px;');
       const icon=document.createElement('span');icon.style.cssText='font-size:28px;flex-shrink:0;margin-top:2px;';icon.textContent=ing.icon;c.appendChild(icon);
-      const inf=this.el('div','flex:1;');
-      const iname=document.createElement('p');iname.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:5px;";iname.textContent=ing.name;inf.appendChild(iname);
-      const idesc=document.createElement('p');idesc.style.cssText='font-size:13px;color:rgba(253,246,236,0.42);line-height:1.65;';idesc.textContent=ing.desc;inf.appendChild(idesc);
-      const br=this.el('div','display:flex;gap:8px;margin-top:12px;');
-      br.appendChild(this.btn('Edit','btn-gh',()=>this.ingModal(ing)));
-      br.appendChild(this.btn('Delete','btn-d',async()=>{await this.deleteItem('ingredients',ing.id);this.renderTab();}));
-      inf.appendChild(br);c.appendChild(inf);grid.appendChild(c);
-    });
-    m.appendChild(grid);
+      const inf=this.el('div','flex:1;');const iname=document.createElement('p');iname.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:5px;";iname.textContent=ing.name;inf.appendChild(iname);const idesc=document.createElement('p');idesc.style.cssText='font-size:13px;color:rgba(253,246,236,0.42);line-height:1.65;';idesc.textContent=ing.desc;inf.appendChild(idesc);
+      const br=this.el('div','display:flex;gap:8px;margin-top:12px;');br.appendChild(this.btn('Edit','btn-gh',()=>this.ingModal(ing)));br.appendChild(this.btn('Delete','btn-d',async()=>{await this.deleteItem('ingredients',ing.id);this.renderTab();}));inf.appendChild(br);c.appendChild(inf);grid.appendChild(c);
+    });m.appendChild(grid);
   }
 
   ingModal(ing) {
     this.modal(ing?'Edit Ingredient':'Add Ingredient',(mo,close)=>{
-      const fg=this.el('div','display:grid;gap:16px;');
-      const g2=this.el('div','display:grid;grid-template-columns:80px 1fr;gap:16px;');
-      const ii=this.inp('text',ing?ing.icon:'','✦');ii.style.cssText+='text-align:center;font-size:22px;';
-      const ni=this.inp('text',ing?ing.name:'','Ingredient name');
-      g2.appendChild(this.fieldW('Icon',ii));g2.appendChild(this.fieldW('Name',ni));
-      const di=this.ta(ing?ing.desc:'','Short description…',3);
-      fg.appendChild(g2);fg.appendChild(this.fieldW('Description',di));
-      const sb=this.btn('Save Ingredient','btn-g',async()=>{
-        sb.textContent='Saving…';sb.disabled=true;
-        const d={icon:ii.value,name:ni.value,desc:di.value};
-        if(ing){await this.updateItem('ingredients',ing.id,d);}else{await this.createItem('ingredients',d);}
-        close();this.renderTab();
-      });
-      sb.style.cssText+='width:100%;padding:14px;margin-top:6px;';
-      fg.appendChild(sb);mo.appendChild(fg);
+      const fg=this.el('div','display:grid;gap:16px;');const g2=this.el('div','display:grid;grid-template-columns:80px 1fr;gap:16px;');
+      const ii=this.inp('text',ing?ing.icon:'','✦');ii.style.cssText+='text-align:center;font-size:22px;';const ni=this.inp('text',ing?ing.name:'','Ingredient name');
+      g2.appendChild(this.fieldW('Icon',ii));g2.appendChild(this.fieldW('Name',ni));const di=this.ta(ing?ing.desc:'','Short description…',3);fg.appendChild(g2);fg.appendChild(this.fieldW('Description',di));
+      const sb=this.btn('Save Ingredient','btn-g',async()=>{sb.textContent='Saving…';sb.disabled=true;const d={icon:ii.value,name:ni.value,desc:di.value};if(ing){await this.updateItem('ingredients',ing.id,d);}else{await this.createItem('ingredients',d);}close();this.renderTab();});
+      sb.style.cssText+='width:100%;padding:14px;margin-top:6px;';fg.appendChild(sb);mo.appendChild(fg);
     });
   }
 
   /* ─── REVIEWS ─── */
   async tReviews(m) {
-    this.loading(m);
-    const allRevs = await this.listItems('reviews');
-    m.innerHTML='';
+    this.loading(m);const allRevs=await this.listItems('reviews');m.innerHTML='';
     m.appendChild(this.hdr('Reviews','Approve, edit or delete customer reviews.','+ Add Review',()=>this.reviewModal()));
     const fr=this.el('div','display:flex;gap:10px;margin-bottom:28px;');
-    ['all','pending','approved'].forEach(f=>{
-      const b=this.btn(f.charAt(0).toUpperCase()+f.slice(1),f===this.state.reviewFilter?'btn-g':'btn-gh',()=>this.setState({reviewFilter:f},()=>this.renderTab()));
-      b.style.cssText+='padding:8px 20px;';fr.appendChild(b);
-    });
+    ['all','pending','approved'].forEach(f=>{const b=this.btn(f.charAt(0).toUpperCase()+f.slice(1),f===this.state.reviewFilter?'btn-g':'btn-gh',()=>this.setState({reviewFilter:f},()=>this.renderTab()));b.style.cssText+='padding:8px 20px;';fr.appendChild(b);});
     m.appendChild(fr);
     let revs=allRevs;
-    if(this.state.reviewFilter==='pending') revs=revs.filter(r=>!r.approved);
-    if(this.state.reviewFilter==='approved') revs=revs.filter(r=>r.approved);
+    if(this.state.reviewFilter==='pending')revs=revs.filter(r=>!r.approved);
+    if(this.state.reviewFilter==='approved')revs=revs.filter(r=>r.approved);
     const list=this.el('div','display:grid;gap:12px;');
     revs.forEach(r=>{
       const c=this.card('padding:24px;');
-      const stars='★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
-      const sh=document.createElement('p');sh.style.cssText='color:#C4883A;font-size:16px;letter-spacing:2px;margin-bottom:10px;';sh.textContent=stars;c.appendChild(sh);
+      if(r.photo){const ph=this.el('div','margin-bottom:14px;overflow:hidden;');ph.innerHTML=`<img src="${r.photo}" style="max-width:200px;max-height:140px;object-fit:cover;display:block;border:1px solid rgba(196,136,58,0.15);">`;c.appendChild(ph);}
+      const stars='★'.repeat(r.rating)+'☆'.repeat(5-r.rating);const sh=document.createElement('p');sh.style.cssText='color:#C4883A;font-size:16px;letter-spacing:2px;margin-bottom:10px;';sh.textContent=stars;c.appendChild(sh);
       const qt=document.createElement('p');qt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#FDF6EC;line-height:1.65;margin-bottom:12px;";qt.textContent='"'+r.text+'"';c.appendChild(qt);
-      const meta=this.el('div','display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;');
-      const mn=document.createElement('p');mn.style.cssText='font-size:13px;color:rgba(253,246,236,0.45);';mn.textContent=r.name+(r.event?' · '+r.event:'');meta.appendChild(mn);
-      const badge=document.createElement('span');badge.className=(r.approved?'tag-ok':'tag-pend');badge.textContent=r.approved?'Approved':'Pending';meta.appendChild(badge);
-      c.appendChild(meta);
+      const meta=this.el('div','display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;');const mn=document.createElement('p');mn.style.cssText='font-size:13px;color:rgba(253,246,236,0.45);';mn.textContent=r.name+(r.event?' · '+r.event:'');meta.appendChild(mn);const badge=document.createElement('span');badge.className=(r.approved?'tag-ok':'tag-pend');badge.textContent=r.approved?'Approved':'Pending';meta.appendChild(badge);c.appendChild(meta);
       const br=this.el('div','display:flex;gap:8px;');
       if(!r.approved){br.appendChild(this.btn('Approve','btn-gh',async()=>{await this.updateItem('reviews',r.id,{...r,approved:true});this.renderTab();}));}
       else{br.appendChild(this.btn('Unapprove','btn-gh',async()=>{await this.updateItem('reviews',r.id,{...r,approved:false});this.renderTab();}));}
-      br.appendChild(this.btn('Edit','btn-gh',()=>this.reviewModal(r)));
-      br.appendChild(this.btn('Delete','btn-d',async()=>{await this.deleteItem('reviews',r.id);this.renderTab();}));
+      br.appendChild(this.btn('Edit','btn-gh',()=>this.reviewModal(r)));br.appendChild(this.btn('Delete','btn-d',async()=>{await this.deleteItem('reviews',r.id);this.renderTab();}));
       c.appendChild(br);list.appendChild(c);
-    });
-    m.appendChild(list);
+    });m.appendChild(list);
   }
 
   reviewModal(r) {
     this.modal(r?'Edit Review':'Add Review',(mo,close)=>{
-      const fg=this.el('div','display:grid;gap:16px;');
-      const g2=this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:16px;');
-      const ni=this.inp('text',r?r.name:'','Customer name');
-      const ev=this.inp('text',r?r.event:'','e.g. Wedding, Birthday');
+      const fg=this.el('div','display:grid;gap:16px;');const g2=this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:16px;');
+      const ni=this.inp('text',r?r.name:'','Customer name');const ev=this.inp('text',r?r.event:'','e.g. Wedding, Birthday');
       g2.appendChild(this.fieldW('Name',ni));g2.appendChild(this.fieldW('Occasion',ev));
-      const ratingWrap=this.el('div','display:flex;gap:8px;align-items:center;');
-      let ratingVal=r?r.rating:5;
+      const ratingWrap=this.el('div','display:flex;gap:8px;align-items:center;');let ratingVal=r?r.rating:5;
       const ratingLabel=document.createElement('span');ratingLabel.style.cssText='color:#C4883A;font-size:20px;letter-spacing:3px;';ratingLabel.textContent='★'.repeat(ratingVal)+'☆'.repeat(5-ratingVal);
       const ratingInp=this.inp('range','','');ratingInp.min=1;ratingInp.max=5;ratingInp.step=1;ratingInp.value=ratingVal;ratingInp.style.cssText='flex:1;accent-color:#C4883A;';
       ratingInp.oninput=()=>{ratingVal=parseInt(ratingInp.value);ratingLabel.textContent='★'.repeat(ratingVal)+'☆'.repeat(5-ratingVal);};
       ratingWrap.appendChild(ratingInp);ratingWrap.appendChild(ratingLabel);
       const ti=this.ta(r?r.text:'','Write the review text…',4);
-      const appWrap=this.el('div','display:flex;align-items:center;gap:10px;');
-      const appCb=document.createElement('input');appCb.type='checkbox';appCb.checked=r?r.approved:true;appCb.style.accentColor='#C4883A';
-      const appLabel=document.createElement('label');appLabel.style.cssText='font-size:13px;color:rgba(253,246,236,0.6);';appLabel.textContent='Approved (visible on website)';
-      appWrap.appendChild(appCb);appWrap.appendChild(appLabel);
+      const appWrap=this.el('div','display:flex;align-items:center;gap:10px;');const appCb=document.createElement('input');appCb.type='checkbox';appCb.checked=r?r.approved:true;appCb.style.accentColor='#C4883A';const appLabel=document.createElement('label');appLabel.style.cssText='font-size:13px;color:rgba(253,246,236,0.6);';appLabel.textContent='Approved (visible on website)';appWrap.appendChild(appCb);appWrap.appendChild(appLabel);
       fg.appendChild(g2);fg.appendChild(this.fieldW('Rating',ratingWrap));fg.appendChild(this.fieldW('Review Text',ti));fg.appendChild(appWrap);
-      const sb=this.btn('Save Review','btn-g',async()=>{
-        sb.textContent='Saving…';sb.disabled=true;
-        const d={name:ni.value,event:ev.value,rating:ratingVal,text:ti.value,approved:appCb.checked};
-        if(r){await this.updateItem('reviews',r.id,d);}else{await this.createItem('reviews',d);}
-        close();this.renderTab();
-      });
-      sb.style.cssText+='width:100%;padding:14px;margin-top:4px;';
-      fg.appendChild(sb);mo.appendChild(fg);
+      const sb=this.btn('Save Review','btn-g',async()=>{sb.textContent='Saving…';sb.disabled=true;const d={name:ni.value,event:ev.value,rating:ratingVal,text:ti.value,approved:appCb.checked};if(r){await this.updateItem('reviews',r.id,{...r,...d});}else{await this.createItem('reviews',d);}close();this.renderTab();});
+      sb.style.cssText+='width:100%;padding:14px;margin-top:4px;';fg.appendChild(sb);mo.appendChild(fg);
     });
   }
 
   /* ─── FAQ ─── */
   async tFaq(m) {
-    this.loading(m);
-    const faqs = await this.listItems('faq');
-    m.innerHTML='';
+    this.loading(m);const faqs=await this.listItems('faq');m.innerHTML='';
     m.appendChild(this.hdr('FAQ','Manage frequently asked questions shown on the website.','+ Add Question',()=>this.faqModal()));
+    if(!faqs.length){const ep=this.el('div','text-align:center;padding:60px;border:1px dashed rgba(196,136,58,0.2);');ep.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:rgba(253,246,236,0.28);">No FAQ items yet.</p>`;m.appendChild(ep);return;}
     const list=this.el('div','display:grid;gap:12px;');
-    if (!faqs.length) {
-      const ep=this.el('div','text-align:center;padding:60px;border:1px dashed rgba(196,136,58,0.2);');
-      ep.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:rgba(253,246,236,0.28);">No FAQ items yet.</p>`;
-      m.appendChild(ep); return;
-    }
     faqs.forEach((faq,idx)=>{
-      const c=this.card('padding:22px 24px;');
-      const top=this.el('div','display:flex;align-items:flex-start;gap:16px;');
+      const c=this.card('padding:22px 24px;');const top=this.el('div','display:flex;align-items:flex-start;gap:16px;');
       const num=document.createElement('span');num.style.cssText="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:rgba(196,136,58,0.35);flex-shrink:0;line-height:1.2;";num.textContent=String(idx+1).padStart(2,'0');
-      const content=this.el('div','flex:1;');
-      const qt=document.createElement('p');qt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:6px;";qt.textContent=faq.q;content.appendChild(qt);
-      const at=document.createElement('p');at.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);line-height:1.65;';at.textContent=faq.a;content.appendChild(at);
-      const br=this.el('div','display:flex;gap:8px;margin-top:14px;');
-      br.appendChild(this.btn('Edit','btn-gh',()=>this.faqModal(faq)));
-      br.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete this question?')){await this.deleteItem('faq',faq.id);this.renderTab();}}));
-      content.appendChild(br);top.appendChild(num);top.appendChild(content);c.appendChild(top);list.appendChild(c);
-    });
-    m.appendChild(list);
+      const content=this.el('div','flex:1;');const qt=document.createElement('p');qt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:6px;";qt.textContent=faq.q;content.appendChild(qt);const at=document.createElement('p');at.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);line-height:1.65;';at.textContent=faq.a;content.appendChild(at);
+      const br=this.el('div','display:flex;gap:8px;margin-top:14px;');br.appendChild(this.btn('Edit','btn-gh',()=>this.faqModal(faq)));br.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete this question?')){await this.deleteItem('faq',faq.id);this.renderTab();}}));content.appendChild(br);top.appendChild(num);top.appendChild(content);c.appendChild(top);list.appendChild(c);
+    });m.appendChild(list);
   }
 
   faqModal(faq) {
     this.modal(faq?'Edit Question':'Add Question',(mo,close)=>{
-      const fg=this.el('div','display:grid;gap:16px;');
-      const qi=this.inp('text',faq?faq.q:'','e.g. How far in advance should I order?');
-      const ai=this.ta(faq?faq.a:'','Write the answer here…',5);
-      fg.appendChild(this.fieldW('Question',qi));
-      fg.appendChild(this.fieldW('Answer',ai));
-      const sb=this.btn('Save Question','btn-g',async()=>{
-        if(!qi.value.trim()||!ai.value.trim())return;
-        sb.textContent='Saving…';sb.disabled=true;
-        const d={q:qi.value.trim(),a:ai.value.trim()};
-        if(faq){await this.updateItem('faq',faq.id,d);}else{await this.createItem('faq',d);}
-        close();this.renderTab();
-      });
-      sb.style.cssText+='width:100%;padding:14px;margin-top:6px;';
-      fg.appendChild(sb);mo.appendChild(fg);
+      const fg=this.el('div','display:grid;gap:16px;');const qi=this.inp('text',faq?faq.q:'','e.g. How far in advance should I order?');const ai=this.ta(faq?faq.a:'','Write the answer here…',5);
+      fg.appendChild(this.fieldW('Question',qi));fg.appendChild(this.fieldW('Answer',ai));
+      const sb=this.btn('Save Question','btn-g',async()=>{if(!qi.value.trim()||!ai.value.trim())return;sb.textContent='Saving…';sb.disabled=true;const d={q:qi.value.trim(),a:ai.value.trim()};if(faq){await this.updateItem('faq',faq.id,d);}else{await this.createItem('faq',d);}close();this.renderTab();});
+      sb.style.cssText+='width:100%;padding:14px;margin-top:6px;';fg.appendChild(sb);mo.appendChild(fg);
     });
   }
 
   /* ─── ORDERS ─── */
   async tOrders(m) {
-    this.loading(m);
-    const orders = await this.listItems('orders');
-    m.innerHTML='';
+    this.loading(m);const orders=await this.listItems('orders');m.innerHTML='';
     m.appendChild(this.hdr('Orders','Custom cake requests submitted from the website.'));
-    if (!orders.length) {
-      const ep=this.el('div','text-align:center;padding:80px 40px;border:1px dashed rgba(196,136,58,0.2);');
-      const epp=document.createElement('p');epp.style.cssText="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:rgba(253,246,236,0.28);";epp.textContent='No orders yet.';ep.appendChild(epp);m.appendChild(ep);return;
-    }
+    if(!orders.length){const ep=this.el('div','text-align:center;padding:80px 40px;border:1px dashed rgba(196,136,58,0.2);');ep.innerHTML=`<p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:rgba(253,246,236,0.28);">No orders yet.</p>`;m.appendChild(ep);return;}
     const list=this.el('div','display:grid;gap:12px;');
-    orders.forEach(o=>{
-      const c=this.card('padding:24px;');
-      const top=this.el('div','display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;');
-      const tl=this.el('div','');
-      const on=document.createElement('p');on.style.cssText="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#FDF6EC;";on.textContent=o.name;tl.appendChild(on);
-      const oe=document.createElement('p');oe.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);margin-top:3px;';oe.textContent=o.email;tl.appendChild(oe);
-      const ct=document.createElement('span');ct.style.cssText='font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;background:rgba(196,136,58,0.09);padding:6px 14px;';ct.textContent=o.cakeType||o.cake_type||'';
-      top.appendChild(tl);top.appendChild(ct);c.appendChild(top);
-      const dr=this.el('div','display:flex;gap:32px;margin-bottom:12px;');
-      dr.innerHTML=`<div><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,236,0.3);margin-bottom:3px;">Event Date</p><p style="font-size:14px;color:#FDF6EC;">${o.date}</p></div><div><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,236,0.3);margin-bottom:3px;">Submitted</p><p style="font-size:14px;color:#FDF6EC;">${o.submittedAt?new Date(o.submittedAt).toLocaleDateString():''}</p></div>`;
-      c.appendChild(dr);
+    [...orders].reverse().forEach(o=>{
+      const c=this.card('padding:24px;');const top=this.el('div','display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;');const tl=this.el('div','');
+      const on=document.createElement('p');on.style.cssText="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#FDF6EC;";on.textContent=o.name;tl.appendChild(on);const oe=document.createElement('p');oe.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);margin-top:3px;';oe.textContent=o.email;tl.appendChild(oe);
+      const ct=document.createElement('span');ct.style.cssText='font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;background:rgba(196,136,58,0.09);padding:6px 14px;';ct.textContent=o.cakeType||'';top.appendChild(tl);top.appendChild(ct);c.appendChild(top);
+      const dr=this.el('div','display:flex;gap:32px;margin-bottom:12px;');dr.innerHTML=`<div><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,236,0.3);margin-bottom:3px;">Event Date</p><p style="font-size:14px;color:#FDF6EC;">${o.date}</p></div><div><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,236,0.3);margin-bottom:3px;">Submitted</p><p style="font-size:14px;color:#FDF6EC;">${o.submittedAt?new Date(o.submittedAt).toLocaleDateString():''}</p></div>`;c.appendChild(dr);
       if(o.notes){const nl=document.createElement('p');nl.style.cssText='font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,236,0.3);margin-bottom:6px;';nl.textContent='Notes';c.appendChild(nl);const nt=document.createElement('p');nt.style.cssText='font-size:14px;color:rgba(253,246,236,0.55);line-height:1.65;font-style:italic;';nt.textContent=o.notes;c.appendChild(nt);}
-      const db=this.btn('Dismiss','btn-d',async()=>{await this.deleteItem('orders',o.id);this.renderTab();});
-      db.style.marginTop='16px';c.appendChild(db);list.appendChild(c);
-    });
-    m.appendChild(list);
+      const db=this.btn('Dismiss','btn-d',async()=>{await this.deleteItem('orders',o.id);this.renderTab();});db.style.marginTop='16px';c.appendChild(db);list.appendChild(c);
+    });m.appendChild(list);
   }
 
   /* ─── HOMEPAGE ─── */
   async tHomepage(m) {
-    this.loading(m);
-    const hp = await this.getHomepage();
-    m.innerHTML='';
+    this.loading(m);const hp=await this.getHomepage();m.innerHTML='';
     m.appendChild(this.hdr('Homepage Content','Control every piece of text and style shown on the public website.'));
     const wrap=this.el('div','display:grid;gap:24px;max-width:720px;');
-
-    const hCard=this.card('padding:28px;');
-    hCard.appendChild(this.secLabel('Hero Section'));
-    const tgI=this.inp('text',hp.tagline||'','e.g. Artisan · Handcrafted · Bespoke');
-    const sbI=this.ta(hp.sub||'','Sub-headline below the main title',3);
-    hCard.appendChild(this.fieldW('Tagline',tgI));hCard.appendChild(this.fieldW('Sub-headline',sbI));
-    wrap.appendChild(hCard);
-
-    const aCard=this.card('padding:28px;');
-    aCard.appendChild(this.secLabel('About Section'));
-    const a1I=this.ta(hp.about1||'','First paragraph',4);
-    const a2I=this.ta(hp.about2||'','Second paragraph',4);
-    const yrI=this.inp('text',hp.years||'5+','e.g. 5+');yrI.style.maxWidth='120px';
-    aCard.appendChild(this.fieldW('Paragraph 1',a1I));aCard.appendChild(this.fieldW('Paragraph 2',a2I));aCard.appendChild(this.fieldW('Years Baking Badge',yrI));
-    wrap.appendChild(aCard);
-
-    const rCard=this.card('padding:28px;');
-    rCard.appendChild(this.secLabel('Ribbon Strip'));
+    const hCard=this.card('padding:28px;');hCard.appendChild(this.secLabel('Hero Section'));
+    const tgI=this.inp('text',hp.tagline||'','e.g. Artisan · Handcrafted · Bespoke');const sbI=this.ta(hp.sub||'','Sub-headline below the main title',3);
+    hCard.appendChild(this.fieldW('Tagline',tgI));hCard.appendChild(this.fieldW('Sub-headline',sbI));wrap.appendChild(hCard);
+    const aCard=this.card('padding:28px;');aCard.appendChild(this.secLabel('About Section'));
+    const a1I=this.ta(hp.about1||'','First paragraph',4);const a2I=this.ta(hp.about2||'','Second paragraph',4);const yrI=this.inp('text',hp.years||'5+','e.g. 5+');yrI.style.maxWidth='120px';
+    aCard.appendChild(this.fieldW('Paragraph 1',a1I));aCard.appendChild(this.fieldW('Paragraph 2',a2I));aCard.appendChild(this.fieldW('Years Baking Badge',yrI));wrap.appendChild(aCard);
+    const rCard=this.card('padding:28px;');rCard.appendChild(this.secLabel('Ribbon Strip'));
     const rbI=this.inp('color',hp.ribbonBg||'#2A1A0E','');rbI.style.cssText+='height:44px;padding:4px 8px;width:80px;';
-    const rtI=this.inp('text',hp.ribbonTextColor||'rgba(253,246,236,0.48)','e.g. rgba(255,255,255,0.5)');
-    const raI=this.inp('text',hp.ribbonAccentColor||'#C4883A','e.g. #C4883A');
-    const mqI=this.ta(hp.marqueeItems||'','Comma-separated: Designer Cakes,✦,Cheesecakes,…',3);
+    const rtI=this.inp('text',hp.ribbonTextColor||'rgba(253,246,236,0.48)','');const raI=this.inp('text',hp.ribbonAccentColor||'#C4883A','');const mqI=this.ta(hp.marqueeItems||'','Comma-separated: Designer Cakes,✦,…',3);
     const g2r=this.el('div','display:grid;grid-template-columns:100px 1fr 1fr;gap:16px;align-items:end;');
-    g2r.appendChild(this.fieldW('Bg Color',rbI));g2r.appendChild(this.fieldW('Text Color',rtI));g2r.appendChild(this.fieldW('Accent Color',raI));
-    rCard.appendChild(g2r);rCard.appendChild(this.fieldW('Marquee Items (comma-separated)',mqI));
-    wrap.appendChild(rCard);
-
-    const igCard=this.card('padding:28px;');
-    igCard.appendChild(this.secLabel('Instagram / Social'));
-    const igHI=this.inp('text',hp.instagramHandle||'@dorysbakes','e.g. @dorysbakes');
-    const igUI=this.inp('text',hp.instagramUrl||'','https://instagram.com/yourhandle');
-    igCard.appendChild(this.fieldW('Instagram Handle',igHI));igCard.appendChild(this.fieldW('Instagram URL',igUI));
-    const igTip=document.createElement('p');igTip.style.cssText='font-size:12px;color:rgba(253,246,236,0.28);margin-top:10px;font-style:italic;';igTip.textContent='The social grid uses your Media Library images. Upload photos there to populate it.';igCard.appendChild(igTip);
-    wrap.appendChild(igCard);
-
-    const cCard=this.card('padding:28px;');
-    cCard.appendChild(this.secLabel('Contact & Footer'));
-    const caI=this.ta(hp.contactAddress||'','Address, email and phone (each on a new line)',5);
-    cCard.appendChild(this.fieldW('Address / Contact Info',caI));
-    wrap.appendChild(cCard);
-
+    g2r.appendChild(this.fieldW('Bg Colour',rbI));g2r.appendChild(this.fieldW('Text Colour',rtI));g2r.appendChild(this.fieldW('Accent Colour',raI));
+    rCard.appendChild(g2r);rCard.appendChild(this.fieldW('Marquee Items (comma-separated)',mqI));wrap.appendChild(rCard);
+    const igCard=this.card('padding:28px;');igCard.appendChild(this.secLabel('Instagram / Social'));
+    const igHI=this.inp('text',hp.instagramHandle||'@dorysbakes','e.g. @dorysbakes');const igUI=this.inp('text',hp.instagramUrl||'','https://instagram.com/yourhandle');
+    igCard.appendChild(this.fieldW('Instagram Handle',igHI));igCard.appendChild(this.fieldW('Instagram URL',igUI));wrap.appendChild(igCard);
+    const cCard=this.card('padding:28px;');cCard.appendChild(this.secLabel('Contact & Footer'));
+    const caI=this.ta(hp.contactAddress||'','Address, email and phone',5);cCard.appendChild(this.fieldW('Address / Contact Info',caI));wrap.appendChild(cCard);
     const saved=this.el('div','display:none;padding:12px 20px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.28);font-size:13px;color:#C4883A;','✦  Changes saved — reload the website to see them.');
     const sb=this.btn('Save All Changes','btn-g',async()=>{
       sb.textContent='Saving…';sb.disabled=true;
-      await this.saveHomepage({tagline:tgI.value,sub:sbI.value,about1:a1I.value,about2:a2I.value,years:yrI.value,ribbonBg:rbI.value,ribbonTextColor:rtI.value,ribbonAccentColor:raI.value,marqueeItems:mqI.value,contactAddress:caI.value,instagramHandle:igHI.value,instagramUrl:igUI.value});
-      sb.textContent='Save All Changes';sb.disabled=false;
-      saved.style.display='block';setTimeout(()=>saved.style.display='none',4000);
+      const hp2=await this.getHomepage();
+      await this.saveHomepage({...hp2,tagline:tgI.value,sub:sbI.value,about1:a1I.value,about2:a2I.value,years:yrI.value,ribbonBg:rbI.value,ribbonTextColor:rtI.value,ribbonAccentColor:raI.value,marqueeItems:mqI.value,contactAddress:caI.value,instagramHandle:igHI.value,instagramUrl:igUI.value});
+      sb.textContent='Save All Changes';sb.disabled=false;saved.style.display='block';setTimeout(()=>saved.style.display='none',4000);
     });
-    sb.style.padding='14px 36px;';wrap.appendChild(sb);wrap.appendChild(saved);
+    sb.style.padding='14px 36px;';wrap.appendChild(sb);wrap.appendChild(saved);m.appendChild(wrap);
+  }
+
+  /* ─── SETTINGS ─── */
+  async tSettings(m) {
+    this.loading(m);const hp=await this.getHomepage();m.innerHTML='';
+    m.appendChild(this.hdr('Settings','Website appearance, WhatsApp integration, and security.'));
+    const wrap=this.el('div','display:grid;gap:24px;max-width:720px;');
+
+    // Appearance
+    const appCard=this.card('padding:28px;');appCard.appendChild(this.secLabel('Website Colours'));
+    const g3=this.el('div','display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;');
+    const accentI=this.inp('color',hp.accentColor||'#C4883A','');accentI.style.cssText+='height:44px;padding:4px 8px;';
+    const darkI=this.inp('color',hp.darkColor||'#2A1A0E','');darkI.style.cssText+='height:44px;padding:4px 8px;';
+    const bgI=this.inp('color',hp.bgColor||'#FDF6EC','');bgI.style.cssText+='height:44px;padding:4px 8px;';
+    g3.appendChild(this.fieldW('Accent / Brand Colour',accentI));g3.appendChild(this.fieldW('Dark Colour',darkI));g3.appendChild(this.fieldW('Background Colour',bgI));
+    appCard.appendChild(g3);
+    const colTip=this.el('p','font-size:11px;color:rgba(253,246,236,0.28);margin-bottom:22px;line-height:1.6;');colTip.textContent='Accent updates CTAs, labels and highlights. Background applies to the main site body.';appCard.appendChild(colTip);
+    appCard.appendChild(this.secLabel('Font Pairing'));
+    const fontPairs=[{id:'classic',label:'Classic',desc:'Cormorant Garamond + Jost'},{id:'modern',label:'Modern',desc:'Playfair Display + DM Sans'},{id:'elegant',label:'Elegant',desc:'Libre Baskerville + Lato'}];
+    const fontGrid=this.el('div','display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;');
+    let selFont=hp.fontPair||'classic';const fontBtns={};
+    fontPairs.forEach(fp=>{
+      const b=this.el('div',`padding:16px;border:1px solid ${fp.id===selFont?'#C4883A':'rgba(196,136,58,0.18)'};cursor:pointer;transition:border 0.2s;background:${fp.id===selFont?'rgba(196,136,58,0.08)':''};`);
+      b.innerHTML=`<p style="font-size:13px;color:#FDF6EC;margin-bottom:4px;">${fp.label}</p><p style="font-size:11px;color:rgba(253,246,236,0.35);">${fp.desc}</p>`;
+      b.onclick=()=>{selFont=fp.id;Object.entries(fontBtns).forEach(([id,btn])=>{btn.style.borderColor=id===fp.id?'#C4883A':'rgba(196,136,58,0.18)';btn.style.background=id===fp.id?'rgba(196,136,58,0.08)':'';});};
+      fontBtns[fp.id]=b;fontGrid.appendChild(b);
+    });appCard.appendChild(fontGrid);wrap.appendChild(appCard);
+
+    // WhatsApp
+    const waCard=this.card('padding:28px;');waCard.appendChild(this.secLabel('WhatsApp Integration'));
+    const waNumI=this.inp('text',hp.whatsappNumber||'','e.g. 447911123456 (country code, no +)');
+    const waMsgI=this.ta(hp.whatsappMessage||'','Message template…',6);
+    const waHelper=this.el('p','font-size:11px;color:rgba(253,246,236,0.3);margin-top:6px;line-height:1.7;');
+    waHelper.innerHTML='Placeholders: <span style="color:rgba(196,136,58,0.6)">{name}&nbsp; {email}&nbsp; {date}&nbsp; {cakeType}&nbsp; {notes}</span>';
+    const waPreview=this.el('div','margin-top:16px;padding:12px 16px;background:rgba(196,136,58,0.07);border:1px solid rgba(196,136,58,0.15);');
+    const updatePreview=()=>{const phone=(waNumI.value||'').replace(/[^0-9]/g,'');if(phone){waPreview.innerHTML=`<p style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(253,246,236,0.3);margin-bottom:6px;">WhatsApp Link</p><a href="https://wa.me/${phone}" target="_blank" rel="noopener" style="font-size:12px;color:#C4883A;word-break:break-all;">https://wa.me/${phone}</a>`;}else{waPreview.innerHTML='<p style="font-size:12px;color:rgba(253,246,236,0.25);font-style:italic;">Enter a phone number above to see the preview link</p>';}};
+    waNumI.oninput=updatePreview;updatePreview();
+    waCard.appendChild(this.fieldW('WhatsApp Phone Number',waNumI));waCard.appendChild(this.fieldW('Message Template',waMsgI));waCard.appendChild(waHelper);waCard.appendChild(waPreview);wrap.appendChild(waCard);
+
+    // Hours
+    const hoursCard=this.card('padding:28px;');hoursCard.appendChild(this.secLabel('Working Hours'));
+    const hoursI=this.ta(hp.workingHours||'Tuesday – Friday\n9am – 6pm\n\nSaturday – Sunday\n9am – 4pm','e.g. Mon–Fri: 9am–6pm',5);
+    const hoursTip=this.el('p','font-size:11px;color:rgba(253,246,236,0.28);margin-top:8px;line-height:1.6;');hoursTip.textContent='Free text — use line breaks to format. Shown in the website footer.';
+    hoursCard.appendChild(this.fieldW('Open Days & Hours',hoursI));hoursCard.appendChild(hoursTip);wrap.appendChild(hoursCard);
+
+    const savedMsg=this.el('div','display:none;padding:12px 20px;background:rgba(196,136,58,0.1);border:1px solid rgba(196,136,58,0.28);font-size:13px;color:#C4883A;','✦  Settings saved — reload the website to apply colour and font changes.');
+    const saveBtn=this.btn('Save Settings','btn-g',async()=>{
+      saveBtn.textContent='Saving…';saveBtn.disabled=true;
+      const hp2=await this.getHomepage();
+      await this.saveHomepage({...hp2,accentColor:accentI.value,darkColor:darkI.value,bgColor:bgI.value,fontPair:selFont,whatsappNumber:waNumI.value,whatsappMessage:waMsgI.value,workingHours:hoursI.value});
+      saveBtn.textContent='Save Settings';saveBtn.disabled=false;savedMsg.style.display='block';setTimeout(()=>savedMsg.style.display='none',4000);
+    });
+    saveBtn.style.cssText+='padding:14px 36px;';wrap.appendChild(saveBtn);wrap.appendChild(savedMsg);
+
+    // Security
+    const secCard=this.card('padding:28px;margin-top:4px;');secCard.appendChild(this.secLabel('Change Admin Password'));
+    const newPI=this.inp('password','','New password (min 4 characters)');const conPI=this.inp('password','','Confirm new password');
+    const passErr=this.el('p','display:none;font-size:12px;color:#e07070;font-style:italic;margin-top:6px;');
+    const passOk=this.el('p','display:none;font-size:12px;color:#7dc87d;font-style:italic;margin-top:6px;','✓  Password updated successfully.');
+    const g2p=this.el('div','display:grid;grid-template-columns:1fr 1fr;gap:16px;');g2p.appendChild(this.fieldW('New Password',newPI));g2p.appendChild(this.fieldW('Confirm',conPI));
+    const passBtn=this.btn('Update Password','btn-gh',()=>{
+      if(!newPI.value||newPI.value.length<4){passErr.textContent='Must be at least 4 characters.';passErr.style.display='block';return;}
+      if(newPI.value!==conPI.value){passErr.textContent='Passwords do not match.';passErr.style.display='block';return;}
+      localStorage.setItem('db_adminPassword',newPI.value);passErr.style.display='none';passOk.style.display='block';newPI.value='';conPI.value='';setTimeout(()=>passOk.style.display='none',4000);
+    });
+    secCard.appendChild(g2p);secCard.appendChild(passErr);secCard.appendChild(passOk);secCard.appendChild(passBtn);wrap.appendChild(secCard);
     m.appendChild(wrap);
   }
 
   renderVals() { return {}; }
 }
-
 </script>
 </body>
 </html>

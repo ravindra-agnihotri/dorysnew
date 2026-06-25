@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:#FDF6EC;color:#2A1A0E;font-family:'Jost',sans-serif;overflow-x:hidden;}
+    a{text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDF6EC}::-webkit-scrollbar-thumb{background:#C4883A;border-radius:3px}
+    .sl{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C4883A;margin-bottom:14px;}
+    .inp-l{background:transparent;border:1px solid rgba(42,26,14,0.18);color:#2A1A0E;padding:13px 16px;font-family:'Jost',sans-serif;font-size:14px;outline:none;width:100%;transition:border 0.2s;}
+    .inp-l:focus{border-color:#C4883A;}
+    @media(max-width:900px){.three-col-r{grid-template-columns:1fr 1fr!important;}.sp{padding-left:24px!important;padding-right:24px!important;}.form-grid{grid-template-columns:1fr!important;}}
+    @media(max-width:540px){.three-col-r{grid-template-columns:1fr!important;}}
+  </style>
+</helmet>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:rgba(253,246,236,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(196,136,58,0.12);" class="sp">
+  <a href="Dorys Bakes.dc.html" style="display:flex;flex-direction:column;gap:2px;">
+    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:#2A1A0E;letter-spacing:0.01em;line-height:1;">Dory's Bakes</span>
+    <span style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;">Artisan Patisserie</span>
+  </a>
+  <a href="Dorys Bakes.dc.html" style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#8B5E3C;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='#8B5E3C'">
+    <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M15 5H1M6 1L2 5l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Back to Website
+  </a>
+</nav>
+
+<section style="min-height:58vh;background:#2A1A0E;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 40px 80px;position:relative;overflow:hidden;">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,100vw);height:min(600px,100vw);border-radius:50%;background:radial-gradient(ellipse,rgba(196,136,58,0.07),transparent 65%);pointer-events:none;"></div>
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;position:relative;animation:fadeIn 1s both;">
+    <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
+    <span class="sl" style="margin-bottom:0;">What Our Customers Say</span>
+    <div style="width:36px;height:1px;background:rgba(196,136,58,0.4);"></div>
+  </div>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(56px,10vw,120px);font-weight:300;font-style:italic;line-height:0.9;color:#FDF6EC;letter-spacing:-0.02em;animation:fadeUp 0.9s 0.15s both;position:relative;">Share Your<br><em style="color:#C4883A;">Experience</em></h1>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to bottom,transparent,#FDF6EC);pointer-events:none;"></div>
+</section>
+
+<section style="padding:80px 60px;" class="sp">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:56px;"><p class="sl">From Our Customers</p><h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,56px);font-weight:300;font-style:italic;color:#2A1A0E;">Voices of Joy</h2></div>
+    <div id="reviewsDisplay" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="three-col-r"></div>
+  </div>
+</section>
+
+<div style="display:flex;align-items:center;gap:24px;padding:0 60px;max-width:1240px;margin:0 auto;" class="sp">
+  <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(196,136,58,0.3));"></div>
+  <span style="font-size:18px;color:rgba(196,136,58,0.5);">✦</span>
+  <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(196,136,58,0.3),transparent);"></div>
+</div>
+
+<section id="leaveReview" style="padding:80px 60px;" class="sp">
+  <div style="max-width:680px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <p class="sl">Leave a Review</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.5vw,52px);font-weight:300;font-style:italic;color:#2A1A0E;margin-bottom:14px;">Tell Us Your Story</h2>
+      <p style="font-size:14px;font-weight:300;color:#8B5E3C;line-height:1.85;">Your review will appear on the site once approved. We read every single one.</p>
+    </div>
+
+    <div id="reviewSuccess" style="display:none;text-align:center;padding:52px 32px;background:#F5EDE0;border:1px solid rgba(196,136,58,0.2);">
+      <p style="font-size:32px;color:rgba(196,136,58,0.55);margin-bottom:18px;">✦</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:#2A1A0E;margin-bottom:12px;">Thank you so much!</p>
+      <p style="font-size:14px;font-weight:300;color:#8B5E3C;line-height:1.85;max-width:380px;margin:0 auto;">Your review has been received and will appear on the site once approved. We truly appreciate you sharing your experience.</p>
+      <a href="Dorys Bakes.dc.html" style="display:inline-block;margin-top:32px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#C4883A;border-bottom:1px solid rgba(196,136,58,0.3);padding-bottom:3px;">Back to Website →</a>
+    </div>
+
+    <form id="reviewForm" style="display:grid;gap:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="form-grid">
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(42,26,14,0.5);">Your Name *</label>
+          <input id="rName" required type="text" placeholder="e.g. Sarah T." class="inp-l">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(42,26,14,0.5);">Occasion</label>
+          <input id="rOccasion" type="text" placeholder="e.g. Wedding, Birthday…" class="inp-l">
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(42,26,14,0.5);">Your Rating *</label>
+        <div id="ratingStars" style="display:flex;gap:6px;"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(42,26,14,0.5);">Your Review *</label>
+        <textarea id="rText" required rows="5" placeholder="Share your experience with Dory's Bakes…" class="inp-l" style="resize:vertical;"></textarea>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <label style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(42,26,14,0.5);">Photo of Your Cake (optional)</label>
+        <label id="photoLabel" style="border:1px dashed rgba(196,136,58,0.3);padding:24px;text-align:center;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#C4883A';this.style.background='rgba(196,136,58,0.03)'" onmouseout="this.style.borderColor='rgba(196,136,58,0.3)';this.style.background=''">
+          <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#8B5E3C;margin-bottom:4px;">Click to upload a photo</p>
+          <p style="font-size:11px;color:rgba(42,26,14,0.35);">JPG · PNG · WebP · max 5MB</p>
+          <input id="rPhoto" type="file" accept="image/*" style="display:none;">
+        </label>
+        <div id="photoPreview" style="display:none;"></div>
+      </div>
+
+      <div style="text-align:center;margin-top:8px;">
+        <button type="submit" style="display:inline-block;background:#2A1A0E;color:#FDF6EC;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:16px 52px;border:none;font-family:'Jost',sans-serif;cursor:pointer;transition:background 0.3s;" onmouseover="this.style.background='#C4883A'" onmouseout="this.style.background='#2A1A0E'">Submit Review</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer style="background:#120C04;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;" class="sp">
+  <div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:600;color:#FDF6EC;line-height:1.1;">Dory's Bakes</p>
+    <p style="font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C4883A;margin-top:5px;">Artisan Patisserie</p>
+  </div>
+  <p style="font-size:12px;color:rgba(253,246,236,0.2);">© 2025 Dory's Bakes. All rights reserved.</p>
+  <a href="Dorys Bakes.dc.html" style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,246,236,0.28);transition:color 0.2s;" onmouseover="this.style.color='#C4883A'" onmouseout="this.style.color='rgba(253,246,236,0.28)'">← Back to Website</a>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  _rating = 5;
+
+  componentDidMount() {
+    this.seedDefaults();
+    this.loadReviews();
+    this.buildStars();
+    this.setupPhotoUpload();
+    document.getElementById('reviewForm').onsubmit = e => this.handleSubmit(e);
+  }
+
+  seedDefaults() {
+    if (!localStorage.getItem('db_reviews')) {
+      localStorage.setItem('db_reviews', JSON.stringify([
+        {id:1,name:"Amelia R.",rating:5,text:"Dory's made our wedding cake and it was absolutely breathtaking. Every single guest asked for the recipe. Perfection!",event:"Wedding",approved:true},
+        {id:2,name:"James T.",rating:5,text:"The Velvet Noir is my birthday tradition now. Three years running. It gets better every single time.",event:"Birthday",approved:true},
+        {id:3,name:"Sofia M.",rating:5,text:"Ordered the Garden Party cupcakes for my daughter's baby shower. The presentation was stunning.",event:"Baby Shower",approved:true}
+      ]));
+    }
+  }
+
+  loadReviews() {
+    try {
+      const all = JSON.parse(localStorage.getItem('db_reviews') || '[]');
+      const approved = all.filter(r => r.approved);
+      const grid = document.getElementById('reviewsDisplay');
+      if (!grid) return;
+      grid.innerHTML = '';
+      if (!approved.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 40px;"><p style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-style:italic;color:#8B5E3C;">Be the first to share your experience!</p></div>';
+        return;
+      }
+      approved.forEach(r => {
+        const el = document.createElement('div');
+        el.style.cssText = 'background:#fff;padding:36px 32px;border-top:3px solid #C4883A;transition:transform 0.3s,box-shadow 0.3s;';
+        el.onmouseover = () => { el.style.transform='translateY(-4px)'; el.style.boxShadow='0 12px 36px rgba(42,26,14,0.09)'; };
+        el.onmouseout = () => { el.style.transform=''; el.style.boxShadow=''; };
+        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        let photoHtml = '';
+        if (r.photo) {
+          photoHtml = `<div style="margin-bottom:16px;overflow:hidden;"><img src="${r.photo}" style="width:100%;max-height:200px;object-fit:cover;display:block;"></div>`;
+        }
+        el.innerHTML = `${photoHtml}<p style="color:#C4883A;font-size:17px;letter-spacing:3px;margin-bottom:16px;">${stars}</p><p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:#2A1A0E;line-height:1.75;margin-bottom:24px;">"${r.text}"</p><div style="display:flex;justify-content:space-between;align-items:center;"><p style="font-size:13px;font-weight:500;color:#5A3E28;">${r.name}</p><p style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#C4883A;">${r.event||''}</p></div>`;
+        grid.appendChild(el);
+      });
+    } catch(e) {}
+  }
+
+  buildStars() {
+    const container = document.getElementById('ratingStars');
+    if (!container) return;
+    container.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('button');
+      star.type = 'button';
+      star.dataset.val = String(i);
+      star.style.cssText = 'background:none;border:none;cursor:pointer;font-size:34px;padding:0;transition:transform 0.1s;line-height:1;';
+      star.onmouseover = () => star.style.transform = 'scale(1.15)';
+      star.onmouseout = () => star.style.transform = '';
+      star.onclick = () => { this._rating = i; this.updateStars(); };
+      container.appendChild(star);
+    }
+    this.updateStars();
+  }
+
+  updateStars() {
+    const container = document.getElementById('ratingStars');
+    if (!container) return;
+    container.querySelectorAll('button').forEach((s, idx) => {
+      s.textContent = idx < this._rating ? '★' : '☆';
+      s.style.color = idx < this._rating ? '#C4883A' : 'rgba(196,136,58,0.25)';
+    });
+  }
+
+  setupPhotoUpload() {
+    const input = document.getElementById('rPhoto');
+    const preview = document.getElementById('photoPreview');
+    if (!input || !preview) return;
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { alert('Photo must be under 5MB.'); input.value = ''; return; }
+      const rd = new FileReader();
+      rd.onload = ev => {
+        preview.style.display = 'block';
+        preview.innerHTML = `<div style="position:relative;display:inline-block;margin-top:8px;"><img src="${ev.target.result}" style="max-width:100%;max-height:220px;object-fit:cover;display:block;border:1px solid rgba(196,136,58,0.2);"><button type="button" onclick="document.getElementById('rPhoto').value='';document.getElementById('photoPreview').style.display='none';" style="position:absolute;top:6px;right:6px;background:rgba(42,26,14,0.75);border:none;color:#FDF6EC;width:28px;height:28px;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;border-radius:2px;">×</button></div>`;
+      };
+      rd.readAsDataURL(file);
+    };
+  }
+
+  async _apiAvailable() {
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 2000);
+      const r = await fetch('/api/homepage', { signal: ctrl.signal });
+      clearTimeout(tid);
+      return r.ok;
+    } catch(e) { return false; }
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('rName').value.trim();
+    const occasion = document.getElementById('rOccasion').value.trim();
+    const text = document.getElementById('rText').value.trim();
+    let photo = '';
+    const photoFile = document.getElementById('rPhoto').files[0];
+    if (photoFile) {
+      photo = await new Promise(resolve => {
+        const rd = new FileReader();
+        rd.onload = ev => resolve(ev.target.result);
+        rd.readAsDataURL(photoFile);
+      });
+    }
+    const reviewData = {
+      id: Date.now(),
+      name,
+      event: occasion,
+      rating: this._rating,
+      text,
+      photo,
+      approved: false,
+      submittedAt: new Date().toISOString()
+    };
+    // Save to API if server is available
+    if (await this._apiAvailable()) {
+      try {
+        await fetch('/api/reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reviewData)
+        });
+      } catch(err) {}
+    }
+    // Always save to localStorage so admin sees it regardless
+    const reviews = JSON.parse(localStorage.getItem('db_reviews') || '[]');
+    reviews.push(reviewData);
+    localStorage.setItem('db_reviews', JSON.stringify(reviews));
+    document.getElementById('reviewForm').style.display = 'none';
+    document.getElementById('reviewSuccess').style.display = 'block';
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
