@@ -482,21 +482,112 @@ class Component extends DCLogic {
 
   /* ─── VIDEOS ─── */
   async tVideos(m) {
-    this.loading(m);const videos=await this.listItems('videos');m.innerHTML='';
-    const uplLabel=document.createElement('label');uplLabel.className='btn-g';uplLabel.style.cursor='pointer';uplLabel.textContent='+ Upload Video';
-    const fi=document.createElement('input');fi.type='file';fi.accept='video/*';fi.style.display='none';
-    fi.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=async ev=>{await this.createItem('videos',{title:f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),url:ev.target.result,desc:'Uploaded video.'});this.renderTab();};rd.readAsDataURL(f);};
-    uplLabel.appendChild(fi);m.appendChild(this.hdr('Videos','Upload short videos shown in the Studio section.',null));m.querySelector('div').appendChild(uplLabel);
-    const list=this.el('div','display:grid;gap:14px;');
-    videos.forEach(v=>{
-      const row=this.card('padding:20px 24px;display:flex;align-items:center;gap:20px;');
-      const th=this.el('div','width:128px;height:76px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;align-items:center;justify-content:center;');
-      if(v.url){const vid=document.createElement('video');vid.src=v.url;vid.style.cssText='width:100%;height:100%;object-fit:cover;';th.appendChild(vid);}
-      else th.innerHTML='<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polygon points="10,7 22,14 10,21" fill="#C4883A"/></svg>';
+    this.loading(m);
+    const videos = await this.listItems('videos');
+    m.innerHTML = '';
+    m.appendChild(this.hdr('Videos', 'Videos shown in the Studio section on the website.', null));
+
+    // Action row: Upload file + Add URL
+    const btnRow = this.el('div', 'display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;');
+    const uplLabel = document.createElement('label');
+    uplLabel.className = 'btn-g'; uplLabel.style.cursor = 'pointer'; uplLabel.textContent = '↑ Upload Video File';
+    const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'video/*'; fi.style.display = 'none';
+
+    fi.onchange = async e => {
+      const f = e.target.files[0]; if (!f) return;
+      if (f.size > 200 * 1024 * 1024) { this.toast('File too large — max 200 MB', false); fi.value = ''; return; }
+      // Show uploading state
+      uplLabel.textContent = '⏳ Uploading…'; uplLabel.style.opacity = '0.6'; uplLabel.style.pointerEvents = 'none';
+      const statusEl = document.getElementById('__vidStatus');
+      if (statusEl) { statusEl.textContent = 'Uploading ' + f.name + ' (' + (f.size/1024/1024).toFixed(1) + ' MB)…'; statusEl.style.color = '#C4883A'; }
+      try {
+        const resp = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'x-filename': f.name, 'content-type': f.type },
+          body: f
+        });
+        if (!resp.ok) throw new Error('Server returned ' + resp.status);
+        const { url } = await resp.json();
+        const title = f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+        await this.createItem('videos', { title, url, desc: '' });
+        this.toast('Video uploaded ✓');
+        this.renderTab();
+      } catch (err) {
+        this.toast('Upload failed — ' + (err.message || 'check server'), false);
+        uplLabel.textContent = '↑ Upload Video File'; uplLabel.style.opacity = ''; uplLabel.style.pointerEvents = '';
+        if (statusEl) { statusEl.textContent = '✗ Upload failed: ' + (err.message||'unknown error'); statusEl.style.color = '#e07070'; }
+      }
+      fi.value = '';
+    };
+    uplLabel.appendChild(fi);
+    btnRow.appendChild(uplLabel);
+    btnRow.appendChild(this.btn('+ Add YouTube / URL', 'btn-gh', () => this.videoModal()));
+    m.querySelector('div').appendChild(btnRow);
+
+    // Status line
+    const statusBar = this.el('div', 'font-size:12px;letter-spacing:0.06em;min-height:18px;margin-bottom:20px;transition:color 0.3s;');
+    statusBar.id = '__vidStatus';
+    statusBar.style.color = 'rgba(253,246,236,0.3)';
+    statusBar.textContent = videos.length ? videos.length + ' video' + (videos.length>1?'s':'') + ' saved' : 'No videos yet';
+    m.appendChild(statusBar);
+
+    // Video list
+    const list = this.el('div', 'display:grid;gap:14px;');
+    videos.forEach(v => {
+      const row = this.card('padding:18px 22px;display:flex;align-items:center;gap:18px;');
+      // Thumbnail
+      const th = this.el('div', 'width:140px;height:80px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;align-items:center;justify-content:center;border-radius:2px;');
+      const ytId = this._ytId(v.url);
+      if (ytId) {
+        th.innerHTML = `<img src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`;
+      } else if (v.url) {
+        const vid = document.createElement('video'); vid.src = v.url; vid.style.cssText = 'width:100%;height:100%;object-fit:cover;'; th.appendChild(vid);
+      } else {
+        th.innerHTML = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polygon points="10,7 22,14 10,21" fill="#C4883A"/></svg>';
+      }
       row.appendChild(th);
-      const inf=this.el('div','flex:1;');const vt=document.createElement('p');vt.style.cssText="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:4px;";vt.textContent=v.title;inf.appendChild(vt);const vd=document.createElement('p');vd.style.cssText='font-size:13px;color:rgba(253,246,236,0.4);';vd.textContent=v.desc;inf.appendChild(vd);row.appendChild(inf);
-      row.appendChild(this.btn('Delete','btn-d',async()=>{if(confirm('Delete?')){await this.deleteItem('videos',v.id);this.renderTab();}}));list.appendChild(row);
-    });m.appendChild(list);
+      // Info
+      const inf = this.el('div', 'flex:1;min-width:0;');
+      const vt = document.createElement('p'); vt.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#FDF6EC;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"; vt.textContent = v.title || '(untitled)'; inf.appendChild(vt);
+      const urlTag = document.createElement('p'); urlTag.style.cssText = 'font-size:11px;color:rgba(253,246,236,0.32);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'; urlTag.textContent = v.url || 'No URL — click Edit to add one'; inf.appendChild(urlTag);
+      if (v.desc) { const vd = document.createElement('p'); vd.style.cssText = 'font-size:12px;color:rgba(253,246,236,0.4);margin-top:3px;'; vd.textContent = v.desc; inf.appendChild(vd); }
+      row.appendChild(inf);
+      // Action buttons
+      const btns = this.el('div', 'display:flex;gap:8px;flex-shrink:0;');
+      btns.appendChild(this.btn('Edit', 'btn-gh', () => this.videoModal(v)));
+      btns.appendChild(this.btn('Delete', 'btn-d', async () => { if (confirm('Delete "' + (v.title||'video') + '"?')) { await this.deleteItem('videos', v.id); this.renderTab(); } }));
+      row.appendChild(btns);
+      list.appendChild(row);
+    });
+    m.appendChild(list);
+  }
+
+  // Extract YouTube video ID from watch, embed, shorts or youtu.be URLs
+  _ytId(url) {
+    if (!url) return null;
+    const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  videoModal(v = null) {
+    this.modal(v ? 'Edit Video' : 'Add Video URL', (mo, close) => {
+      const fg = this.el('div', 'display:grid;gap:16px;');
+      const ti = this.inp('text', v ? v.title : '', 'e.g. Making the Duchess Rose');
+      const ui = this.inp('text', v ? v.url : '', 'YouTube URL, Vimeo, or direct .mp4 link');
+      const di = this.ta(v ? v.desc : '', 'Short description shown below the video…', 2);
+      fg.appendChild(this.fieldW('Title', ti));
+      fg.appendChild(this.fieldW('Video URL', ui));
+      fg.appendChild(this.fieldW('Description', di));
+      const sb = this.btn('Save Video', 'btn-g', async () => {
+        if (!ti.value.trim()) { this.toast('Please enter a title', false); return; }
+        sb.textContent = 'Saving…'; sb.disabled = true;
+        const d = { title: ti.value.trim(), url: ui.value.trim(), desc: di.value.trim() };
+        if (v) { await this.updateItem('videos', v.id, d); } else { await this.createItem('videos', d); }
+        close(); this.renderTab();
+      });
+      sb.style.cssText += 'width:100%;padding:14px;margin-top:8px;';
+      fg.appendChild(sb); mo.appendChild(fg);
+    });
   }
 
   /* ─── INGREDIENTS ─── */

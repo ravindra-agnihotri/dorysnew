@@ -2,9 +2,14 @@
 const express = require('express');
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs   = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 app.use(express.static(path.join(__dirname)));
 app.use(express.json({ limit: '50mb' }));
@@ -359,6 +364,16 @@ app.put('/api/flavours/:id', w((req,res) => {
 app.delete('/api/flavours/:id', w((req,res) => {
   db.prepare('DELETE FROM flavours WHERE id=?').run(req.params.id);
   res.json({success:true});
+}));
+
+// ── FILE UPLOAD ──────────────────────────────────────────────────────────────
+// Accepts raw binary body with X-Filename header — no base64, no JSON bloat.
+// Videos are saved to /uploads/ and served as static files.
+app.post('/api/upload', express.raw({ type: '*/*', limit: '500mb' }), w((req, res) => {
+  const raw = (req.headers['x-filename'] || ('file_' + Date.now())).replace(/[^a-zA-Z0-9._-]/g, '_');
+  const uniqueName = Date.now() + '_' + raw;
+  fs.writeFileSync(path.join(uploadsDir, uniqueName), req.body);
+  res.json({ url: '/uploads/' + uniqueName });
 }));
 
 app.get('/', (req,res) => res.sendFile(path.join(__dirname,'Dorys Bakes.dc.html')));

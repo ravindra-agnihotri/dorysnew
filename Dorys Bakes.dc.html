@@ -642,8 +642,19 @@ class Component extends DCLogic {
       const card = document.createElement('div');
       card.style.cssText = `background:${this.dark};overflow:hidden;`;
       if (v.url) {
-        const vid=document.createElement('video');
-        vid.src=v.url; vid.style.cssText='width:100%;aspect-ratio:16/9;object-fit:cover;display:block;'; vid.controls=true; card.appendChild(vid);
+        // YouTube / youtu.be → embed iframe; otherwise native <video>
+        const ytM = v.url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (ytM) {
+          const fr = document.createElement('iframe');
+          fr.src = 'https://www.youtube.com/embed/' + ytM[1];
+          fr.style.cssText = 'width:100%;aspect-ratio:16/9;display:block;border:none;';
+          fr.allow = 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';
+          fr.allowFullscreen = true;
+          card.appendChild(fr);
+        } else {
+          const vid = document.createElement('video');
+          vid.src = v.url; vid.style.cssText = 'width:100%;aspect-ratio:16/9;object-fit:cover;display:block;'; vid.controls = true; card.appendChild(vid);
+        }
       } else {
         const ph=document.createElement('div');
         ph.style.cssText='aspect-ratio:16/9;background:linear-gradient(135deg,#3A2410,#8B5E3C);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;';
