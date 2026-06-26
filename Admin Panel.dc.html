@@ -8,7 +8,7 @@
 <body>
 <x-dc>
 <helmet>
-  <title>Admin | Dory's Bakehouse</title>
+  <title>Admin | Forys Bakehouse</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="apple-touch-icon" href="./favicon.svg">
   <meta name="theme-color" content="#2A1A0E">
@@ -117,16 +117,24 @@ class Component extends DCLogic {
     document.getElementById('adminPanel').style.display = 'block';
     await this._checkApi();
     this._updateApiStatus();
+    // Pull latest data from API into localStorage before rendering
+    // so the website immediately reflects any server-side changes
+    await this.syncFromApi();
     this.buildNav();
     this.renderTab();
   }
 
   // ── API / STORAGE ─────────────────────────────────────────
+  // Strategy: localStorage is the single source of truth.
+  // Writes go to localStorage instantly (no wait), then sync to API in background.
+  // API reads always write back to localStorage to keep it fresh.
+  // This means: saves are instant, website always sees current data, no divergence.
+
   async _checkApi() {
     if (this._apiMode !== null) return this._apiMode;
     try {
       const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 2000);
+      const tid = setTimeout(() => ctrl.abort(), 4000); // was 2000 — cold starts need more time
       const r = await fetch('/api/homepage', { signal: ctrl.signal });
       clearTimeout(tid);
       this._apiMode = r.ok;
@@ -134,54 +142,129 @@ class Component extends DCLogic {
     return this._apiMode;
   }
 
+  // Pull all tables from API into localStorage on login — ensures website sees latest data
+  async syncFromApi() {
+    if (!this._apiMode) return;
+    const keys = ['products','reviews','ingredients','videos','faq','media','orders','flavours'];
+    await Promise.all([
+      ...keys.map(async k => {
+        try { const r=await fetch('/api/'+k); if(r.ok) localStorage.setItem('db_'+k, JSON.stringify(await r.json())); } catch(e){}
+      }),
+      (async()=>{
+        try {
+          const r=await fetch('/api/homepage'); if(!r.ok) return;
+          const fresh=await r.json();
+          const local=JSON.parse(localStorage.getItem('db_homepage')||'{}');
+          localStorage.setItem('db_homepage', JSON.stringify({...local,...fresh}));
+        } catch(e){}
+      })()
+    ]);
+  }
+
   _updateApiStatus() {
     const dot = document.getElementById('apiDot');
     const lbl = document.getElementById('apiLabel');
     if (!dot || !lbl) return;
     if (this._apiMode) { dot.style.background='#7dc87d'; lbl.style.color='#7dc87d'; lbl.textContent='SQLite Connected'; }
-    else { dot.style.background='#C4883A'; lbl.style.color='rgba(196,136,58,0.7)'; lbl.textContent='Offline (localStorage)'; }
+    else { dot.style.background='#C4883A'; lbl.style.color='rgba(196,136,58,0.7)'; lbl.textContent='localStorage mode'; }
   }
 
+  // Show a brief save confirmation toast
+  toast(msg, ok=true) {
+    let t=document.getElementById('__toast');
+    if(!t){ t=document.createElement('div'); t.id='__toast';
+      t.style.cssText='position:fixed;bottom:32px;right:32px;z-index:9999;padding:12px 22px;font-family:\'Jost\',sans-serif;font-size:13px;letter-spacing:0.06em;pointer-events:none;transition:opacity 0.35s;border:1px solid rgba(196,136,58,0.25);';
+      document.body.appendChild(t); }
+    t.textContent=msg;
+    t.style.background=ok?'#1C1208':'rgba(80,20,20,0.95)';
+    t.style.color=ok?'#7dc87d':'#e07070';
+    t.style.opacity='1';
+    clearTimeout(this._toastTimer);
+    this._toastTimer=setTimeout(()=>{ t.style.opacity='0'; },2200);
+  }
+
+  // READ: fetch from API, write result to localStorage (keeps them in sync), return data
   async listItems(key) {
-    if (this._apiMode) { try { const r=await fetch('/api/'+key); if(r.ok) return r.json(); } catch(e){} }
-    try { return JSON.parse(localStorage.getItem('db_'+key)||'[]'); } catch(e) { return []; }
+    let local=[];
+    try { local=JSON.parse(localStorage.getItem('db_'+key)||'[]'); } catch(e){}
+    if (this._apiMode) {
+      try {
+        const r=await fetch('/api/'+key);
+        if(r.ok){ const fresh=await r.json(); localStorage.setItem('db_'+key,JSON.stringify(fresh)); return fresh; }
+      } catch(e){}
+    }
+    return local;
   }
 
   async getHomepage() {
-    if (this._apiMode) { try { const r=await fetch('/api/homepage'); if(r.ok) return r.json(); } catch(e){} }
-    try { return JSON.parse(localStorage.getItem('db_homepage')||'{}'); } catch(e) { return {}; }
+    let local={};
+    try { local=JSON.parse(localStorage.getItem('db_homepage')||'{}'); } catch(e){}
+    if (this._apiMode) {
+      try {
+        const r=await fetch('/api/homepage');
+        if(r.ok){ const fresh=await r.json(); localStorage.setItem('db_homepage',JSON.stringify({...local,...fresh})); return fresh; }
+      } catch(e){}
+    }
+    return local;
   }
 
+  // WRITE: localStorage first (instant) → API in background → re-sync localStorage from API
   async createItem(key, data) {
-    if (this._apiMode) {
-      try { const r=await fetch('/api/'+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok) return r.json(); } catch(e){}
-    }
-    const arr = JSON.parse(localStorage.getItem('db_'+key)||'[]');
-    const item = {...data, id: Date.now()};
-    arr.push(item);
+    // 1. Write to localStorage immediately so website reflects change right away
+    const arr=JSON.parse(localStorage.getItem('db_'+key)||'[]');
+    const tempItem={...data, id:Date.now()};
+    arr.push(tempItem);
     localStorage.setItem('db_'+key, JSON.stringify(arr));
-    return item;
+    this.toast('Saved ✓');
+    // 2. Persist to API in background; re-sync localStorage with server-assigned ID
+    if (this._apiMode) {
+      try {
+        const r=await fetch('/api/'+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        if(r.ok){
+          const item=await r.json();
+          // Re-fetch full list to get canonical server IDs
+          const fresh=await fetch('/api/'+key);
+          if(fresh.ok) localStorage.setItem('db_'+key, JSON.stringify(await fresh.json()));
+          return item;
+        }
+      } catch(e){}
+    }
+    return tempItem;
   }
 
   async updateItem(key, id, data) {
-    if (this._apiMode) {
-      try { const r=await fetch('/api/'+key+'/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok) return; } catch(e){}
-    }
-    const arr = JSON.parse(localStorage.getItem('db_'+key)||'[]');
-    const idx = arr.findIndex(x => x.id == id);
-    if (idx >= 0) arr[idx] = {...data, id};
+    // 1. Optimistic write to localStorage
+    const arr=JSON.parse(localStorage.getItem('db_'+key)||'[]');
+    const idx=arr.findIndex(x=>x.id==id);
+    if(idx>=0) arr[idx]={...data,id};
     localStorage.setItem('db_'+key, JSON.stringify(arr));
+    this.toast('Saved ✓');
+    // 2. Background API sync
+    if (this._apiMode) {
+      try { await fetch('/api/'+key+'/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); } catch(e){}
+    }
   }
 
   async deleteItem(key, id) {
-    if (this._apiMode) { try { const r=await fetch('/api/'+key+'/'+id,{method:'DELETE'}); if(r.ok) return; } catch(e){} }
-    const arr = JSON.parse(localStorage.getItem('db_'+key)||'[]');
-    localStorage.setItem('db_'+key, JSON.stringify(arr.filter(x => x.id != id)));
+    // 1. Remove from localStorage immediately
+    const arr=JSON.parse(localStorage.getItem('db_'+key)||'[]');
+    localStorage.setItem('db_'+key, JSON.stringify(arr.filter(x=>x.id!=id)));
+    this.toast('Deleted', true);
+    // 2. Background API delete
+    if (this._apiMode) {
+      try { await fetch('/api/'+key+'/'+id,{method:'DELETE'}); } catch(e){}
+    }
   }
 
   async saveHomepage(data) {
-    if (this._apiMode) { try { const r=await fetch('/api/homepage',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok) return; } catch(e){} }
-    localStorage.setItem('db_homepage', JSON.stringify(data));
+    // 1. Merge into localStorage immediately (website reads this instantly)
+    const existing=JSON.parse(localStorage.getItem('db_homepage')||'{}');
+    localStorage.setItem('db_homepage', JSON.stringify({...existing,...data}));
+    this.toast('Saved ✓');
+    // 2. Background API sync
+    if (this._apiMode) {
+      try { await fetch('/api/homepage',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); } catch(e){}
+    }
   }
 
   // ── HELPERS ───────────────────────────────────────────────
