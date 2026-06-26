@@ -20,7 +20,8 @@ app.use(express.json({ limit: '50mb' }));
 // ── DATABASE (Supabase / Postgres) ────────────────────────────────────────────
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
+  family: 4
 });
 console.log('DB URL set:', !!process.env.DATABASE_URL, '| starts with:', (process.env.DATABASE_URL || '').substring(0, 20));
 // Helper: run a query
