@@ -3,11 +3,18 @@ const express = require('express');
 const Database = require('better-sqlite3');
 const path = require('path');
 const fs   = require('fs');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'dfcoc7qqq',
+  api_key:    process.env.CLOUDINARY_API_KEY    || '845566563795258',
+  api_secret: process.env.CLOUDINARY_API_SECRET || 'CgNWzBpLXmWUARc6-uDaBtrAKzM',
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Ensure uploads directory exists
+// Ensure uploads directory exists (kept for legacy/video local fallback)
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
@@ -138,7 +145,7 @@ function seed() {
       ['Can I schedule a tasting?','Absolutely. We offer complimentary tasting sessions by appointment on Tuesdays and Thursdays. Simply send us a message through the order form and we\'ll arrange a time.'],
       ['How is pricing determined?','Custom cake pricing depends on size, design complexity, flavour combinations, and ingredients. After reviewing your request, we\'ll send a detailed quote within 24 hours. A 50% deposit confirms your order.'],
       ['Do you deliver?','We offer local delivery within a 20-mile radius for an additional fee. For orders outside this area, collection from our kitchen is available Tuesday through Sunday during opening hours.'],
-      ['How many people does a cake serve?','Our standard 6" round serves 10–12, an 8" serves 20–24, and a 10" serves 35–40. We also create multi-tiered cakes for larger celebrations.'],
+      ['How many people does a cake serve?','Our standard 6\" round serves 10–12, an 8\" serves 20–24, and a 10\" serves 35–40. We also create multi-tiered cakes for larger celebrations.'],
     ].forEach(f => ins.run(...f));
   }
   if (db.prepare('SELECT COUNT(*) as c FROM homepage').get().c === 0) {
@@ -168,7 +175,6 @@ function seed() {
     };
     db.prepare('INSERT INTO homepage (id, settings_json) VALUES (1, ?)').run(JSON.stringify(defaults));
   } else {
-    // Migrate old schema: if settings_json is empty, try to pull from old columns
     const row = db.prepare('SELECT settings_json FROM homepage WHERE id=1').get();
     if (row && (!row.settings_json || row.settings_json === '{}')) {
       try {
@@ -366,15 +372,24 @@ app.delete('/api/flavours/:id', w((req,res) => {
   res.json({success:true});
 }));
 
-// ── FILE UPLOAD ──────────────────────────────────────────────────────────────
-// Accepts raw binary body with X-Filename header — no base64, no JSON bloat.
-// Videos are saved to /uploads/ and served as static files.
-app.post('/api/upload', express.raw({ type: '*/*', limit: '500mb' }), w((req, res) => {
+// ── FILE UPLOAD → CLOUDINARY ──────────────────────────────────────────────────
+// Images & files go to Cloudinary for permanent storage (survives Railway redeploys).
+// Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET in Railway Variables.
+app.post('/api/upload', express.raw({ type: '*/*', limit: '500mb' }), (req, res) => {
   const raw = (req.headers['x-filename'] || ('file_' + Date.now())).replace(/[^a-zA-Z0-9._-]/g, '_');
-  const uniqueName = Date.now() + '_' + raw;
-  fs.writeFileSync(path.join(uploadsDir, uniqueName), req.body);
-  res.json({ url: '/uploads/' + uniqueName });
-}));
+  const publicId = 'dorys/' + Date.now() + '_' + raw;
+
+  cloudinary.uploader.upload_stream(
+    { public_id: publicId, resource_type: 'auto' },
+    (error, result) => {
+      if (error) {
+        console.error('Cloudinary upload error:', error);
+        return res.status(500).json({ error: 'Upload failed: ' + error.message });
+      }
+      res.json({ url: result.secure_url });
+    }
+  ).end(req.body);
+});
 
 app.get('/', (req,res) => res.sendFile(path.join(__dirname,'Dorys Bakes.dc.html')));
 app.get('/about', (req,res) => res.sendFile(path.join(__dirname,'About.dc.html')));
