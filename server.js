@@ -20,10 +20,9 @@ app.use(express.json({ limit: '50mb' }));
 // ── DATABASE (Supabase / Postgres) ────────────────────────────────────────────
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-  family: 4
+  ssl: { rejectUnauthorized: false }
 });
-console.log('DB URL set:', !!process.env.DATABASE_URL, '| starts with:', (process.env.DATABASE_URL || '').substring(0, 20));
+
 // Helper: run a query
 const q = (sql, params = []) => pool.query(sql, params);
 
@@ -35,7 +34,7 @@ async function initDB() {
       name TEXT NOT NULL DEFAULT '',
       category TEXT DEFAULT '',
       price TEXT DEFAULT '',
-      desc TEXT DEFAULT '',
+      "desc" TEXT DEFAULT '',
       image TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0
     );
@@ -51,14 +50,14 @@ async function initDB() {
       id SERIAL PRIMARY KEY,
       name TEXT DEFAULT '',
       icon TEXT DEFAULT '',
-      desc TEXT DEFAULT '',
+      "desc" TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0
     );
     CREATE TABLE IF NOT EXISTS videos (
       id SERIAL PRIMARY KEY,
       title TEXT DEFAULT '',
       url TEXT DEFAULT '',
-      desc TEXT DEFAULT ''
+      "desc" TEXT DEFAULT ''
     );
     CREATE TABLE IF NOT EXISTS faq (
       id SERIAL PRIMARY KEY,
@@ -92,7 +91,7 @@ async function initDB() {
       name TEXT DEFAULT '',
       category TEXT DEFAULT '',
       icon TEXT DEFAULT '',
-      desc TEXT DEFAULT '',
+      "desc" TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0
     );
   `);
@@ -112,7 +111,7 @@ async function seed() {
       ['Peach Blossom','Cheesecake','$110','Classic New York cheesecake with roasted peach topping and almond shortbread crust.',''],
     ];
     for (const p of products) {
-      await q('INSERT INTO products (name,category,price,desc,image) VALUES ($1,$2,$3,$4,$5)', p);
+      await q('INSERT INTO products (name,category,price,"desc",image) VALUES ($1,$2,$3,$4,$5)', p);
     }
   }
 
@@ -140,14 +139,14 @@ async function seed() {
       ['Real Vanilla','◇','Tahitian vanilla pods steeped in our house-made extract. No artificial flavours, ever.'],
     ];
     for (const i of ingredients) {
-      await q('INSERT INTO ingredients (name,icon,desc) VALUES ($1,$2,$3)', i);
+      await q('INSERT INTO ingredients (name,icon,"desc") VALUES ($1,$2,$3)', i);
     }
   }
 
   const { rows: [{ c: vc }] } = await q('SELECT COUNT(*) as c FROM videos');
   if (parseInt(vc) === 0) {
-    await q("INSERT INTO videos (title,url,desc) VALUES ($1,$2,$3)", ['Making the Duchess Rose','','Watch a four-layer cake come together from scratch.']);
-    await q("INSERT INTO videos (title,url,desc) VALUES ($1,$2,$3)", ['The Art of Mirror Glaze','','A mesmerizing pour that turns a cake into a masterpiece.']);
+    await q('INSERT INTO videos (title,url,"desc") VALUES ($1,$2,$3)', ['Making the Duchess Rose','','Watch a four-layer cake come together from scratch.']);
+    await q('INSERT INTO videos (title,url,"desc") VALUES ($1,$2,$3)', ['The Art of Mirror Glaze','','A mesmerizing pour that turns a cake into a masterpiece.']);
   }
 
   const { rows: [{ c: fc }] } = await q('SELECT COUNT(*) as c FROM faq');
@@ -207,7 +206,7 @@ async function seed() {
       ['Edible Gold Leaf','Finishes','◆','Real 24ct gold leaf applied by hand for an unmistakably luxurious finish.'],
     ];
     for (const f of flavours) {
-      await q('INSERT INTO flavours (name,category,icon,desc) VALUES ($1,$2,$3,$4)', f);
+      await q('INSERT INTO flavours (name,category,icon,"desc") VALUES ($1,$2,$3,$4)', f);
     }
   }
 }
@@ -220,17 +219,17 @@ const w = fn => async (req, res) => {
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
 app.get('/api/products', w(async (req,res) => {
-  const { rows } = await q('SELECT * FROM products ORDER BY sort_order,id');
+  const { rows } = await q('SELECT id,name,category,price,"desc",image,sort_order FROM products ORDER BY sort_order,id');
   res.json(rows);
 }));
 app.post('/api/products', w(async (req,res) => {
   const {name,category,price,desc,image} = req.body;
-  const { rows: [r] } = await q('INSERT INTO products (name,category,price,desc,image) VALUES ($1,$2,$3,$4,$5) RETURNING id', [name,category,price,desc||'',image||'']);
+  const { rows: [r] } = await q('INSERT INTO products (name,category,price,"desc",image) VALUES ($1,$2,$3,$4,$5) RETURNING id', [name,category,price,desc||'',image||'']);
   res.json({id:r.id,name,category,price,desc,image:image||''});
 }));
 app.put('/api/products/:id', w(async (req,res) => {
   const {name,category,price,desc,image} = req.body;
-  await q('UPDATE products SET name=$1,category=$2,price=$3,desc=$4,image=$5 WHERE id=$6', [name,category,price,desc||'',image||'',req.params.id]);
+  await q('UPDATE products SET name=$1,category=$2,price=$3,"desc"=$4,image=$5 WHERE id=$6', [name,category,price,desc||'',image||'',req.params.id]);
   res.json({success:true});
 }));
 app.delete('/api/products/:id', w(async (req,res) => {
@@ -260,17 +259,17 @@ app.delete('/api/reviews/:id', w(async (req,res) => {
 
 // ── INGREDIENTS ───────────────────────────────────────────────────────────────
 app.get('/api/ingredients', w(async (req,res) => {
-  const { rows } = await q('SELECT * FROM ingredients ORDER BY sort_order,id');
+  const { rows } = await q('SELECT id,name,icon,"desc",sort_order FROM ingredients ORDER BY sort_order,id');
   res.json(rows);
 }));
 app.post('/api/ingredients', w(async (req,res) => {
   const {name,icon,desc} = req.body;
-  const { rows: [r] } = await q('INSERT INTO ingredients (name,icon,desc) VALUES ($1,$2,$3) RETURNING id', [name,icon||'',desc||'']);
+  const { rows: [r] } = await q('INSERT INTO ingredients (name,icon,"desc") VALUES ($1,$2,$3) RETURNING id', [name,icon||'',desc||'']);
   res.json({id:r.id,name,icon,desc});
 }));
 app.put('/api/ingredients/:id', w(async (req,res) => {
   const {name,icon,desc} = req.body;
-  await q('UPDATE ingredients SET name=$1,icon=$2,desc=$3 WHERE id=$4', [name,icon||'',desc||'',req.params.id]);
+  await q('UPDATE ingredients SET name=$1,icon=$2,"desc"=$3 WHERE id=$4', [name,icon||'',desc||'',req.params.id]);
   res.json({success:true});
 }));
 app.delete('/api/ingredients/:id', w(async (req,res) => {
@@ -280,17 +279,17 @@ app.delete('/api/ingredients/:id', w(async (req,res) => {
 
 // ── VIDEOS ────────────────────────────────────────────────────────────────────
 app.get('/api/videos', w(async (req,res) => {
-  const { rows } = await q('SELECT * FROM videos ORDER BY id');
+  const { rows } = await q('SELECT id,title,url,"desc" FROM videos ORDER BY id');
   res.json(rows);
 }));
 app.post('/api/videos', w(async (req,res) => {
   const {title,url,desc} = req.body;
-  const { rows: [r] } = await q('INSERT INTO videos (title,url,desc) VALUES ($1,$2,$3) RETURNING id', [title,url||'',desc||'']);
+  const { rows: [r] } = await q('INSERT INTO videos (title,url,"desc") VALUES ($1,$2,$3) RETURNING id', [title,url||'',desc||'']);
   res.json({id:r.id,title,url,desc});
 }));
 app.put('/api/videos/:id', w(async (req,res) => {
   const {title,url,desc} = req.body;
-  await q('UPDATE videos SET title=$1,url=$2,desc=$3 WHERE id=$4', [title,url||'',desc||'',req.params.id]);
+  await q('UPDATE videos SET title=$1,url=$2,"desc"=$3 WHERE id=$4', [title,url||'',desc||'',req.params.id]);
   res.json({success:true});
 }));
 app.delete('/api/videos/:id', w(async (req,res) => {
@@ -366,17 +365,17 @@ app.put('/api/homepage', w(async (req,res) => {
 
 // ── FLAVOURS ──────────────────────────────────────────────────────────────────
 app.get('/api/flavours', w(async (req,res) => {
-  const { rows } = await q('SELECT * FROM flavours ORDER BY sort_order,id');
+  const { rows } = await q('SELECT id,name,category,icon,"desc",sort_order FROM flavours ORDER BY sort_order,id');
   res.json(rows);
 }));
 app.post('/api/flavours', w(async (req,res) => {
   const {name,category,icon,desc} = req.body;
-  const { rows: [r] } = await q('INSERT INTO flavours (name,category,icon,desc) VALUES ($1,$2,$3,$4) RETURNING id', [name,category||'',icon||'',desc||'']);
+  const { rows: [r] } = await q('INSERT INTO flavours (name,category,icon,"desc") VALUES ($1,$2,$3,$4) RETURNING id', [name,category||'',icon||'',desc||'']);
   res.json({id:r.id,name,category,icon,desc});
 }));
 app.put('/api/flavours/:id', w(async (req,res) => {
   const {name,category,icon,desc} = req.body;
-  await q('UPDATE flavours SET name=$1,category=$2,icon=$3,desc=$4 WHERE id=$5', [name,category||'',icon||'',desc||'',req.params.id]);
+  await q('UPDATE flavours SET name=$1,category=$2,icon=$3,"desc"=$4 WHERE id=$5', [name,category||'',icon||'',desc||'',req.params.id]);
   res.json({success:true});
 }));
 app.delete('/api/flavours/:id', w(async (req,res) => {
