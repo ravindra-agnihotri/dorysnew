@@ -23,7 +23,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Helper: run a query
+// Helper: run a query givem
 const q = (sql, params = []) => pool.query(sql, params);
 
 // ── INIT TABLES ───────────────────────────────────────────────────────────────
