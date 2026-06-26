@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#2A1A0E"></rect>
+  
+  <rect x="5" y="44" width="54" height="14" rx="4" fill="#C4883A"></rect>
+  
+  <rect x="11" y="30" width="42" height="15" rx="4" fill="#C4883A" opacity="0.82"></rect>
+  
+  <rect x="19" y="17" width="26" height="14" rx="4" fill="#C4883A" opacity="0.65"></rect>
+  
+  <ellipse cx="18" cy="44" rx="4" ry="3" fill="#FDF6EC" opacity="0.18"></ellipse>
+  <ellipse cx="32" cy="44" rx="4" ry="3" fill="#FDF6EC" opacity="0.18"></ellipse>
+  <ellipse cx="46" cy="44" rx="4" ry="3" fill="#FDF6EC" opacity="0.18"></ellipse>
+  
+  <rect x="29" y="8" width="6" height="10" rx="2" fill="#FDF6EC" opacity="0.55"></rect>
+  
+  <ellipse cx="32" cy="6" rx="3.5" ry="4.5" fill="#F5C060" opacity="0.92"></ellipse>
+  <ellipse cx="32" cy="7" rx="2" ry="2.5" fill="#FFDF80"></ellipse>
+</svg>

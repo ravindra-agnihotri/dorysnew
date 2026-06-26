@@ -153,7 +153,7 @@ class Component extends DCLogic {
   // Pull all tables from API into localStorage on login — ensures website sees latest data
   async syncFromApi() {
     if (!this._apiMode) return;
-    const keys = ['products','reviews','ingredients','videos','faq','media','orders','flavours','reels'];
+    const keys = ['products','reviews','ingredients','videos','faq','media','orders','flavours'];
     await Promise.all([
       ...keys.map(async k => {
         try { const r=await fetch('/api/'+k); if(r.ok) localStorage.setItem('db_'+k, JSON.stringify(await r.json())); } catch(e){}
@@ -297,7 +297,7 @@ class Component extends DCLogic {
       db_ingredients:[{id:1,name:"Single-Origin Flour",icon:"🌾",desc:"Stone-ground from a family mill in Vermont."},{id:2,name:"Cultured Butter",icon:"🧈",desc:"84% fat European-style butter, churned from pasture-raised cream."},{id:3,name:"Raw Cane Sugar",icon:"✦",desc:"Unrefined cane sugar that adds a subtle molasses depth."},{id:4,name:"Free-Range Eggs",icon:"🥚",desc:"Richer yolks mean a more golden, flavourful crumb."},{id:5,name:"Valrhona Chocolate",icon:"◆",desc:"Our preferred couverture for ganaches and mousses."},{id:6,name:"Real Vanilla",icon:"◇",desc:"Tahitian vanilla pods steeped in our house-made extract."}],
       db_videos:[{id:1,title:"Making the Duchess Rose",url:"",desc:"Watch a four-layer cake come together."},{id:2,title:"The Art of Mirror Glaze",url:"",desc:"A mesmerizing pour."}],
       db_faq:[{id:1,q:"How far in advance should I place my order?",a:"At least 2–3 weeks for custom cakes. For weddings, 2–3 months."},{id:2,q:"Do you offer gluten-free or vegan options?",a:"Yes — mention dietary needs in your order."},{id:3,q:"Can I schedule a tasting?",a:"By appointment Tuesdays and Thursdays."},{id:4,q:"How is pricing determined?",a:"Based on size, design, and ingredients. Quote within 24 hours."},{id:5,q:"Do you deliver?",a:"Within 20 miles. Collection available Tue–Sun."},{id:6,q:"How many people does a cake serve?",a:"6\" serves 10–12, 8\" serves 20–24, 10\" serves 35–40."}],
-      db_media:[],db_orders:[],db_reels:[],
+      db_media:[],db_orders:[],
       db_flavours:[{id:1,category:"Cake Bases",name:"Vanilla Bean",icon:"◇",desc:"Light, fragrant sponge using real Tahitian vanilla pods steeped in our house-made extract."},{id:2,category:"Cake Bases",name:"Dark Chocolate",icon:"◆",desc:"Rich Belgian Valrhona chocolate sponge — dense, moist, and deeply satisfying."},{id:3,category:"Cake Bases",name:"Lemon Zest",icon:"✦",desc:"Bright, citrusy sponge with fresh lemon zest and juice. Perfect for spring occasions."},{id:4,category:"Cake Bases",name:"Earl Grey",icon:"◇",desc:"Delicate tea-infused sponge with subtle bergamot notes. Pairs beautifully with lavender cream."},{id:5,category:"Fillings",name:"Strawberry Compote",icon:"◆",desc:"House-made fresh strawberry compote — slightly tart, bright, and never overly sweet."},{id:6,category:"Fillings",name:"Salted Caramel",icon:"◇",desc:"Slow-cooked caramel with fleur de sel — rich, buttery, and utterly addictive."},{id:7,category:"Fillings",name:"Espresso Cream",icon:"✦",desc:"Silky meringue buttercream spiked with single-origin espresso shots."},{id:8,category:"Fillings",name:"Raspberry Curd",icon:"◆",desc:"Tart, jewel-bright raspberry curd — cuts through rich chocolate perfectly."},{id:9,category:"Buttercreams",name:"Swiss Meringue",icon:"◇",desc:"Impossibly silky buttercream, less sweet than American style. Our signature finish."},{id:10,category:"Buttercreams",name:"Whipped Dark Ganache",icon:"◆",desc:"Dark chocolate ganache whipped to a cloud-like texture — intense yet light."},{id:11,category:"Buttercreams",name:"Lavender Honey",icon:"◇",desc:"House-made lavender-infused buttercream with a touch of wildflower honey."},{id:12,category:"Finishes",name:"Mirror Glaze",icon:"✦",desc:"The showstopper pour — a hyper-reflective glaze that creates a perfect mirror finish."},{id:13,category:"Finishes",name:"Edible Gold Leaf",icon:"◆",desc:"Real 24ct gold leaf applied by hand for an unmistakably luxurious finish."},{id:14,category:"Finishes",name:"Fresh Botanicals",icon:"◇",desc:"Seasonal edible flowers and herbs, carefully arranged to crown your creation."}]
     };
     Object.entries(arrs).forEach(([k,v])=>{ if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(v)); });
@@ -315,7 +315,6 @@ class Component extends DCLogic {
       {id:'flavours',   label:'Flavours',      icon:'M8 2c-2 0-5 2-5 5 0 3.5 5 7 5 7s5-3.5 5-7c0-3-3-5-5-5z'},
       {id:'media',      label:'Media Library', icon:'M1 3h14v10H1zM1 10l4-3 3 2 3-3 4 3'},
       {id:'videos',     label:'Videos',        icon:'M1 3h14v10H1zM6.5 6.5l5 3-5 3z'},
-      {id:'reels',      label:'Instagram Reels',icon:'M3.5 1h9A2.5 2.5 0 0115 3.5v9a2.5 2.5 0 01-2.5 2.5h-9A2.5 2.5 0 011 12.5v-9A2.5 2.5 0 013.5 1zm4.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zm3.75-6.5a.75.75 0 110-1.5.75.75 0 010 1.5'},
       {id:'ingredients',label:'Ingredients',   icon:'M8 1v14M4 5c0-2 8-2 8 0'},
       {id:'reviews',    label:'Reviews',       icon:'M2 4h12M2 8h9M2 12h6'},
       {id:'faq',        label:'FAQ',           icon:'M8 2a6 6 0 100 12A6 6 0 008 2zM8 10v.5M8 6a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5'},
@@ -337,7 +336,7 @@ class Component extends DCLogic {
   renderTab() {
     const m = document.getElementById('mainContent');
     m.className = 'fade';
-    const map={dashboard:()=>this.tDash(m),products:()=>this.tProducts(m),flavours:()=>this.tFlavours(m),media:()=>this.tMedia(m),videos:()=>this.tVideos(m),reels:()=>this.tReels(m),ingredients:()=>this.tIngredients(m),reviews:()=>this.tReviews(m),faq:()=>this.tFaq(m),orders:()=>this.tOrders(m),homepage:()=>this.tHomepage(m),settings:()=>this.tSettings(m)};
+    const map={dashboard:()=>this.tDash(m),products:()=>this.tProducts(m),flavours:()=>this.tFlavours(m),media:()=>this.tMedia(m),videos:()=>this.tVideos(m),ingredients:()=>this.tIngredients(m),reviews:()=>this.tReviews(m),faq:()=>this.tFaq(m),orders:()=>this.tOrders(m),homepage:()=>this.tHomepage(m),settings:()=>this.tSettings(m)};
     (map[this.state.tab]||map.dashboard)();
   }
 
@@ -592,70 +591,6 @@ class Component extends DCLogic {
         sb.textContent = 'Saving…'; sb.disabled = true;
         const d = { title: ti.value.trim(), url: ui.value.trim(), desc: di.value.trim() };
         if (v) { await this.updateItem('videos', v.id, d); } else { await this.createItem('videos', d); }
-        close(); this.renderTab();
-      });
-      sb.style.cssText += 'width:100%;padding:14px;margin-top:8px;';
-      fg.appendChild(sb); mo.appendChild(fg);
-    });
-  }
-
-  /* ─── REELS ─── */
-  async tReels(m) {
-    this.loading(m);
-    const reels = await this.listItems('reels');
-    m.innerHTML = '';
-    m.appendChild(this.hdr('Instagram Reels', 'Paste Instagram Reel URLs — they embed directly on the website.', '+ Add Reel', () => this.reelModal()));
-    const tip = this.el('div', 'padding:16px 20px;background:rgba(196,136,58,0.07);border:1px solid rgba(196,136,58,0.15);margin-bottom:28px;display:flex;gap:14px;align-items:flex-start;');
-    tip.innerHTML = '<span style="font-size:18px;flex-shrink:0;margin-top:2px;">📱</span><div><p style="font-size:13px;color:rgba(253,246,236,0.7);line-height:1.65;">Paste any <strong style="color:#C4883A;">instagram.com/reel/</strong> or <strong style="color:#C4883A;">instagram.com/p/</strong> URL. The reel embeds automatically — the Reels section on the website only appears once you add at least one.</p></div>';
-    m.appendChild(tip);
-    if (!reels.length) {
-      const ep = this.el('div', 'text-align:center;padding:60px;border:1px dashed rgba(196,136,58,0.2);');
-      ep.innerHTML = "<p style=\"font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:rgba(253,246,236,0.3);\">No reels yet.</p><p style=\"font-size:12px;color:rgba(253,246,236,0.2);margin-top:8px;\">Click + Add Reel to paste your first Instagram URL</p>";
-      m.appendChild(ep); return;
-    }
-    const list = this.el('div', 'display:grid;gap:14px;');
-    reels.forEach((r, idx) => {
-      const row = this.card('padding:18px 22px;display:flex;align-items:center;gap:18px;');
-      const badge = this.el('div', "width:36px;height:36px;flex-shrink:0;background:rgba(196,136,58,0.1);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;color:#C4883A;");
-      badge.textContent = String(idx + 1);
-      row.appendChild(badge);
-      const inf = this.el('div', 'flex:1;min-width:0;');
-      const urlP = document.createElement('p');
-      urlP.style.cssText = 'font-size:12px;color:rgba(253,246,236,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;';
-      urlP.textContent = r.url || '(no URL)';
-      inf.appendChild(urlP);
-      if (r.caption) {
-        const capP = document.createElement('p');
-        capP.style.cssText = "font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(253,246,236,0.65);";
-        capP.textContent = r.caption;
-        inf.appendChild(capP);
-      }
-      row.appendChild(inf);
-      const btns = this.el('div', 'display:flex;gap:8px;flex-shrink:0;');
-      btns.appendChild(this.btn('Edit', 'btn-gh', () => this.reelModal(r)));
-      btns.appendChild(this.btn('Delete', 'btn-d', async () => { if (confirm('Delete this reel?')) { await this.deleteItem('reels', r.id); this.renderTab(); } }));
-      row.appendChild(btns);
-      list.appendChild(row);
-    });
-    m.appendChild(list);
-  }
-
-  reelModal(r = null) {
-    this.modal(r ? 'Edit Reel' : 'Add Instagram Reel', (mo, close) => {
-      const fg = this.el('div', 'display:grid;gap:16px;');
-      const ui = this.inp('text', r ? r.url : '', 'https://www.instagram.com/reel/ABC123def45/');
-      const ci = this.inp('text', r ? r.caption||'' : '', 'Optional caption shown below the reel');
-      const tip = this.el('p', 'font-size:11px;color:rgba(253,246,236,0.28);line-height:1.7;margin-top:-8px;');
-      tip.innerHTML = 'Copy the link from Instagram — works with <span style="color:rgba(196,136,58,0.6)">instagram.com/reel/…</span> and <span style="color:rgba(196,136,58,0.6)">instagram.com/p/…</span>';
-      fg.appendChild(this.fieldW('Instagram URL', ui));
-      fg.appendChild(tip);
-      fg.appendChild(this.fieldW('Caption (optional)', ci));
-      const sb = this.btn('Save Reel', 'btn-g', async () => {
-        if (!ui.value.trim()) { this.toast('Please paste an Instagram URL', false); return; }
-        if (!ui.value.includes('instagram.com')) { this.toast('Must be an instagram.com URL', false); return; }
-        sb.textContent = 'Saving…'; sb.disabled = true;
-        const d = { url: ui.value.trim(), caption: ci.value.trim() };
-        if (r) { await this.updateItem('reels', r.id, d); } else { await this.createItem('reels', d); }
         close(); this.renderTab();
       });
       sb.style.cssText += 'width:100%;padding:14px;margin-top:8px;';

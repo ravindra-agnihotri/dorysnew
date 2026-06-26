@@ -1,0 +1,12 @@
+node_modules/
+*.db
+*.db-shm
+*.db-wal
+.env
+uploads/*.png
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.webp
+uploads/*.gif
+uploads/*.mp4
+uploads/*.mov

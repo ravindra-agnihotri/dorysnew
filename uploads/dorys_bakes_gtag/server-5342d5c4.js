@@ -94,12 +94,6 @@ async function initDB() {
       "desc" TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0
     );
-    CREATE TABLE IF NOT EXISTS reels (
-      id SERIAL PRIMARY KEY,
-      url TEXT DEFAULT '',
-      caption TEXT DEFAULT '',
-      sort_order INTEGER DEFAULT 0
-    );
   `);
   await seed();
 }
@@ -386,26 +380,6 @@ app.put('/api/flavours/:id', w(async (req,res) => {
 }));
 app.delete('/api/flavours/:id', w(async (req,res) => {
   await q('DELETE FROM flavours WHERE id=$1', [req.params.id]);
-  res.json({success:true});
-}));
-
-// ── REELS ────────────────────────────────────────────────────────────────────
-app.get('/api/reels', w(async (req,res) => {
-  const { rows } = await q('SELECT id,url,caption,sort_order FROM reels ORDER BY sort_order,id');
-  res.json(rows);
-}));
-app.post('/api/reels', w(async (req,res) => {
-  const {url,caption} = req.body;
-  const { rows: [r] } = await q('INSERT INTO reels (url,caption) VALUES ($1,$2) RETURNING id', [url||'',caption||'']);
-  res.json({id:r.id,url,caption});
-}));
-app.put('/api/reels/:id', w(async (req,res) => {
-  const {url,caption} = req.body;
-  await q('UPDATE reels SET url=$1,caption=$2 WHERE id=$3', [url||'',caption||'',req.params.id]);
-  res.json({success:true});
-}));
-app.delete('/api/reels/:id', w(async (req,res) => {
-  await q('DELETE FROM reels WHERE id=$1', [req.params.id]);
   res.json({success:true});
 }));
 
