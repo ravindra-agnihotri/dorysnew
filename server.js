@@ -22,7 +22,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
-
+console.log('DB URL set:', !!process.env.DATABASE_URL, '| starts with:', (process.env.DATABASE_URL || '').substring(0, 20));
 // Helper: run a query
 const q = (sql, params = []) => pool.query(sql, params);
 
